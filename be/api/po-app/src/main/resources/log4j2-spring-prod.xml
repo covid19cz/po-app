@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Configuration>
+    <Appenders>
+
+        <Console name="SlowConsole" target="SYSTEM_OUT">
+            <PatternLayout disableAnsi="false"
+                           pattern="%highlight{[%d{yyyy-MM-ddTHH:mm:ss.SSS}][%level][%t][%M()] %msg%n}{FATAL=red blink, ERROR=red, WARN=yellow bold, INFO=black, DEBUG=green bold, TRACE=blue}"/>
+        </Console>
+
+        <RollingFile
+                name="FileLogger"
+                fileName="${env:LOG_DIR:-/logs}/po-api-app.log"
+                filePattern="${env:LOG_DIR:-/logs}/po-api-app.%d{ww-yyyy}.log.gz"
+                ignoreExceptions="true">
+            <PatternLayout>
+                <Pattern>%d{yyyy-MM-ddTHH:mm:ss.SSS} %-5p %m%n</Pattern>
+            </PatternLayout>
+            <Policies>
+                <TimeBasedTriggeringPolicy/>
+            </Policies>
+        </RollingFile>
+    </Appenders>
+
+    <Loggers>
+
+        <Root level="info">
+            <AppenderRef ref="SlowConsole"/>
+            <AppenderRef ref="FileLogger"/>
+        </Root>
+
+        <Logger name="cz.covid.po" level="debug"/>
+
+    </Loggers>
+
+</Configuration>
