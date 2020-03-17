@@ -1,0 +1,95 @@
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+
+    <modelVersion>4.0.0</modelVersion>
+    <parent>
+        <artifactId>covid-po-swagger-parent</artifactId>
+        <version>1.0.0-SNAPSHOT</version>
+        <groupId>cz.covid.po</groupId>
+    </parent>
+
+    <artifactId>covid-po-swagger-api-server</artifactId>
+    <packaging>pom</packaging>
+
+    <profiles>
+        <profile>
+            <id>with-po-api</id>
+            <build>
+                <plugins>
+                    <plugin>
+                        <artifactId>maven-clean-plugin</artifactId>
+                        <version>${maven-clean-plugin.version}</version>
+                        <configuration>
+                            <filesets>
+                                <fileset>
+                                    <directory>${basedir}/../../be/api/po-api/generated/src/main/java</directory>
+                                    <includes>
+                                        <include>**/controller/**/*.java</include>
+                                        <include>**/dto/**/*.java</include>
+                                    </includes>
+                                    <followSymlinks>false</followSymlinks>
+                                </fileset>
+                            </filesets>
+                        </configuration>
+                    </plugin>
+                    <plugin>
+                        <groupId>io.swagger</groupId>
+                        <artifactId>swagger-codegen-maven-plugin</artifactId>
+                        <version>${swagger-codegen-maven-plugin.version.be}</version>
+                        <executions>
+                            <execution>
+                                <id>generate-po-api-server</id>
+                                <configuration>
+                                    <language>spring</language>
+                                    <generateApiDocumentation>false</generateApiDocumentation>
+                                    <generateModelDocumentation>false</generateModelDocumentation>
+                                    <generateSupportingFiles>false</generateSupportingFiles>
+                                    <inputSpec>${basedir}/../po-common/po-api.json</inputSpec>
+                                    <output>${basedir}/../../be/api/po-api-generated</output>
+                                    <apiPackage>cz.covid.po.api.generated.controller</apiPackage>
+                                    <modelPackage>cz.covid.po.api.generated.dto</modelPackage>
+                                    <additionalProperties>
+                                        <additionalProperty>useTags=true</additionalProperty>
+                                    </additionalProperties>
+                                    <configOptions>
+                                        <delegatePattern>true</delegatePattern>
+                                        <hideGenerationTimestamp>true</hideGenerationTimestamp>
+                                        <interfaceOnly>true</interfaceOnly>
+                                        <java8>true</java8>
+                                    </configOptions>
+                                </configuration>
+                                <goals>
+                                    <goal>generate</goal>
+                                </goals>
+                            </execution>
+                        </executions>
+                    </plugin>
+                    <!-- in case we would need crlf fix -->
+<!--                    <plugin>-->
+<!--                        <groupId>org.apache.maven.plugins</groupId>-->
+<!--                        <artifactId>maven-antrun-plugin</artifactId>-->
+<!--                        <executions>-->
+<!--                            <execution>-->
+<!--                                <id>generate-pricemaps-client-crlf</id>-->
+<!--                                <phase>install</phase>-->
+<!--                                <configuration>-->
+<!--                                    <tasks>-->
+<!--                                        <fixcrlf srcdir="${basedir}/../../be/orefi-api-generated/src/main/java"-->
+<!--                                                 eol="crlf"-->
+<!--                                                 preservelastmodified="true"-->
+<!--                                                 fixlast="false"-->
+<!--                                                 includes="**/generated/client/**/*.java"/>-->
+<!--                                    </tasks>-->
+<!--                                </configuration>-->
+<!--                                <goals>-->
+<!--                                    <goal>run</goal>-->
+<!--                                </goals>-->
+<!--                            </execution>-->
+<!--                        </executions>-->
+<!--                    </plugin>-->
+                </plugins>
+            </build>
+        </profile>
+    </profiles>
+
+</project>

@@ -1,0 +1,340 @@
+{
+  "swagger": "2.0",
+  "info": {
+    "description": "Api Documentation",
+    "version": "1.0",
+    "title": "Api Documentation",
+    "termsOfService": "urn:tos",
+    "contact": {},
+    "license": {
+      "name": "Apache 2.0",
+      "url": "http://www.apache.org/licenses/LICENSE-2.0"
+    }
+  },
+  "host": "localhost:8080",
+  "basePath": "/",
+  "tags": [
+    {
+      "name": "codebook-controller",
+      "description": "Codebook Controller"
+    }
+  ],
+  "paths": {
+    "/api/codebook/{codebookName}": {
+      "get": {
+        "tags": [
+          "codebook-controller"
+        ],
+        "summary": "getCodebookValues",
+        "operationId": "getCodebookValuesUsingGET",
+        "produces": [
+          "*/*"
+        ],
+        "parameters": [
+          {
+            "name": "codebookName",
+            "in": "path",
+            "description": "codebookName",
+            "required": true,
+            "type": "string",
+            "enum": [
+              "COMORBIDITY",
+              "CONSENT_TYPE",
+              "GENDER",
+              "NATIONALITY",
+              "ORGANIZATION",
+              "SYMPTOM_TYPE",
+              "TEST_RESULT",
+              "TEST_TYPE"
+            ]
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "schema": {
+              "type": "array",
+              "items": {
+                "$ref": "#/definitions/CodebookValueDto"
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthorized"
+          },
+          "403": {
+            "description": "Forbidden"
+          },
+          "404": {
+            "description": "Not Found"
+          }
+        },
+        "deprecated": false
+      },
+      "post": {
+        "tags": [
+          "codebook-controller"
+        ],
+        "summary": "createCodebookValue",
+        "operationId": "createCodebookValueUsingPOST",
+        "consumes": [
+          "application/json"
+        ],
+        "produces": [
+          "*/*"
+        ],
+        "parameters": [
+          {
+            "name": "codebookName",
+            "in": "path",
+            "description": "codebookName",
+            "required": true,
+            "type": "string",
+            "enum": [
+              "COMORBIDITY",
+              "CONSENT_TYPE",
+              "GENDER",
+              "NATIONALITY",
+              "ORGANIZATION",
+              "SYMPTOM_TYPE",
+              "TEST_RESULT",
+              "TEST_TYPE"
+            ]
+          },
+          {
+            "in": "body",
+            "name": "codebookValueDto",
+            "description": "codebookValueDto",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/CodebookValueDto"
+            }
+          }
+        ],
+        "responses": {
+          "201": {
+            "description": "Created",
+            "schema": {
+              "$ref": "#/definitions/CodebookValueDto"
+            }
+          },
+          "401": {
+            "description": "Unauthorized"
+          },
+          "403": {
+            "description": "Forbidden"
+          },
+          "404": {
+            "description": "Not Found"
+          }
+        },
+        "deprecated": false
+      }
+    },
+    "/api/codebook/{codebookName}/{id}": {
+      "get": {
+        "tags": [
+          "codebook-controller"
+        ],
+        "summary": "findCodebookValues",
+        "operationId": "findCodebookValuesUsingGET",
+        "produces": [
+          "*/*"
+        ],
+        "parameters": [
+          {
+            "name": "codebookName",
+            "in": "path",
+            "description": "codebookName",
+            "required": true,
+            "type": "string",
+            "enum": [
+              "COMORBIDITY",
+              "CONSENT_TYPE",
+              "GENDER",
+              "NATIONALITY",
+              "ORGANIZATION",
+              "SYMPTOM_TYPE",
+              "TEST_RESULT",
+              "TEST_TYPE"
+            ]
+          },
+          {
+            "name": "id",
+            "in": "path",
+            "description": "id",
+            "required": true,
+            "type": "integer",
+            "format": "int64"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "schema": {
+              "$ref": "#/definitions/CodebookValueDto"
+            }
+          },
+          "401": {
+            "description": "Unauthorized"
+          },
+          "403": {
+            "description": "Forbidden"
+          },
+          "404": {
+            "description": "Not Found"
+          }
+        },
+        "deprecated": false
+      },
+      "put": {
+        "tags": [
+          "codebook-controller"
+        ],
+        "summary": "updateCodebookValue",
+        "operationId": "updateCodebookValueUsingPUT",
+        "consumes": [
+          "application/json"
+        ],
+        "produces": [
+          "*/*"
+        ],
+        "parameters": [
+          {
+            "name": "codebookName",
+            "in": "path",
+            "description": "codebookName",
+            "required": true,
+            "type": "string",
+            "enum": [
+              "COMORBIDITY",
+              "CONSENT_TYPE",
+              "GENDER",
+              "NATIONALITY",
+              "ORGANIZATION",
+              "SYMPTOM_TYPE",
+              "TEST_RESULT",
+              "TEST_TYPE"
+            ]
+          },
+          {
+            "in": "body",
+            "name": "codebookValueDto",
+            "description": "codebookValueDto",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/CodebookValueDto"
+            }
+          },
+          {
+            "name": "id",
+            "in": "path",
+            "description": "id",
+            "required": true,
+            "type": "integer",
+            "format": "int64"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "schema": {
+              "$ref": "#/definitions/CodebookValueDto"
+            }
+          },
+          "201": {
+            "description": "Created"
+          },
+          "401": {
+            "description": "Unauthorized"
+          },
+          "403": {
+            "description": "Forbidden"
+          },
+          "404": {
+            "description": "Not Found"
+          }
+        },
+        "deprecated": false
+      },
+      "delete": {
+        "tags": [
+          "codebook-controller"
+        ],
+        "summary": "deleteCodebookValue",
+        "operationId": "deleteCodebookValueUsingDELETE",
+        "produces": [
+          "*/*"
+        ],
+        "parameters": [
+          {
+            "name": "codebookName",
+            "in": "path",
+            "description": "codebookName",
+            "required": true,
+            "type": "string",
+            "enum": [
+              "COMORBIDITY",
+              "CONSENT_TYPE",
+              "GENDER",
+              "NATIONALITY",
+              "ORGANIZATION",
+              "SYMPTOM_TYPE",
+              "TEST_RESULT",
+              "TEST_TYPE"
+            ]
+          },
+          {
+            "name": "id",
+            "in": "path",
+            "description": "id",
+            "required": true,
+            "type": "integer",
+            "format": "int64"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          },
+          "204": {
+            "description": "No Content"
+          },
+          "401": {
+            "description": "Unauthorized"
+          },
+          "403": {
+            "description": "Forbidden"
+          }
+        },
+        "deprecated": false
+      }
+    }
+  },
+  "definitions": {
+    "CodebookValueDto": {
+      "type": "object",
+      "properties": {
+        "code": {
+          "type": "string"
+        },
+        "createdAt": {
+          "type": "string",
+          "format": "date-time"
+        },
+        "id": {
+          "type": "integer",
+          "format": "int64"
+        },
+        "modifiedAt": {
+          "type": "string",
+          "format": "date-time"
+        },
+        "name": {
+          "type": "string"
+        }
+      },
+      "title": "CodebookValueDto"
+    }
+  }
+}

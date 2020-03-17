@@ -23,6 +23,7 @@
 
     <modules>
         <module>po-app</module>
+        <module>po-api-generated</module>
     </modules>
     <dependencies>
         <dependency>

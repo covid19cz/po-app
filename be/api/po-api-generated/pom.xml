@@ -12,14 +12,7 @@
 
     <version>${project.version}</version>
     <groupId>cz.covid.po.api</groupId>
-    <artifactId>app</artifactId>
-    <name>po-app</name>
+    <artifactId>po-api-generated</artifactId>
+    <name>po-api-generated</name>
 
-    <dependencies>
-        <dependency>
-            <groupId>${project.groupId}</groupId>
-            <artifactId>po-api-generated</artifactId>
-            <version>${project.version}</version>
-        </dependency>
-    </dependencies>
 </project>
