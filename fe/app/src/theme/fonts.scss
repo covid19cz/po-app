@@ -1,0 +1,56 @@
+@font-face {
+	font-family: "FuturaCEZ";
+	font-weight: 500;
+	src: local("FuturaCEZ"), url(./fonts/FuturaCEZOT-Medium.otf) format("opentype");
+}
+@font-face {
+	font-family: "FuturaCEZ";
+	font-weight: 600;
+	src: local("FuturaCEZ"), url(./fonts/FuturaCEZOT-Demi.otf) format("opentype");
+}
+
+@font-face {
+	font-family: "NimbusCEZ";
+	src: local("NimbusCEZ"), url(./fonts/NimbusCEZOT.otf) format("opentype");
+}
+@font-face {
+	font-family: "NimbusCEZ";
+	font-weight: 300;
+	src: local("NimbusCEZ"), url(./fonts/NimbusCEZOT-Light.otf) format("opentype");
+}
+@font-face {
+	font-family: "NimbusCEZ";
+	font-weight: 500;
+	src: local("NimbusCEZ"), url(./fonts/NimbusCEZOT-Medium.otf) format("opentype");
+}
+@font-face {
+	font-family: "NimbusCEZ";
+	font-weight: 700;
+	src: local("NimbusCEZ"), url(./fonts/NimbusCEZOT-Bold.otf) format("opentype");
+}
+@font-face {
+	font-family: "NimbusCEZ";
+	font-weight: 800;
+	src: local("NimbusCEZ"), url(./fonts/NimbusCEZOT-Heavy.otf) format("opentype");
+}
+@font-face {
+	font-family: "NimbusCEZ";
+	font-weight: 900;
+	src: local("NimbusCEZ"), url(./fonts/NimbusCEZOT-Black.otf) format("opentype");
+}
+
+@font-face {
+	font-family: "Roboto";
+	font-style: normal;
+	src: local("Roboto"), url(./fonts/Roboto-Regular.ttf) format("truetype");
+}
+@font-face {
+	font-family: "Roboto";
+	font-style: oblique;
+	src: local("Roboto"), url(./fonts/Roboto-Bold.ttf) format("truetype");
+}
+@font-face {
+	font-family: "Roboto";
+	font-style: italic;
+	src: local("Roboto"), url(./fonts/Roboto-Italic.ttf) format("truetype");
+}
