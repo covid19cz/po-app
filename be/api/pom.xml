@@ -24,6 +24,7 @@
     <modules>
         <module>po-app</module>
         <module>po-api-generated</module>
+        <module>po-integration</module>
     </modules>
     <dependencies>
         <dependency>
@@ -52,6 +53,7 @@
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-security</artifactId>
         </dependency>
+
         <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-web</artifactId>
