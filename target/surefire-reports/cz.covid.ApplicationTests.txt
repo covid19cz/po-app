@@ -1,0 +1,7 @@
+-------------------------------------------------------------------------------
+Test set: cz.covid.ApplicationTests
+-------------------------------------------------------------------------------
+Tests run: 1, Failures: 0, Errors: 1, Skipped: 0, Time elapsed: 0.262 s <<< FAILURE! - in cz.covid.ApplicationTests
+cz.covid.ApplicationTests  Time elapsed: 0.261 s  <<< ERROR!
+java.lang.IllegalStateException: Unable to find a @SpringBootConfiguration, you need to use @ContextConfiguration or @SpringBootTest(classes=...) with your test
+
