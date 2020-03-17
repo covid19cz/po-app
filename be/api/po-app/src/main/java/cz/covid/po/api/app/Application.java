@@ -12,7 +12,7 @@ import org.springframework.context.annotation.Import;
 
 @SpringBootApplication
 @Import({DatabaseConfig.class, SwaggerConfiguration.class, SecurityConfig.class, ObjectMapperConfig.class, ConversionConfig.class})
-@ComponentScan(basePackages = {"cz.covid.po.api.service", "cz.covid.po.api.controller", "cz.covid.po.api.converter"})
+@ComponentScan(basePackages = {"cz.covid.po.api.service", "cz.covid.po.api.controller", "cz.covid.po.api.converter", "cz.covid.po.api.integration"})
 public class Application {
 
     public static void main(String[] args) {
