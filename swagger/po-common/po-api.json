@@ -28,7 +28,7 @@
         "summary": "getCodebookValues",
         "operationId": "getCodebookValuesUsingGET",
         "produces": [
-          "*/*"
+          "application/json"
         ],
         "parameters": [
           {
@@ -81,7 +81,7 @@
           "application/json"
         ],
         "produces": [
-          "*/*"
+          "application/json"
         ],
         "parameters": [
           {
@@ -139,7 +139,7 @@
         "summary": "findCodebookValues",
         "operationId": "findCodebookValuesUsingGET",
         "produces": [
-          "*/*"
+          "application/json"
         ],
         "parameters": [
           {
@@ -197,7 +197,7 @@
           "application/json"
         ],
         "produces": [
-          "*/*"
+          "application/json"
         ],
         "parameters": [
           {
@@ -264,7 +264,7 @@
         "summary": "deleteCodebookValue",
         "operationId": "deleteCodebookValueUsingDELETE",
         "produces": [
-          "*/*"
+          "application/json"
         ],
         "parameters": [
           {

@@ -1,6 +1,8 @@
 package cz.covid.po.api.app;
 
+import cz.covid.po.api.config.ConversionConfig;
 import cz.covid.po.api.config.DatabaseConfig;
+import cz.covid.po.api.config.ObjectMapperConfig;
 import cz.covid.po.api.config.SecurityConfig;
 import cz.covid.po.api.config.SwaggerConfiguration;
 import org.springframework.boot.SpringApplication;
@@ -9,7 +11,7 @@ import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Import;
 
 @SpringBootApplication
-@Import({DatabaseConfig.class, SwaggerConfiguration.class, SecurityConfig.class})
+@Import({DatabaseConfig.class, SwaggerConfiguration.class, SecurityConfig.class, ObjectMapperConfig.class, ConversionConfig.class})
 @ComponentScan(basePackages = {"cz.covid.po.api.service", "cz.covid.po.api.controller", "cz.covid.po.api.converter"})
 public class Application {
 
