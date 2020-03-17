@@ -28,35 +28,30 @@ public class CodebookServiceImpl implements CodebookService, InitializingBean {
 
     @SuppressWarnings("unchecked")
     @Override
-    public List<CodebookValueDto> getCodebookValues(CodebookName codebookName) {
-        List<CodebookValue> all = this.getCodebookRepository(codebookName).findAll();
-        return all
-                .stream()
-                .map(this::mapToCodebookValueDto)
-                .collect(Collectors.toList());
+    public List<CodebookValue> getCodebookValues(CodebookName codebookName) {
+        return (List<CodebookValue>) this.getCodebookRepository(codebookName).findAll();
     }
 
     @Override
-    public CodebookValueDto createCodebookValue(CodebookName codebookName, CodebookValueDto codebookValueDto) {
-        CodebookValue codebookValue = this.mapToCodebookValue(codebookValueDto, this.getCodebookValueInstance(codebookName));
+    public CodebookValue createCodebookValue(CodebookName codebookName, CodebookValue codebookValue) {
         codebookValue.setCreatedAt(new Date());
         this.getCodebookRepository(codebookName).save(codebookValue);
-        return this.mapToCodebookValueDto(codebookValue);
+        return codebookValue;
     }
 
     @Override
-    public CodebookValueDto findCodebookValue(CodebookName codebookName, Long id) {
-        return this.mapToCodebookValueDto(this.findInternal(codebookName, id));
+    public CodebookValue findCodebookValue(CodebookName codebookName, Long id) {
+        return this.findInternal(codebookName, id);
     }
 
     @Override
     @Transactional
-    public CodebookValueDto updateCodebookValue(CodebookName codebookName, CodebookValueDto codebookValueDto) {
+    public CodebookValue updateCodebookValue(CodebookName codebookName, CodebookValue codebookValueDto) {
         CodebookValue codebookValue = this.findInternal(codebookName, codebookValueDto.getId());
         codebookValue.setName(codebookValueDto.getName());
         codebookValue.setModifiedAt(new Date());
         this.getCodebookRepository(codebookName).save(codebookValue);
-        return this.mapToCodebookValueDto(codebookValue);
+        return codebookValue;
     }
 
     @SuppressWarnings("unchecked")
@@ -77,30 +72,6 @@ public class CodebookServiceImpl implements CodebookService, InitializingBean {
         return (T) this.getCodebookRepository(codebookName).getOne(id);
     }
 
-    @Override
-    public CodebookValueDto mapToCodebookValueDto(CodebookValue codebookValue) {
-        CodebookValueDto codebookValueDto = new CodebookValueDto();
-        BeanUtils.copyProperties(codebookValue, codebookValueDto);
-        return codebookValueDto;
-    }
-
-    private CodebookValue mapToCodebookValue(CodebookValueDto codebookValueDto, CodebookValue codebookValue) {
-        BeanUtils.copyProperties(codebookValueDto, codebookValue, "id");
-        return codebookValue;
-    }
-
-    private CodebookValue mapToCodebookValue(CodebookValueDto codebookValueDto) {
-        return this.mapToCodebookValue(codebookValueDto, new CodebookValue());
-    }
-
-    private CodebookValue getCodebookValueInstance(CodebookName codebookName) {
-        try {
-            return codebookName.getClazz().newInstance();
-        } catch (InstantiationException | IllegalAccessException e) {
-            throw new IllegalStateException(e);
-        }
-    }
-
     private CodebookValueRepository getCodebookRepository(CodebookName codebookName) {
         return codebookToRepositoryMapping.get(codebookName);
     }
@@ -110,5 +81,12 @@ public class CodebookServiceImpl implements CodebookService, InitializingBean {
         for (CodebookName codebookName : CodebookName.values()) {
             codebookToRepositoryMapping.put(codebookName, applicationContext.getBean(codebookName.getRepositoryClazz()));
         }
+    }
+
+    @Override
+    public CodebookValueDto mapToCodebookValueDto(CodebookValue codebookValue) {
+        CodebookValueDto codebookValueDto = new CodebookValueDto();
+        BeanUtils.copyProperties(codebookValue, codebookValueDto);
+        return codebookValueDto;
     }
 }

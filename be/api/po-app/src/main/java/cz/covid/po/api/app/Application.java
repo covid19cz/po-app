@@ -10,7 +10,7 @@ import org.springframework.context.annotation.Import;
 
 @SpringBootApplication
 @Import({DatabaseConfig.class, SwaggerConfiguration.class, SecurityConfig.class})
-@ComponentScan(basePackages = {"cz.covid.po.api.service", "cz.covid.po.api.controller"})
+@ComponentScan(basePackages = {"cz.covid.po.api.service", "cz.covid.po.api.controller", "cz.covid.po.api.converter"})
 public class Application {
 
     public static void main(String[] args) {

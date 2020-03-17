@@ -8,17 +8,18 @@ import java.util.List;
 
 public interface CodebookService {
 
-    List<CodebookValueDto> getCodebookValues(CodebookName codebookName);
+    List<CodebookValue> getCodebookValues(CodebookName codebookName);
 
-    CodebookValueDto createCodebookValue(CodebookName codebookName, CodebookValueDto codebookValueDto);
+    CodebookValue createCodebookValue(CodebookName codebookName, CodebookValue codebookValueDto);
 
-    CodebookValueDto updateCodebookValue(CodebookName codebookName, CodebookValueDto codebookValueDto);
+    CodebookValue updateCodebookValue(CodebookName codebookName, CodebookValue codebookValueDto);
 
-    CodebookValueDto findCodebookValue(CodebookName codebookName, Long id);
+    CodebookValue findCodebookValue(CodebookName codebookName, Long id);
 
     void deleteCodebookValue(CodebookName codebookName, Long id);
 
+    <T> T getCodebookReference(CodebookName codebookName, Long id, Class<T> clazz);
+
     CodebookValueDto mapToCodebookValueDto(CodebookValue codebookValue);
 
-    <T> T getCodebookReference(CodebookName codebookName, Long id, Class<T> clazz);
 }
