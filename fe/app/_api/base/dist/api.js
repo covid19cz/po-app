@@ -37,16 +37,21 @@ exports.AuthorizationcontrollerApiFetchParamCreator = {
     /**
      *
      * @summary Sent SMS with auth code
-     * @param personUid Uid of person
+     * @param sendCodeRequest send sms login request dto
      */
     sendCodeUsingPOST: function (params, options) {
+        // verify required parameter "sendCodeRequest" is set
+        if (params["sendCodeRequest"] == null) {
+            throw new Error("Missing required parameter sendCodeRequest when calling sendCodeUsingPOST");
+        }
         var baseUrl = "/authorizations/send-code";
         var urlObj = url.parse(baseUrl, true);
-        urlObj.query = assign({}, urlObj.query, {
-            "personUid": params["personUid"],
-        });
         var fetchOptions = assign({}, { method: "POST" }, options);
         var contentTypeHeader = {};
+        contentTypeHeader = { "Content-Type": "application/json" };
+        if (params["sendCodeRequest"]) {
+            fetchOptions.body = JSON.stringify(params["sendCodeRequest"] || {});
+        }
         if (contentTypeHeader) {
             fetchOptions.headers = assign({}, contentTypeHeader, fetchOptions.headers);
         }
@@ -86,7 +91,7 @@ exports.AuthorizationcontrollerApiFp = {
     /**
      *
      * @summary Sent SMS with auth code
-     * @param personUid Uid of person
+     * @param sendCodeRequest send sms login request dto
      */
     sendCodeUsingPOST: function (params, options) {
         var fetchArgs = exports.AuthorizationcontrollerApiFetchParamCreator.sendCodeUsingPOST(params, options);
@@ -95,7 +100,7 @@ exports.AuthorizationcontrollerApiFp = {
             if (basePath === void 0) { basePath = BASE_PATH; }
             return fetch(basePath + fetchArgs.url, fetchArgs.options).then(function (response) {
                 if (response.status >= 200 && response.status < 300) {
-                    return response;
+                    return response.json();
                 }
                 else {
                     throw response;
@@ -136,7 +141,7 @@ var AuthorizationcontrollerApi = (function (_super) {
     /**
      *
      * @summary Sent SMS with auth code
-     * @param personUid Uid of person
+     * @param sendCodeRequest send sms login request dto
      */
     AuthorizationcontrollerApi.prototype.sendCodeUsingPOST = function (params, options) {
         return exports.AuthorizationcontrollerApiFp.sendCodeUsingPOST(params, options)(this.fetch, this.basePath);
@@ -162,7 +167,7 @@ exports.AuthorizationcontrollerApiFactory = function (fetch, basePath) {
         /**
          *
          * @summary Sent SMS with auth code
-         * @param personUid Uid of person
+         * @param sendCodeRequest send sms login request dto
          */
         sendCodeUsingPOST: function (params, options) {
             return exports.AuthorizationcontrollerApiFp.sendCodeUsingPOST(params, options)(fetch, basePath);

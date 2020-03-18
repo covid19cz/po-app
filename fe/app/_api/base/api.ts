@@ -105,6 +105,20 @@ export interface PersonResponse {
     "healthStatusLastChange"?: string;
 }
 
+export interface SendCodeRequest {
+    /**
+     * Phone number
+     */
+    "phoneNumber"?: string;
+}
+
+export interface SendCodeResponse {
+    /**
+     * Unique Person's ID (person_uid.person)
+     */
+    "personUid"?: string;
+}
+
 export interface SimtompsRequest {
     "symtompsSince"?: Date;
     "highTemperatureDuration"?: number;
@@ -150,17 +164,22 @@ export const AuthorizationcontrollerApiFetchParamCreator = {
     /**
      * 
      * @summary Sent SMS with auth code
-     * @param personUid Uid of person
+     * @param sendCodeRequest send sms login request dto
      */
-    sendCodeUsingPOST(params: {  "personUid"?: string; }, options?: any): FetchArgs {
+    sendCodeUsingPOST(params: {  "sendCodeRequest": SendCodeRequest; }, options?: any): FetchArgs {
+        // verify required parameter "sendCodeRequest" is set
+        if (params["sendCodeRequest"] == null) {
+            throw new Error("Missing required parameter sendCodeRequest when calling sendCodeUsingPOST");
+        }
         const baseUrl = `/authorizations/send-code`;
         let urlObj = url.parse(baseUrl, true);
-        urlObj.query = assign({}, urlObj.query, {
-            "personUid": params["personUid"],
-        });
         let fetchOptions: RequestInit = assign({}, { method: "POST" }, options);
 
         let contentTypeHeader: Dictionary<string> = {};
+        contentTypeHeader = { "Content-Type": "application/json" };
+        if (params["sendCodeRequest"]) {
+            fetchOptions.body = JSON.stringify(params["sendCodeRequest"] || {});
+        }
         if (contentTypeHeader) {
             fetchOptions.headers = assign({}, contentTypeHeader, fetchOptions.headers);
         }
@@ -202,14 +221,14 @@ export const AuthorizationcontrollerApiFp = {
     /**
      * 
      * @summary Sent SMS with auth code
-     * @param personUid Uid of person
+     * @param sendCodeRequest send sms login request dto
      */
-    sendCodeUsingPOST(params: { "personUid"?: string;  }, options?: any): (fetch?: FetchAPI, basePath?: string) => Promise<any> {
+    sendCodeUsingPOST(params: { "sendCodeRequest": SendCodeRequest;  }, options?: any): (fetch?: FetchAPI, basePath?: string) => Promise<SendCodeResponse> {
         const fetchArgs = AuthorizationcontrollerApiFetchParamCreator.sendCodeUsingPOST(params, options);
         return (fetch: FetchAPI = isomorphicFetch, basePath: string = BASE_PATH) => {
             return fetch(basePath + fetchArgs.url, fetchArgs.options).then((response) => {
                 if (response.status >= 200 && response.status < 300) {
-                    return response;
+                    return response.json();
                 } else {
                     throw response;
                 }
@@ -243,9 +262,9 @@ export class AuthorizationcontrollerApi extends BaseAPI {
     /**
      * 
      * @summary Sent SMS with auth code
-     * @param personUid Uid of person
+     * @param sendCodeRequest send sms login request dto
      */
-    sendCodeUsingPOST(params: {  "personUid"?: string; }, options?: any) {
+    sendCodeUsingPOST(params: {  "sendCodeRequest": SendCodeRequest; }, options?: any) {
         return AuthorizationcontrollerApiFp.sendCodeUsingPOST(params, options)(this.fetch, this.basePath);
     }
     /**
@@ -267,9 +286,9 @@ export const AuthorizationcontrollerApiFactory = function (fetch?: FetchAPI, bas
         /**
          * 
          * @summary Sent SMS with auth code
-         * @param personUid Uid of person
+         * @param sendCodeRequest send sms login request dto
          */
-        sendCodeUsingPOST(params: {  "personUid"?: string; }, options?: any) {
+        sendCodeUsingPOST(params: {  "sendCodeRequest": SendCodeRequest; }, options?: any) {
             return AuthorizationcontrollerApiFp.sendCodeUsingPOST(params, options)(fetch, basePath);
         },
         /**
