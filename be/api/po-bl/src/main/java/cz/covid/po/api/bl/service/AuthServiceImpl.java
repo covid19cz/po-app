@@ -17,10 +17,8 @@ import org.springframework.security.oauth2.provider.authentication.OAuth2Authent
 import org.springframework.stereotype.Service;
 
 @Service
-@Profile("!test")
 public class AuthServiceImpl implements AuthService {
 
-    //TODO(pdvorak, 04.03.2019): these methods maybe should returns optional
     @Override
     public Long getLoggedUserId() {
         return getOauthDetails().map(details -> {
