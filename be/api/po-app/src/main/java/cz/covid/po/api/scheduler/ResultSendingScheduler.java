@@ -33,7 +33,7 @@ public class ResultSendingScheduler {
                 healtCheckResult.setResultSentAt(DateTimeUtil.utc());
                 healthCheckResultRepository.save(healtCheckResult);
             } catch (IntegrationException ie) {
-                log.trace("Problem occured while sending SMS to {}", phoneNumber, ie);
+                log.warn("Problem occured while sending SMS to {}", phoneNumber, ie);
             }
         }
     }
