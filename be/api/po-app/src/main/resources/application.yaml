@@ -12,7 +12,7 @@ spring:
     #password: ${DB_PASSWORD:karel89}  #config-secret
     #url: ${DATABASE_URL:jdbc:postgresql://covid-data-rdbms.postgres.database.azure.com:5432/covid_db?user=covid_user@covid-data-rdbms&password=Kockopes123!&sslmode=require}
     url: ${DATABASE_URL:jdbc:postgresql://covid-data-rdbms.postgres.database.azure.com:5432/covid_db}
-    username: ${DATABASE_USERNAME:covid_user}
+    username: ${DATABASE_USERNAME:covid_user@covid-data-rdbms}
     password: ${DB_PASSWORD:Kockopes123}  #config-secret
     driver-class-name: org.postgresql.Driver
     hikari:
