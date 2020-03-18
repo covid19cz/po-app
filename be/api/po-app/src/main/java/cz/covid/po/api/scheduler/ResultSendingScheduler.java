@@ -1,17 +1,18 @@
 package cz.covid.po.api.scheduler;
 
-import cz.covid.po.api.domain.model.HealtCheckResult;
+import cz.covid.po.api.bl.util.DateTimeUtil;
+import cz.covid.po.api.domain.model.HealthCheckResult;
 import cz.covid.po.api.domain.repository.HealthCheckResultRepository;
+import cz.covid.po.api.integration.common.exception.IntegrationException;
 import cz.covid.po.api.integration.profisms.service.ProfiSmsSender;
-import lombok.extern.java.Log;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Component;
 
-import java.time.OffsetDateTime;
 import java.util.List;
 
-@Log
+@Slf4j
 @Component
 public class ResultSendingScheduler {
 
@@ -23,13 +24,17 @@ public class ResultSendingScheduler {
 
     @Scheduled(cron = "${api.scheduler.cron}")
     public void sendResults() {
-        log.info("result sending scheduler running...");
-        List<HealtCheckResult> allNotSentYet = healthCheckResultRepository.findAllByResultSentAtIsNull();
-        for (HealtCheckResult healtCheckResult:allNotSentYet) {
+        List<HealthCheckResult> allNotSentYet = healthCheckResultRepository.findAllByResultSentAtIsNull();
+        log.info("Number of SMS to be sent: {}",allNotSentYet.size());
+        for (HealthCheckResult healtCheckResult:allNotSentYet) {
             String phoneNumber = healtCheckResult.getHealthCheck().getPerson().getPhoneNumber();
-            profiSmsSender.sendSms(phoneNumber, "Vysledek vaseho testu je: " + healtCheckResult.getResultPositive());
-            healtCheckResult.setResultSentAt(OffsetDateTime.now());
-            healthCheckResultRepository.save(healtCheckResult);
+            try {
+                profiSmsSender.sendSms(phoneNumber, "Vysledek vaseho testu je: " + healtCheckResult.getResultPositive());
+                healtCheckResult.setResultSentAt(DateTimeUtil.utc());
+                healthCheckResultRepository.save(healtCheckResult);
+            } catch (IntegrationException ie) {
+                log.trace("Problem occured while sending SMS to {}", phoneNumber, ie);
+            }
         }
     }
 
