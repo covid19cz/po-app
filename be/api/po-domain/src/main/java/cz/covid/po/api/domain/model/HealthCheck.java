@@ -3,6 +3,7 @@ package cz.covid.po.api.domain.model;
 import cz.covid.po.api.domain.converter.LocalDateAttributeConverter;
 import cz.covid.po.api.domain.model.codebook.CbHealthCheckLocation;
 import cz.covid.po.api.domain.model.codebook.CbHealthCheckType;
+import cz.covid.po.api.domain.model.codebook.CbRiskArea;
 import java.time.LocalDate;
 import java.util.List;
 import javax.persistence.CascadeType;
@@ -21,14 +22,13 @@ import javax.persistence.Table;
 import lombok.Getter;
 import lombok.Setter;
 import org.hibernate.annotations.Type;
-import org.springframework.context.annotation.Primary;
 
 @Entity
 @Getter
 @Setter
 @Table(name = "po_health_check")
 @SequenceGenerator(name = "po_health_check_seq_gen", sequenceName = "po_health_check_seq", allocationSize = 1)
-public class HealtCheck extends EntityBase {
+public class HealthCheck extends EntityBase {
     @Id()
     @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "po_health_check_seq_gen")
     private Long id;
@@ -52,7 +52,7 @@ public class HealtCheck extends EntityBase {
     private Boolean headache;
 
     @Column(name = "infected_in_contact")
-    private String infected_in_contact;
+    private String infectedInContact;
 
     @Column(name = "infected_in_contact_date", columnDefinition = "DATE")
     @Convert(converter = LocalDateAttributeConverter.class)
@@ -81,8 +81,9 @@ public class HealtCheck extends EntityBase {
     private CbHealthCheckLocation finalHealthCheckLocation;
 
     @OneToMany(mappedBy = "healthCheck", cascade = CascadeType.ALL, orphanRemoval = true)
-    private List<HealtCheckResult> healtCheckResults;
+    private List<HealthCheckResult> healthCheckResults;
 
-    @OneToMany(mappedBy = "healthCheck", cascade = CascadeType.ALL, orphanRemoval = true)
-    private List<VisitedRiskArea> visitedRiskArea;
+    @ManyToOne
+    @JoinColumn(name = "visited_risk_area_id", foreignKey = @ForeignKey(name = "fk_po_health_check_final_location_cb_health_check_location"))
+    private CbRiskArea visitedRiskArea;
 }

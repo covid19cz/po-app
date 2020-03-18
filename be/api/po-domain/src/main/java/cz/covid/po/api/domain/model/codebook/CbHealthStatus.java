@@ -7,4 +7,8 @@ import javax.persistence.Table;
 @Table(name = "cb_health_status")
 public class CbHealthStatus extends CodebookItemBase {
     public static final String CODE = "cbHealthStatus";
+
+    public final class Items {
+        public static final String UNKNOWN = "UNKNOWN";
+    }
 }

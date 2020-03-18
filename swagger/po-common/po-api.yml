@@ -223,16 +223,17 @@ paths:
       produces:
         - application/json
       parameters:
-        - name: personUid
-          in: query
-          description: Uid of person
-          required: false
-          type: string
-          format: uuid
-          allowEmptyValue: false
+        - in: body
+          name: sendCodeRequest
+          description: send sms login request dto
+          required: true
+          schema:
+            $ref: '#/definitions/SendCodeRequest'
       responses:
         '200':
           description: OK
+          schema:
+            $ref: '#/definitions/SendCodeResponse'
         '201':
           description: Created
         '401':
@@ -465,5 +466,17 @@ definitions:
       openingHours:
         type: string
 
+  SendCodeRequest:
+    type: object
+    properties:
+      phoneNumber:
+        type: string
+        description: 'Phone number'
 
-
+  SendCodeResponse:
+    type: object
+    properties:
+      personUid:
+        type: string
+        format: uuid
+        description: 'Unique Person''s ID (person_uid.person)'

@@ -1,8 +1,4 @@
-import {
-  FormControl,
-  FormLabel,
-  Grid,
-} from "@material-ui/core";
+import { FormControl, FormLabel, Grid } from "@material-ui/core";
 import { Field, Form, Formik } from "formik";
 import { TextField } from "formik-material-ui";
 import { DatePicker } from "formik-material-ui-pickers";
@@ -10,39 +6,40 @@ import React from "react";
 import { ButtonBack } from "../components/button/ButtonBack";
 import { ButtonContinue } from "../components/button/ButtonContinue";
 import { LoadingBackdrop } from "../components/feedback/Backdrop";
-import {RadioGroupChip} from "../components/forms/RadioGroupChip";
+import { RadioGroupChip } from "../components/forms/RadioGroupChip";
 import { RadioGroupRow } from "../components/forms/RadioGroupRow";
 import { Layout } from "../components/Layout";
 import { PageTitle } from "../components/PageTitle";
 import { Yup } from "../schema";
 
-const PossibleContactSchema = Yup.object().shape<PossibleContactFormData>({
-  contactWithInfected: Yup.string().required("Povinné pole"),
-  contactWithInfectedDate: Yup.date().required("Povinné pole"),
-  contactWithInfectedContacts: Yup.string().required("Povinné pole"),
-  riskyArea: Yup.string().required("Povinné pole")
+const AlreadyInfectedGeneralSchema = Yup.object().shape<
+  AlreadyInfectedGeneralFormData
+>({
+  place: Yup.string().required("Povinné pole"),
+  address: Yup.string().required("Povinné pole"),
+  healthCheckDate: Yup.date().required("Povinné pole"),
+  healthCheckLocation: Yup.string().required("Povinné pole")
 });
 
 const initData = {
-  contactWithInfected: "",
-  contactWithInfectedDate: new Date(),
-  contactWithInfectedContacts: "",
-  riskyArea: ""
+  place: "",
+  address: "",
+  healthCheckDate: new Date(),
+  healthCheckLocation: ""
 };
-type PossibleContactFormData = typeof initData;
+type AlreadyInfectedGeneralFormData = typeof initData;
 
-export const PossibleContact = () => {
-  function handleSubmit(formData: PossibleContactFormData) {
-    console.log(formData);
-  }
+export const AlreadyInfectedGeneral = () => {
+  function handleSubmit(formData: AlreadyInfectedGeneralFormData) {}
 
   return (
     <Layout>
-      <PageTitle paddingBottom={"30px"}>Žádost o otestování 3/4</PageTitle>
+      <PageTitle paddingBottom={"15px"}>Dotazník pro infikované 1/3</PageTitle>
+
       <Grid container>
-        <Formik<PossibleContactFormData>
+        <Formik<AlreadyInfectedGeneralFormData>
           initialValues={initData}
-          validationSchema={PossibleContactSchema}
+          validationSchema={AlreadyInfectedGeneralSchema}
           validateOnMount
           onSubmit={handleSubmit}
         >
@@ -52,47 +49,46 @@ export const PossibleContact = () => {
 
               <Grid container justify="center" spacing={4}>
                 <Grid item xs={12}>
-                  <RadioGroupRow
-                    name="contactWithInfected"
-                    label="Přišli jste do kontaktu s nakaženým?"
-                  >
+                  <RadioGroupRow name="place" label="Kde probíhá vaše léčba?">
+                    <RadioGroupChip value="home" label="Doma" />
                     <RadioGroupChip
-                      value="yes"
-                      label="ano"
-                    />
-                    <RadioGroupChip
-                      value="no"
-                      label="ne"
-                    />
-                    <RadioGroupChip
-                      value="notSure"
-                      label="nevím jistě"
+                      value="hospital"
+                      label="Zdravotní zařízení"
                     />
                   </RadioGroupRow>
                 </Grid>
                 <Grid item xs={12}>
                   <Field
+                    component={TextField}
+                    name="address"
+                    type="text"
+                    label="Adresa místa léčby"
                     fullWidth
-                    component={DatePicker}
-                    label="Kdy?"
-                    name="contactWithInfectedDate"
                   />
                 </Grid>
                 <Grid item xs={12}>
-                  <FormControl component="fieldset">
+                  <Field
+                    fullWidth
+                    component={DatePicker}
+                    label="Termín provedení testu"
+                    name="healthCheckDate"
+                  />
+                </Grid>
+                <Grid item xs={12}>
+                  <FormControl component="fieldset" fullWidth>
                     <FormLabel component="legend">
-                      Uveďte čárkou oddělená telefonní čísla lidí, se kterýmí
-                      jste byl v kontaktu a byl jim Covid19 potvrzen:
+                      Certifikovaná laboratoř, kt.provedla test
                     </FormLabel>
                     <Field
                       component={TextField}
-                      name="contactWithInfectedContacts"
+                      name="healthCheckLocation"
                       type="text"
                       fullWidth
                     />
                   </FormControl>
                 </Grid>
               </Grid>
+
               <Grid container spacing={4}>
                 <Grid item xs={6}>
                   <ButtonBack />

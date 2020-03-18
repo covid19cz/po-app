@@ -18,14 +18,14 @@ import lombok.Setter;
 @Setter
 @Table(name = "po_health_check_result")
 @SequenceGenerator(name = "po_health_check_result_seq_gen", sequenceName = "po_health_check_result_seq", allocationSize = 1)
-public class HealtCheckResult {
+public class HealthCheckResult {
     @Id
     @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "po_health_check_result_seq_gen")
     private Long id;
 
     @ManyToOne
     @JoinColumn(name = "health_check_id")
-    private HealtCheck healthCheck;
+    private HealthCheck healthCheck;
 
     @Column(name = "result_positive")
     private Boolean resultPositive;

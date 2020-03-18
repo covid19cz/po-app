@@ -71,6 +71,18 @@ export interface PersonResponse {
     "healthStatus"?: CodebookItemDto;
     "healthStatusLastChange"?: string;
 }
+export interface SendCodeRequest {
+    /**
+     * Phone number
+     */
+    "phoneNumber"?: string;
+}
+export interface SendCodeResponse {
+    /**
+     * Unique Person's ID (person_uid.person)
+     */
+    "personUid"?: string;
+}
 export interface SimtompsRequest {
     "symtompsSince"?: Date;
     "highTemperatureDuration"?: number;
@@ -107,7 +119,7 @@ export interface VerifyCodeResponseDto {
  */
 export declare const AuthorizationcontrollerApiFetchParamCreator: {
     sendCodeUsingPOST(params: {
-        "personUid"?: string;
+        "sendCodeRequest": SendCodeRequest;
     }, options?: any): FetchArgs;
     verifyCodeUsingPOST(params: {
         "personUid"?: string;
@@ -119,8 +131,8 @@ export declare const AuthorizationcontrollerApiFetchParamCreator: {
  */
 export declare const AuthorizationcontrollerApiFp: {
     sendCodeUsingPOST(params: {
-        "personUid"?: string;
-    }, options?: any): (fetch?: FetchAPI, basePath?: string) => Promise<any>;
+        "sendCodeRequest": SendCodeRequest;
+    }, options?: any): (fetch?: FetchAPI, basePath?: string) => Promise<SendCodeResponse>;
     verifyCodeUsingPOST(params: {
         "personUid"?: string;
         "smsCode"?: string;
@@ -133,11 +145,11 @@ export declare class AuthorizationcontrollerApi extends BaseAPI {
     /**
      *
      * @summary Sent SMS with auth code
-     * @param personUid Uid of person
+     * @param sendCodeRequest send sms login request dto
      */
     sendCodeUsingPOST(params: {
-        "personUid"?: string;
-    }, options?: any): Promise<any>;
+        "sendCodeRequest": SendCodeRequest;
+    }, options?: any): Promise<SendCodeResponse>;
     /**
      *
      * @summary Verify code from SMS
@@ -154,8 +166,8 @@ export declare class AuthorizationcontrollerApi extends BaseAPI {
  */
 export declare const AuthorizationcontrollerApiFactory: (fetch?: FetchAPI, basePath?: string) => {
     sendCodeUsingPOST(params: {
-        "personUid"?: string;
-    }, options?: any): Promise<any>;
+        "sendCodeRequest": SendCodeRequest;
+    }, options?: any): Promise<SendCodeResponse>;
     verifyCodeUsingPOST(params: {
         "personUid"?: string;
         "smsCode"?: string;

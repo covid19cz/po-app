@@ -1,12 +1,18 @@
 package cz.covid.po.api.config;
 
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.boot.web.servlet.FilterRegistrationBean;
+import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.core.Ordered;
 import org.springframework.core.annotation.Order;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
 import org.springframework.security.config.http.SessionCreationPolicy;
+import org.springframework.web.cors.CorsConfiguration;
+import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
+import org.springframework.web.filter.CorsFilter;
 
 @Configuration
 @Order(1)
@@ -30,6 +36,21 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .withUser(apiServiceUsername)
                 .password("{noop}" + apiServicePassword)
                 .roles("API_USER");
+    }
+
+    @Bean
+    public FilterRegistrationBean<CorsFilter> filterRegistrationBean() {
+        UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
+        CorsConfiguration config = new CorsConfiguration();
+        config.setAllowCredentials(true);
+        config.addAllowedOrigin("*");
+        config.addAllowedHeader("*");
+        config.addAllowedMethod("*");
+        source.registerCorsConfiguration("/**", config);
+        CorsFilter corsFilter = new CorsFilter(source);
+        FilterRegistrationBean<CorsFilter> bean = new FilterRegistrationBean<>(corsFilter);
+        bean.setOrder(Ordered.HIGHEST_PRECEDENCE);
+        return bean;
     }
 
     /**

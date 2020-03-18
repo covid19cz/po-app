@@ -6,6 +6,8 @@
 package cz.covid.po.api.generated.controller;
 
 import cz.covid.po.api.generated.dto.ErrorMessageDto;
+import cz.covid.po.api.generated.dto.SendCodeRequest;
+import cz.covid.po.api.generated.dto.SendCodeResponse;
 import java.util.UUID;
 import cz.covid.po.api.generated.dto.VerifyCodeResponseDto;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -48,11 +50,11 @@ public interface AuthorizationControllerApi {
         return getRequest().map(r -> r.getHeader("Accept"));
     }
 
-    @ApiOperation(value = "Sent SMS with auth code", nickname = "sendCodeUsingPOST", notes = "", authorizations = {
+    @ApiOperation(value = "Sent SMS with auth code", nickname = "sendCodeUsingPOST", notes = "", response = SendCodeResponse.class, authorizations = {
         @Authorization(value = "apiKey")
     }, tags={ "authorization-controller", })
     @ApiResponses(value = { 
-        @ApiResponse(code = 200, message = "OK"),
+        @ApiResponse(code = 200, message = "OK", response = SendCodeResponse.class),
         @ApiResponse(code = 201, message = "Created"),
         @ApiResponse(code = 401, message = "Unauthorized"),
         @ApiResponse(code = 403, message = "Forbidden"),
@@ -60,13 +62,21 @@ public interface AuthorizationControllerApi {
     @RequestMapping(value = "/authorizations/send-code",
         produces = { "application/json" }, 
         method = RequestMethod.POST)
-    default ResponseEntity<Void> _sendCodeUsingPOST(@ApiParam(value = "Uid of person") @Valid @RequestParam(value = "personUid", required = false) UUID personUid) {
-        return sendCodeUsingPOST(personUid);
+    default ResponseEntity<SendCodeResponse> _sendCodeUsingPOST(@ApiParam(value = "send sms login request dto" ,required=true )  @Valid @RequestBody SendCodeRequest sendCodeRequest) {
+        return sendCodeUsingPOST(sendCodeRequest);
     }
 
     // Override this method
-    default ResponseEntity<Void> sendCodeUsingPOST(UUID personUid) {
+    default ResponseEntity<SendCodeResponse> sendCodeUsingPOST(SendCodeRequest sendCodeRequest) {
         if(getObjectMapper().isPresent() && getAcceptHeader().isPresent()) {
+            if (getAcceptHeader().get().contains("application/json")) {
+                try {
+                    return new ResponseEntity<>(getObjectMapper().get().readValue("{  \"personUid\" : \"046b6c7f-0b8a-43b9-b35d-6489e6daee91\"}", SendCodeResponse.class), HttpStatus.NOT_IMPLEMENTED);
+                } catch (IOException e) {
+                    log.error("Couldn't serialize response for content type application/json", e);
+                    return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
+                }
+            }
         } else {
             log.warn("ObjectMapper or HttpServletRequest not configured in default AuthorizationControllerApi interface so no example is generated");
         }

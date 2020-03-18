@@ -1,18 +1,12 @@
-import {
-  FormControl,
-  FormControlLabel,
-  FormHelperText,
-  FormLabel,
-  Grid,
-  Radio
-} from "@material-ui/core";
-import { ErrorMessage, Field, Form, Formik } from "formik";
-import { RadioGroup, TextField } from "formik-material-ui";
-import { DatePicker } from "formik-material-ui-pickers";
+import { Grid } from "@material-ui/core";
+import { Field, Form, Formik } from "formik";
+import { TextField } from "formik-material-ui";
 import React from "react";
 import { ButtonBack } from "../components/button/ButtonBack";
 import { ButtonContinue } from "../components/button/ButtonContinue";
 import { LoadingBackdrop } from "../components/feedback/Backdrop";
+import { RadioGroupChip } from "../components/forms/RadioGroupChip";
+import { RadioGroupRow } from "../components/forms/RadioGroupRow";
 import { Layout } from "../components/Layout";
 import { PageTitle } from "../components/PageTitle";
 import { Yup } from "../schema";
@@ -26,6 +20,7 @@ const initData = {
   selectedTestPlace: "",
   carAvailable: ""
 };
+
 type TestPlaceFormData = typeof initData;
 
 export const TestPlacePicker = () => {
@@ -57,28 +52,13 @@ export const TestPlacePicker = () => {
                   />
                 </Grid>
                 <Grid item xs={12}>
-                  <FormControl component="fieldset">
-                    <FormLabel component="legend">
-                      Jste schopen se dopravit automobilem?
-                    </FormLabel>
-                    <Field component={RadioGroup} name="carAvailable" row>
-                      <FormControlLabel
-                        value="yes"
-                        control={<Radio />}
-                        label="Ano"
-                      />
-                      <FormControlLabel
-                        value="no"
-                        control={<Radio />}
-                        label="Ne"
-                      />
-                    </Field>
-                    <ErrorMessage name="carAvailable">
-                      {errorMessage => (
-                        <FormHelperText error>{errorMessage}</FormHelperText>
-                      )}
-                    </ErrorMessage>
-                  </FormControl>
+                  <RadioGroupRow
+                    name="carAvailable"
+                    label={"Jste schopen se dopravit automobilem?"}
+                  >
+                    <RadioGroupChip value="yes" label="Ano" />
+                    <RadioGroupChip value="no" label="Ne" />
+                  </RadioGroupRow>
                 </Grid>
               </Grid>
               <Grid container spacing={4}>
