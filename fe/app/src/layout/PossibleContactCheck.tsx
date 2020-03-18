@@ -1,20 +1,18 @@
 import {
   FormControl,
-  FormControlLabel,
-  FormHelperText,
   FormLabel,
   Grid,
-  Radio
 } from "@material-ui/core";
-import { ErrorMessage, Field, Form, Formik } from "formik";
-import { RadioGroup, TextField } from "formik-material-ui";
+import { Field, Form, Formik } from "formik";
+import { TextField } from "formik-material-ui";
 import { DatePicker } from "formik-material-ui-pickers";
 import React from "react";
 import { ButtonBack } from "../components/button/ButtonBack";
 import { ButtonContinue } from "../components/button/ButtonContinue";
 import { LoadingBackdrop } from "../components/feedback/Backdrop";
+import {RadioGroupChip} from "../components/forms/RadioGroupChip";
+import { RadioGroupRow } from "../components/forms/RadioGroupRow";
 import { Layout } from "../components/Layout";
-import { PageDescription } from "../components/PageDescription";
 import { PageTitle } from "../components/PageTitle";
 import { Yup } from "../schema";
 
@@ -54,37 +52,23 @@ export const PossibleContact = () => {
 
               <Grid container justify="center" spacing={4}>
                 <Grid item xs={12}>
-                  <FormControl component="fieldset">
-                    <FormLabel component="legend">
-                      Přišli jste do kontaktu s nakaženým?
-                    </FormLabel>
-                    <Field
-                      component={RadioGroup}
-                      name="contactWithInfected"
-                      row
-                    >
-                      <FormControlLabel
-                        value="yes"
-                        control={<Radio />}
-                        label="ano"
-                      />
-                      <FormControlLabel
-                        value="no"
-                        control={<Radio />}
-                        label="ne"
-                      />
-                      <FormControlLabel
-                        value="notSure"
-                        control={<Radio />}
-                        label="nevím jistě"
-                      />
-                    </Field>
-                    <ErrorMessage name="contactWithInfected">
-                      {errorMessage => (
-                        <FormHelperText error>{errorMessage}</FormHelperText>
-                      )}
-                    </ErrorMessage>
-                  </FormControl>
+                  <RadioGroupRow
+                    name="contactWithInfected"
+                    label="Přišli jste do kontaktu s nakaženým?"
+                  >
+                    <RadioGroupChip
+                      value="yes"
+                      label="ano"
+                    />
+                    <RadioGroupChip
+                      value="no"
+                      label="ne"
+                    />
+                    <RadioGroupChip
+                      value="notSure"
+                      label="nevím jistě"
+                    />
+                  </RadioGroupRow>
                 </Grid>
                 <Grid item xs={12}>
                   <Field
