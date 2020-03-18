@@ -29,7 +29,7 @@
                 <configuration>
                     <schemaVersion>V2</schemaVersion>
                     <resourceGroup>covid-portal-obcana</resourceGroup>
-                    <appName>covid-po-web</appName>
+                    <appName>covid-po-api</appName>
                     <region>France Central</region>
                     <pricingTier>P1V2</pricingTier>
                     <runtime>
