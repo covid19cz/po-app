@@ -1,7 +1,5 @@
-import { useApi } from "@/hooks/useApi";
-import { useAsyncEffect } from "@/hooks/useAsyncEffect";
-import { PersoncontrollerApi, PersonResponse } from "@swaggerBase";
-import React, { useState } from "react";
+import { usePersonalDetails } from "@/hooks/usePersonalDetails";
+import React from "react";
 import { Layout } from "@/components/Layout";
 import { goToPath, PageNames } from "@/components/Routes";
 import { usePathParams } from "@/hooks/usePathParams";
@@ -10,19 +8,9 @@ import { format } from "date-fns";
 import { useHistory } from "react-router-dom";
 
 export const Dashboard = () => {
-  const api = useApi(PersoncontrollerApi);
   const { patientId } = usePathParams();
-  const [person, setPerson] = useState<PersonResponse>();
-
-  useAsyncEffect(async () => {
-    try {
-      if (patientId) {
-        setPerson(await api.personsPersonUidGet({ personUid: patientId }));
-      }
-    } catch (e) {}
-  }, []);
-
   const history = useHistory();
+  const person = usePersonalDetails(patientId || "");
 
   function handleNeedTest() {
     goToPath(history, PageNames.ContactDetails, { patientId });

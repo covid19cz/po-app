@@ -1,29 +1,77 @@
+import { ButtonBack } from "@/components/button/ButtonBack";
+import { ButtonContinue } from "@/components/button/ButtonContinue";
+import { LoadingBackdrop } from "@/components/feedback/Backdrop";
+import { Layout } from "@/components/Layout";
+import { PageDescription } from "@/components/PageDescription";
+import { PageTitle } from "@/components/PageTitle";
+import { goToPath, PageNames } from "@/components/Routes";
+import { useApi } from "@/hooks/useApi";
+import { usePathParams } from "@/hooks/usePathParams";
+import { usePersonalDetails } from "@/hooks/usePersonalDetails";
 import { Grid } from "@material-ui/core";
+import { PersoncontrollerApi, PersonRequest } from "@swaggerBase";
 import { Field, Form, Formik } from "formik";
 import { TextField } from "formik-material-ui";
-import React from "react";
-import { ButtonBack } from "../components/button/ButtonBack";
-import { ButtonContinue } from "../components/button/ButtonContinue";
-import { LoadingBackdrop } from "../components/feedback/Backdrop";
-import { Layout } from "../components/Layout";
-import { PageDescription } from "../components/PageDescription";
-import { PageTitle } from "../components/PageTitle";
+import { FormikHelpers } from "formik/dist/types";
+import React, { useEffect, useState } from "react";
 import { Yup } from "../schema";
+import { useHistory } from "react-router-dom";
+
+const initData: ContactDetailsFormData = {
+  firstname: "",
+  surname: "",
+  address: "",
+  email: ""
+};
+type ContactDetailsFormData = Omit<PersonRequest, "address"> & {
+  address: string;
+};
 
 const ContactDetailsSchema = Yup.object().shape<ContactDetailsFormData>({
-  firstName: Yup.string().required("Povinné pole"),
-  lastName: Yup.string().required("Povinné pole"),
+  firstname: Yup.string().required("Povinné pole"),
+  surname: Yup.string().required("Povinné pole"),
   address: Yup.string().required("Povinné pole"),
   email: Yup.string()
     .email("Zadejte správnou emailovou adresu")
     .required("Povinné pole")
 });
 
-const initData = { firstName: "", lastName: "", address: "", email: "" };
-type ContactDetailsFormData = typeof initData;
-
 export const ContactDetails = () => {
-  function handleSubmit(formData: ContactDetailsFormData) {}
+  const api = useApi(PersoncontrollerApi);
+  const history = useHistory();
+  const { patientId = "" } = usePathParams();
+  const person = usePersonalDetails(patientId);
+
+  const [formData, setFormData] = useState<ContactDetailsFormData>(initData);
+
+  useEffect(() => {
+    if (!person) {
+      return;
+    }
+
+    setFormData({
+      address: person.addressHome?.city || "",
+      surname: person.surname || "",
+      firstname: person.firstname || "",
+      email: person.email || ""
+    });
+  }, [person]);
+
+  async function handleSubmit(
+    formData: ContactDetailsFormData,
+    { setSubmitting }: FormikHelpers<ContactDetailsFormData>
+  ) {
+    try {
+      await api.personsPersonUidPut({
+        personUid: patientId,
+        personDto: { ...formData, addressHome: { city: formData.address } }
+      });
+
+      goToPath(history, PageNames.SymptomsCheck, { patientId });
+    } catch (e) {
+      setSubmitting(false);
+    }
+  }
 
   return (
     <Layout>
@@ -35,10 +83,11 @@ export const ContactDetails = () => {
 
       <Grid container>
         <Formik<ContactDetailsFormData>
-          initialValues={initData}
+          initialValues={formData}
           validationSchema={ContactDetailsSchema}
           validateOnMount
           onSubmit={handleSubmit}
+          enableReinitialize
         >
           {formik => (
             <Form>
@@ -48,7 +97,7 @@ export const ContactDetails = () => {
                 <Grid item xs={12}>
                   <Field
                     component={TextField}
-                    name="firstName"
+                    name="firstname"
                     type="text"
                     label="Křestní jméno"
                     fullWidth
@@ -57,7 +106,7 @@ export const ContactDetails = () => {
                 <Grid item xs={12}>
                   <Field
                     component={TextField}
-                    name="lastName"
+                    name="surname"
                     type="text"
                     label="Příjmení"
                     fullWidth
