@@ -289,25 +289,26 @@ definitions:
   PersonResponse:
     type: object
     properties:
-      person_uid:
+      personUid:
         type: string
         format: uuid
-      return_hash:
+      returnHash:
         type: string
-      phone_number:
+      phoneNumber:
         type: string
       firstname:
         type: string
       surname:
         type: string
-      address_home:
+      addressHome:
         $ref: '#/definitions/Address'
       email:
         type: string
-      health_status:
+      healthStatus:
         $ref: '#/definitions/CodebookItemDto'
-      health_status_last_change:
+      healthStatusLastChange:
         type: string
+        format: date
   PersonRequest:
     type: object
     properties:
@@ -315,82 +316,82 @@ definitions:
         type: string
       surname:
         type: string
-      address_home:
+      addressHome:
         $ref: '#/definitions/Address'
       email:
         type: string
   SimtompsRequest:
     type: object
     properties:
-      symtomps_since:
+      symtompsSince:
         type: string
         format: date
-      high_temperature_duration:
+      highTemperatureDuration:
         type: integer
-      dry_cough_duration:
+      dryCoughDuration:
         type: integer
       headache:
         type: boolean
   ExposureRequest:
     type: object
     properties:
-      infected_in_contact:
+      infectedInContact:
         type: string
         enum:
           - 'Y'
           - 'N'
           - '?'
-      infected_in_contact_date:
+      infectedInContactDate:
         type: string
         format: date
-      infected_phone_numbers:
+      infectedPhoneNumbers:
         type: string
-      visited_risk_area:
+      visitedRiskArea:
         $ref: '#/definitions/CodebookItemDto'
   TestingPlaceRequest:
     type: object
     properties:
-      preferred_health_check_location:
+      preferredHealthCheckLocation:
         $ref: '#/definitions/CodebookItemDto'
-      able_to_drive:
+      ableToDrive:
         type: boolean
   HealthCheckRequest:
     type: object
     properties:
-      symtomps_since:
+      symtompsSince:
         type: string
         format: date
-      high_temperature_duration:
+      highTemperatureDuration:
         type: integer
-      dry_cough_duration:
+      dryCoughDuration:
         type: integer
       headache:
         type: boolean
-      infected_in_contact:
+      infectedInContact:
         type: string
         enum:
           - 'Y'
           - 'N'
           - '?'
-      infected_in_contact_date:
+      infectedInContactDate:
         type: string
         format: date
-      infected_phone_numbers:
+      infectedPhoneNumbers:
         type: string
-      visited_risk_area:
+      visitedRiskArea:
         $ref: '#/definitions/CodebookItemDto'
-      preferred_health_check_location:
+      preferredHealthCheckLocation:
         $ref: '#/definitions/CodebookItemDto'
-      able_to_drive:
+      ableToDrive:
         type: boolean
   HealthCheckResponse:
     type: object
     properties:
-      time_slot:
+      timeSlot:
         type: string
       address:
         type: string
-      health_check_code:
+      healthCheckCode:
         type: string
   TreatmentRequest:
     type: object
@@ -399,28 +400,28 @@ definitions:
         $ref: '#/definitions/CodebookItemDto'
       address:
         $ref: '#/definitions/Address'
-      health_check_date:
+      healthCheckDate:
         type: string
         format: date
-      health_check_location:
+      healthCheckLocation:
         $ref: '#/definitions/CodebookItemDto'
-      expected_infection_date:
+      expectedInfectionDate:
         type: string
         format: date
-      in_contact_phone_numbers:
+      inContactPhoneNumbers:
         type: string
   Address:
     type: object
     properties:
       street:
         type: string
-      street_number_descriptive:
+      streetNumberDescriptive:
         type: string
-      street_number_evidence:
+      streetNumberEvidence:
         type: string
       city:
         type: string
-      zip_code:
+      zipCode:
         type: string
   CodebookItemDto:
     type: object
@@ -454,6 +455,7 @@ definitions:
           - SMS_CODE_GEN_ERROR
           - UNAUTHORIZED
           - UNKNOWN
+          - ERROR_LOGIN_REQUIRED
       message:
         type: string
     title: ErrorMessageDto

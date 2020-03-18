@@ -120,7 +120,7 @@ public interface HealthCheckControllerApi {
         if(getObjectMapper().isPresent() && getAcceptHeader().isPresent()) {
             if (getAcceptHeader().get().contains("application/json")) {
                 try {
-                    return new ResponseEntity<>(getObjectMapper().get().readValue("{  \"address\" : {    \"city\" : \"city\",    \"street\" : \"street\",    \"street_number_evidence\" : \"street_number_evidence\",    \"street_number_descriptive\" : \"street_number_descriptive\",    \"zip_code\" : \"zip_code\"  },  \"openingHours\" : \"openingHours\"}", TestingPlaceInstuctionsDto.class), HttpStatus.NOT_IMPLEMENTED);
+                    return new ResponseEntity<>(getObjectMapper().get().readValue("{  \"address\" : {    \"zipCode\" : \"zipCode\",    \"streetNumberEvidence\" : \"streetNumberEvidence\",    \"city\" : \"city\",    \"street\" : \"street\",    \"streetNumberDescriptive\" : \"streetNumberDescriptive\"  },  \"openingHours\" : \"openingHours\"}", TestingPlaceInstuctionsDto.class), HttpStatus.NOT_IMPLEMENTED);
                 } catch (IOException e) {
                     log.error("Couldn't serialize response for content type application/json", e);
                     return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
