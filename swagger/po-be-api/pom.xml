@@ -44,7 +44,7 @@
                                     <generateApiDocumentation>false</generateApiDocumentation>
                                     <generateModelDocumentation>false</generateModelDocumentation>
                                     <generateSupportingFiles>false</generateSupportingFiles>
-                                    <inputSpec>${basedir}/../po-common/po-api.json</inputSpec>
+                                    <inputSpec>${basedir}/../po-common/po-api.yml</inputSpec>
                                     <output>${basedir}/../../be/api/po-api-generated</output>
                                     <apiPackage>cz.covid.po.api.generated.controller</apiPackage>
                                     <modelPackage>cz.covid.po.api.generated.dto</modelPackage>

@@ -77,6 +77,10 @@ export interface SimtompsRequest {
     "dryCoughDuration"?: number;
     "headache"?: boolean;
 }
+export interface TestingPlaceInstuctionsDto {
+    "address"?: Address;
+    "openingHours"?: string;
+}
 export interface TestingPlaceRequest {
     "preferredHealthCheckLocation"?: CodebookItemDto;
     "ableToDrive"?: boolean;
@@ -158,43 +162,6 @@ export declare const AuthorizationcontrollerApiFactory: (fetch?: FetchAPI, baseP
     }, options?: any): Promise<VerifyCodeResponseDto>;
 };
 /**
- * CodebookcontrollerApi - fetch parameter creator
- */
-export declare const CodebookcontrollerApiFetchParamCreator: {
-    getCodebookItemsUsingGET(params: {
-        "codebook": string;
-    }, options?: any): FetchArgs;
-};
-/**
- * CodebookcontrollerApi - functional programming interface
- */
-export declare const CodebookcontrollerApiFp: {
-    getCodebookItemsUsingGET(params: {
-        "codebook": string;
-    }, options?: any): (fetch?: FetchAPI, basePath?: string) => Promise<CodebookItemDto[]>;
-};
-/**
- * CodebookcontrollerApi - object-oriented interface
- */
-export declare class CodebookcontrollerApi extends BaseAPI {
-    /**
-     *
-     * @summary getCodebookItems
-     * @param codebook Codebook code
-     */
-    getCodebookItemsUsingGET(params: {
-        "codebook": string;
-    }, options?: any): Promise<CodebookItemDto[]>;
-}
-/**
- * CodebookcontrollerApi - factory interface
- */
-export declare const CodebookcontrollerApiFactory: (fetch?: FetchAPI, basePath?: string) => {
-    getCodebookItemsUsingGET(params: {
-        "codebook": string;
-    }, options?: any): Promise<CodebookItemDto[]>;
-};
-/**
  * HealthcheckcontrollerApi - fetch parameter creator
  */
 export declare const HealthcheckcontrollerApiFetchParamCreator: {
@@ -226,7 +193,7 @@ export declare const HealthcheckcontrollerApiFp: {
     personsPersonUidHealthCheckTestingPlacePut(params: {
         "personUid": string;
         "testingPlaceDto": TestingPlaceRequest;
-    }, options?: any): (fetch?: FetchAPI, basePath?: string) => Promise<any>;
+    }, options?: any): (fetch?: FetchAPI, basePath?: string) => Promise<TestingPlaceInstuctionsDto>;
 };
 /**
  * HealthcheckcontrollerApi - object-oriented interface
@@ -261,7 +228,7 @@ export declare class HealthcheckcontrollerApi extends BaseAPI {
     personsPersonUidHealthCheckTestingPlacePut(params: {
         "personUid": string;
         "testingPlaceDto": TestingPlaceRequest;
-    }, options?: any): Promise<any>;
+    }, options?: any): Promise<TestingPlaceInstuctionsDto>;
 }
 /**
  * HealthcheckcontrollerApi - factory interface
@@ -278,7 +245,7 @@ export declare const HealthcheckcontrollerApiFactory: (fetch?: FetchAPI, basePat
     personsPersonUidHealthCheckTestingPlacePut(params: {
         "personUid": string;
         "testingPlaceDto": TestingPlaceRequest;
-    }, options?: any): Promise<any>;
+    }, options?: any): Promise<TestingPlaceInstuctionsDto>;
 };
 /**
  * PersoncontrollerApi - fetch parameter creator

@@ -38,7 +38,7 @@
                                 <id>generate-po-api-fe</id>
                                 <configuration>
                                     <language>typescript-fetch</language>
-                                    <inputSpec>${basedir}/../po-common/po-api.json</inputSpec>
+                                    <inputSpec>${basedir}/../po-common/po-api.yml</inputSpec>
                                     <output>${basedir}/../../fe/app/_api/base</output>
                                     <configOptions>
                                         <generateModel>false</generateModel>
