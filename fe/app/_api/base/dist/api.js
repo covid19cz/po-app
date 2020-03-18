@@ -179,94 +179,6 @@ exports.AuthorizationcontrollerApiFactory = function (fetch, basePath) {
     };
 };
 /**
- * CodebookcontrollerApi - fetch parameter creator
- */
-exports.CodebookcontrollerApiFetchParamCreator = {
-    /**
-     *
-     * @summary getCodebookItems
-     * @param codebook Codebook code
-     */
-    getCodebookItemsUsingGET: function (params, options) {
-        // verify required parameter "codebook" is set
-        if (params["codebook"] == null) {
-            throw new Error("Missing required parameter codebook when calling getCodebookItemsUsingGET");
-        }
-        var baseUrl = "/codebooks/{codebook}"
-            .replace("{" + "codebook" + "}", "" + params["codebook"]);
-        var urlObj = url.parse(baseUrl, true);
-        var fetchOptions = assign({}, { method: "GET" }, options);
-        var contentTypeHeader = {};
-        if (contentTypeHeader) {
-            fetchOptions.headers = assign({}, contentTypeHeader, fetchOptions.headers);
-        }
-        return {
-            url: url.format(urlObj),
-            options: fetchOptions,
-        };
-    },
-};
-/**
- * CodebookcontrollerApi - functional programming interface
- */
-exports.CodebookcontrollerApiFp = {
-    /**
-     *
-     * @summary getCodebookItems
-     * @param codebook Codebook code
-     */
-    getCodebookItemsUsingGET: function (params, options) {
-        var fetchArgs = exports.CodebookcontrollerApiFetchParamCreator.getCodebookItemsUsingGET(params, options);
-        return function (fetch, basePath) {
-            if (fetch === void 0) { fetch = isomorphicFetch; }
-            if (basePath === void 0) { basePath = BASE_PATH; }
-            return fetch(basePath + fetchArgs.url, fetchArgs.options).then(function (response) {
-                if (response.status >= 200 && response.status < 300) {
-                    return response.json();
-                }
-                else {
-                    throw response;
-                }
-            });
-        };
-    },
-};
-/**
- * CodebookcontrollerApi - object-oriented interface
- */
-var CodebookcontrollerApi = (function (_super) {
-    __extends(CodebookcontrollerApi, _super);
-    function CodebookcontrollerApi() {
-        _super.apply(this, arguments);
-    }
-    /**
-     *
-     * @summary getCodebookItems
-     * @param codebook Codebook code
-     */
-    CodebookcontrollerApi.prototype.getCodebookItemsUsingGET = function (params, options) {
-        return exports.CodebookcontrollerApiFp.getCodebookItemsUsingGET(params, options)(this.fetch, this.basePath);
-    };
-    return CodebookcontrollerApi;
-}(BaseAPI));
-exports.CodebookcontrollerApi = CodebookcontrollerApi;
-;
-/**
- * CodebookcontrollerApi - factory interface
- */
-exports.CodebookcontrollerApiFactory = function (fetch, basePath) {
-    return {
-        /**
-         *
-         * @summary getCodebookItems
-         * @param codebook Codebook code
-         */
-        getCodebookItemsUsingGET: function (params, options) {
-            return exports.CodebookcontrollerApiFp.getCodebookItemsUsingGET(params, options)(fetch, basePath);
-        },
-    };
-};
-/**
  * HealthcheckcontrollerApi - fetch parameter creator
  */
 exports.HealthcheckcontrollerApiFetchParamCreator = {
@@ -426,7 +338,7 @@ exports.HealthcheckcontrollerApiFp = {
             if (basePath === void 0) { basePath = BASE_PATH; }
             return fetch(basePath + fetchArgs.url, fetchArgs.options).then(function (response) {
                 if (response.status >= 200 && response.status < 300) {
-                    return response;
+                    return response.json();
                 }
                 else {
                     throw response;

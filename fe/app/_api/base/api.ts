@@ -112,6 +112,11 @@ export interface SimtompsRequest {
     "headache"?: boolean;
 }
 
+export interface TestingPlaceInstuctionsDto {
+    "address"?: Address;
+    "openingHours"?: string;
+}
+
 export interface TestingPlaceRequest {
     "preferredHealthCheckLocation"?: CodebookItemDto;
     "ableToDrive"?: boolean;
@@ -281,90 +286,6 @@ export const AuthorizationcontrollerApiFactory = function (fetch?: FetchAPI, bas
 
 
 /**
- * CodebookcontrollerApi - fetch parameter creator
- */
-export const CodebookcontrollerApiFetchParamCreator = {
-    /**
-     * 
-     * @summary getCodebookItems
-     * @param codebook Codebook code
-     */
-    getCodebookItemsUsingGET(params: {  "codebook": string; }, options?: any): FetchArgs {
-        // verify required parameter "codebook" is set
-        if (params["codebook"] == null) {
-            throw new Error("Missing required parameter codebook when calling getCodebookItemsUsingGET");
-        }
-        const baseUrl = `/codebooks/{codebook}`
-            .replace(`{${"codebook"}}`, `${ params["codebook"] }`);
-        let urlObj = url.parse(baseUrl, true);
-        let fetchOptions: RequestInit = assign({}, { method: "GET" }, options);
-
-        let contentTypeHeader: Dictionary<string> = {};
-        if (contentTypeHeader) {
-            fetchOptions.headers = assign({}, contentTypeHeader, fetchOptions.headers);
-        }
-        return {
-            url: url.format(urlObj),
-            options: fetchOptions,
-        };
-    },
-};
-
-/**
- * CodebookcontrollerApi - functional programming interface
- */
-export const CodebookcontrollerApiFp = {
-    /**
-     * 
-     * @summary getCodebookItems
-     * @param codebook Codebook code
-     */
-    getCodebookItemsUsingGET(params: { "codebook": string;  }, options?: any): (fetch?: FetchAPI, basePath?: string) => Promise<Array<CodebookItemDto>> {
-        const fetchArgs = CodebookcontrollerApiFetchParamCreator.getCodebookItemsUsingGET(params, options);
-        return (fetch: FetchAPI = isomorphicFetch, basePath: string = BASE_PATH) => {
-            return fetch(basePath + fetchArgs.url, fetchArgs.options).then((response) => {
-                if (response.status >= 200 && response.status < 300) {
-                    return response.json();
-                } else {
-                    throw response;
-                }
-            });
-        };
-    },
-};
-
-/**
- * CodebookcontrollerApi - object-oriented interface
- */
-export class CodebookcontrollerApi extends BaseAPI {
-    /**
-     * 
-     * @summary getCodebookItems
-     * @param codebook Codebook code
-     */
-    getCodebookItemsUsingGET(params: {  "codebook": string; }, options?: any) {
-        return CodebookcontrollerApiFp.getCodebookItemsUsingGET(params, options)(this.fetch, this.basePath);
-    }
-};
-
-/**
- * CodebookcontrollerApi - factory interface
- */
-export const CodebookcontrollerApiFactory = function (fetch?: FetchAPI, basePath?: string) {
-    return {
-        /**
-         * 
-         * @summary getCodebookItems
-         * @param codebook Codebook code
-         */
-        getCodebookItemsUsingGET(params: {  "codebook": string; }, options?: any) {
-            return CodebookcontrollerApiFp.getCodebookItemsUsingGET(params, options)(fetch, basePath);
-        },
-    };
-};
-
-
-/**
  * HealthcheckcontrollerApi - fetch parameter creator
  */
 export const HealthcheckcontrollerApiFetchParamCreator = {
@@ -515,12 +436,12 @@ export const HealthcheckcontrollerApiFp = {
      * @param personUid Unique Person&#39;s ID (person_uid.person)
      * @param testingPlaceDto Health check&#39;s data - testing place
      */
-    personsPersonUidHealthCheckTestingPlacePut(params: { "personUid": string; "testingPlaceDto": TestingPlaceRequest;  }, options?: any): (fetch?: FetchAPI, basePath?: string) => Promise<any> {
+    personsPersonUidHealthCheckTestingPlacePut(params: { "personUid": string; "testingPlaceDto": TestingPlaceRequest;  }, options?: any): (fetch?: FetchAPI, basePath?: string) => Promise<TestingPlaceInstuctionsDto> {
         const fetchArgs = HealthcheckcontrollerApiFetchParamCreator.personsPersonUidHealthCheckTestingPlacePut(params, options);
         return (fetch: FetchAPI = isomorphicFetch, basePath: string = BASE_PATH) => {
             return fetch(basePath + fetchArgs.url, fetchArgs.options).then((response) => {
                 if (response.status >= 200 && response.status < 300) {
-                    return response;
+                    return response.json();
                 } else {
                     throw response;
                 }

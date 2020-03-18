@@ -11,6 +11,7 @@ public class CodebookConvertor extends OneWayConverterBase<CodebookItemBase, Cod
         CodebookItemDto result = new CodebookItemDto();
         result.setCode(codebookValue.getId());
         result.setOrder(codebookValue.getOrder());
+        result.setDefault(codebookValue.isDefaultItem());
         result.setText(codebookValue.getText());
 
         return result;
