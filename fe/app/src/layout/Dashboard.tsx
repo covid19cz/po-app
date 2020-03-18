@@ -1,14 +1,29 @@
+import { useApi } from "@/hooks/useApi";
+import { useAsyncEffect } from "@/hooks/useAsyncEffect";
+import { PersoncontrollerApi, PersonResponse } from "@swaggerBase";
+import React, { useState } from "react";
+import { Layout } from "@/components/Layout";
+import { goToPath, PageNames } from "@/components/Routes";
+import { usePathParams } from "@/hooks/usePathParams";
 import { Button, Grid, Typography } from "@material-ui/core";
 import { format } from "date-fns";
-import React from "react";
-import { usePathParams } from "../hooks/usePathParams";
-import { Layout } from "../components/Layout";
-import { goToPath, PageNames } from "../components/Routes";
 import { useHistory } from "react-router-dom";
 
 export const Dashboard = () => {
-  const history = useHistory();
+  const api = useApi(PersoncontrollerApi);
   const { patientId } = usePathParams();
+  const [person, setPerson] = useState<PersonResponse>();
+
+  useAsyncEffect(async () => {
+    try {
+      if (patientId) {
+        setPerson(await api.personsPersonUidGet({ personUid: patientId }));
+      }
+    } catch (e) {}
+  }, []);
+
+  const history = useHistory();
+
   function handleNeedTest() {
     goToPath(history, PageNames.ContactDetails, { patientId });
   }
@@ -20,7 +35,7 @@ export const Dashboard = () => {
           <Typography>Váš aktuální stav:</Typography>
         </Grid>
         <Grid item>
-          <Typography>Bez záznamu</Typography>
+          <Typography>{person?.healthStatus?.text}</Typography>
         </Grid>
       </Grid>
 
@@ -29,7 +44,10 @@ export const Dashboard = () => {
           <Typography>Poslední změna:</Typography>
         </Grid>
         <Grid item>
-          <Typography>{format(new Date(), "dd.MM.yyyy")}</Typography>
+          <Typography>
+            {person?.healthStatusLastChange &&
+              format(new Date(person?.healthStatusLastChange), "dd.MM.yyyy")}
+          </Typography>
         </Grid>
       </Grid>
 
