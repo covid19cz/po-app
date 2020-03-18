@@ -57,7 +57,7 @@ export interface ErrorMessageDto {
     "message"?: string;
 }
 
-export type ErrorMessageDtoErrorCodeEnum = "SMS_CODE_GEN_ERROR" | "UNAUTHORIZED" | "UNKNOWN";
+export type ErrorMessageDtoErrorCodeEnum = "SMS_CODE_GEN_ERROR" | "UNAUTHORIZED" | "UNKNOWN" | "ERROR_LOGIN_REQUIRED";
 export interface ExposureRequest {
     "infectedInContact"?: ExposureRequestInfectedInContactEnum;
     "infectedInContactDate"?: Date;
@@ -102,7 +102,7 @@ export interface PersonResponse {
     "addressHome"?: Address;
     "email"?: string;
     "healthStatus"?: CodebookItemDto;
-    "healthStatusLastChange"?: string;
+    "healthStatusLastChange"?: Date;
 }
 
 export interface SendCodeRequest {

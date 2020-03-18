@@ -24,16 +24,16 @@ public class TreatmentRequest   {
   @JsonProperty("address")
   private Address address = null;
 
-  @JsonProperty("health_check_date")
+  @JsonProperty("healthCheckDate")
   private LocalDate healthCheckDate = null;
 
-  @JsonProperty("health_check_location")
+  @JsonProperty("healthCheckLocation")
   private CodebookItemDto healthCheckLocation = null;
 
-  @JsonProperty("expected_infection_date")
+  @JsonProperty("expectedInfectionDate")
   private LocalDate expectedInfectionDate = null;
 
-  @JsonProperty("in_contact_phone_numbers")
+  @JsonProperty("inContactPhoneNumbers")
   private String inContactPhoneNumbers = null;
 
   public TreatmentRequest place(CodebookItemDto place) {

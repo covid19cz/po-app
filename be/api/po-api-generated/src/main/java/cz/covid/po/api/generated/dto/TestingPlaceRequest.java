@@ -16,10 +16,10 @@ import javax.validation.constraints.*;
 @Validated
 
 public class TestingPlaceRequest   {
-  @JsonProperty("preferred_health_check_location")
+  @JsonProperty("preferredHealthCheckLocation")
   private CodebookItemDto preferredHealthCheckLocation = null;
 
-  @JsonProperty("able_to_drive")
+  @JsonProperty("ableToDrive")
   private Boolean ableToDrive = null;
 
   public TestingPlaceRequest preferredHealthCheckLocation(CodebookItemDto preferredHealthCheckLocation) {
