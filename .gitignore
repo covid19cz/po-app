@@ -28,3 +28,5 @@ hs_err_pid*
 # idea files
 .idea
 *.iml
+/be/api/po-app/src/main/resources/application_msuska.yaml
+/be/api/po-app/src/main/resources/log4j2-spring-msuska.xml
