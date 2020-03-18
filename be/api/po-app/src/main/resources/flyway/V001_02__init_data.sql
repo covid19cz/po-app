@@ -83,3 +83,15 @@ insert into cb_health_check_location(id, default_item, item_order, text, codeboo
 values ('18', false, 18, 'Oblastní nemocnice Mladá Boleslav, a. s.', 'cbHealthCheckLocation');
 insert into cb_health_check_location(id, default_item, item_order, text, codebook_id)
 values ('19', false, 19, 'Nemocnice Rudolfa a Stefanie Benešov, a. s.', 'cbHealthCheckLocation');
+
+insert into cb_health_status(id, default_item, item_order, text, codebook_id)
+values ('UNKNOWN', false, 1, 'Neznámý', 'cbHealthStatus');
+insert into cb_health_status(id, default_item, item_order, text, codebook_id)
+values ('COVID19-POSITIVE', false, 2, 'Covid19 potvrzen', 'cbHealthStatus');
+insert into cb_health_status(id, default_item, item_order, text, codebook_id)
+values ('COVID19-NEGATIVE', false, 3, 'Covid19 negativní', 'cbHealthStatus');
+insert into cb_health_status(id, default_item, item_order, text, codebook_id)
+values ('QUARANTINE', false, 4, 'V karanténě', 'cbHealthStatus');
+insert into cb_health_status(id, default_item, item_order, text, codebook_id)
+values ('NO_SYMPTOMS', false, 5, 'Bez příznaků', 'cbHealthStatus');
+
