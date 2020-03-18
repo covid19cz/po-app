@@ -42,3 +42,6 @@ app:
       login: ${PROFI_SMS_LOGIN:}
       password: ${PROFI_SMS_PASSWORD:}
       source: ${PROFI_SMS_SOURCE:}
+    captcha:
+      secret: ${CAPTCHA_SECRET:6LeIxAcTAAAAAGG-vFI1TnRWxMZNFuojJ4WifJWe}
+      url: ${CAPTCHA_URL:https://www.google.com/recaptcha/api/siteverify}

@@ -1,5 +1,5 @@
 package cz.covid.po.api.integration.common.enumeration;
 
 public enum IntegrationSystem {
-    PROFI_SMS,
+    PROFI_SMS, GOOGLE_CAPTCHA
 }
