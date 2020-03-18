@@ -1,5 +1,8 @@
 import { stringify } from "query-string";
 import React from "react";
+import { AlreadyInfectedDate } from "../layout/AlreadyInfectedDate";
+import { AlreadyInfectedGeneral } from "../layout/AlreadyInfectedGeneral";
+import { AlreadyInfectedMovementDairy } from "../layout/AlreadyInfectedMovementDairy";
 import { ContactDetails } from "../layout/ContactDetails";
 import { Dashboard } from "../layout/Dashboard";
 import { GetPhoneNumber } from "../layout/GetPhoneNumber";
@@ -20,7 +23,10 @@ export enum PageNames {
   SymptomsCheck = "SymptomsCheck",
   PossibleContact = "PossibleContact",
   TestPlacePicker = "TestPlacePicker",
-  HealthCheckInstructions = "HealthCheckInstructions"
+  HealthCheckInstructions = "HealthCheckInstructions",
+  AlreadyInfectedDate = "AlreadyInfectedDate",
+  AlreadyInfectedGeneral = "AlreadyInfectedGeneral",
+  AlreadyInfectedMovementDairy = "AlreadyInfectedMovementDairy"
 }
 
 export type PathParameterNames = "patientId";
@@ -77,6 +83,24 @@ export const Routes: Record<PageNames, PageProps> = {
     exact: true,
     children: <HealthCheckInstructions />,
     title: "Žádost o otestování"
+  },
+  AlreadyInfectedGeneral: {
+    link: "/app/:patientId/already-infected-general",
+    exact: true,
+    children: <AlreadyInfectedGeneral />,
+    title: "Dotazník pro infikované"
+  },
+  AlreadyInfectedDate: {
+    link: "/app/:patientId/already-infected-date",
+    exact: true,
+    children: <AlreadyInfectedDate />,
+    title: "Dotazník pro infikované"
+  },
+  AlreadyInfectedMovementDairy: {
+    link: "/app/:patientId/already-infected-movement-dairy",
+    exact: true,
+    children: <AlreadyInfectedMovementDairy />,
+    title: "Dotazník pro infikované"
   }
 };
 
