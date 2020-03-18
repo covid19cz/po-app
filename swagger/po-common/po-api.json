@@ -1,51 +1,66 @@
 {
   "swagger": "2.0",
   "info": {
-    "description": "Api Documentation",
-    "version": "1.0",
-    "title": "Api Documentation",
-    "termsOfService": "urn:tos",
-    "contact": {},
-    "license": {
-      "name": "Apache 2.0",
-      "url": "http://www.apache.org/licenses/LICENSE-2.0"
-    }
+    "version": "0.0.1",
+    "title": "Covid19 Citizen Portal",
+    "description": "Covid19 Citizen Portal"
   },
-  "host": "localhost:8080",
-  "basePath": "/",
+  "host": "covid19.int.xcp",
+  "basePath": "/api/v1",
+  "schemes": [
+    "https",
+    "http"
+  ],
   "tags": [
+    {
+      "name": "person-controller",
+      "description": "Controller for Person data"
+    },
+    {
+      "name": "health-check-controller",
+      "description": "Controller for Person's health check"
+    },
+    {
+      "name": "treatment-controller",
+      "description": "Controller for treatment"
+    },
+    {
+      "name": "authorization-controller",
+      "description": "Controller for Authorization"
+    },
     {
       "name": "codebook-controller",
       "description": "Codebook Controller"
     }
   ],
+  "securityDefinitions": {
+    "apiKey": {
+      "type": "apiKey",
+      "name": "Authorization",
+      "in": "header"
+    }
+  },
   "paths": {
-    "/api/codebook/{codebookName}": {
+    "/codebooks/{codebook}": {
       "get": {
         "tags": [
           "codebook-controller"
         ],
-        "summary": "getCodebookValues",
-        "operationId": "getCodebookValuesUsingGET",
+        "summary": "getCodebookItems",
+        "operationId": "getCodebookItemsUsingGET",
         "produces": [
           "application/json"
         ],
         "parameters": [
           {
-            "name": "codebookName",
+            "name": "codebook",
             "in": "path",
-            "description": "codebookName",
+            "description": "Codebook code",
             "required": true,
             "type": "string",
             "enum": [
-              "COMORBIDITY",
-              "CONSENT_TYPE",
-              "GENDER",
-              "NATIONALITY",
-              "ORGANIZATION",
-              "SYMPTOM_TYPE",
-              "TEST_RESULT",
-              "TEST_TYPE"
+              "cbHealthStatus",
+              "cbHealthCheckType"
             ]
           }
         ],
@@ -55,67 +70,8 @@
             "schema": {
               "type": "array",
               "items": {
-                "$ref": "#/definitions/CodebookValueDto"
+                "$ref": "#/definitions/CodebookItemDto"
               }
-            }
-          },
-          "401": {
-            "description": "Unauthorized"
-          },
-          "403": {
-            "description": "Forbidden"
-          },
-          "404": {
-            "description": "Not Found"
-          }
-        },
-        "deprecated": false
-      },
-      "post": {
-        "tags": [
-          "codebook-controller"
-        ],
-        "summary": "createCodebookValue",
-        "operationId": "createCodebookValueUsingPOST",
-        "consumes": [
-          "application/json"
-        ],
-        "produces": [
-          "application/json"
-        ],
-        "parameters": [
-          {
-            "name": "codebookName",
-            "in": "path",
-            "description": "codebookName",
-            "required": true,
-            "type": "string",
-            "enum": [
-              "COMORBIDITY",
-              "CONSENT_TYPE",
-              "GENDER",
-              "NATIONALITY",
-              "ORGANIZATION",
-              "SYMPTOM_TYPE",
-              "TEST_RESULT",
-              "TEST_TYPE"
-            ]
-          },
-          {
-            "in": "body",
-            "name": "codebookValueDto",
-            "description": "codebookValueDto",
-            "required": true,
-            "schema": {
-              "$ref": "#/definitions/CodebookValueDto"
-            }
-          }
-        ],
-        "responses": {
-          "201": {
-            "description": "Created",
-            "schema": {
-              "$ref": "#/definitions/CodebookValueDto"
             }
           },
           "401": {
@@ -131,48 +87,31 @@
         "deprecated": false
       }
     },
-    "/api/codebook/{codebookName}/{id}": {
+    "/persons/{personUid}": {
       "get": {
         "tags": [
-          "codebook-controller"
+          "person-controller"
         ],
-        "summary": "findCodebookValues",
-        "operationId": "findCodebookValuesUsingGET",
+        "summary": "GET actual person and health status",
+        "description": "",
         "produces": [
           "application/json"
         ],
         "parameters": [
           {
-            "name": "codebookName",
+            "name": "personUid",
             "in": "path",
-            "description": "codebookName",
+            "description": "Unique Person's ID (person_uid.person)",
             "required": true,
             "type": "string",
-            "enum": [
-              "COMORBIDITY",
-              "CONSENT_TYPE",
-              "GENDER",
-              "NATIONALITY",
-              "ORGANIZATION",
-              "SYMPTOM_TYPE",
-              "TEST_RESULT",
-              "TEST_TYPE"
-            ]
-          },
-          {
-            "name": "id",
-            "in": "path",
-            "description": "id",
-            "required": true,
-            "type": "integer",
-            "format": "int64"
+            "format": "uuid"
           }
         ],
         "responses": {
           "200": {
-            "description": "OK",
+            "description": "Successful operation",
             "schema": {
-              "$ref": "#/definitions/CodebookValueDto"
+              "$ref": "#/definitions/PersonResponse"
             }
           },
           "401": {
@@ -185,62 +124,288 @@
             "description": "Not Found"
           }
         },
-        "deprecated": false
+        "security": [
+          {
+            "apiKey": []
+          }
+        ]
       },
       "put": {
         "tags": [
-          "codebook-controller"
+          "person-controller"
         ],
-        "summary": "updateCodebookValue",
-        "operationId": "updateCodebookValueUsingPUT",
-        "consumes": [
-          "application/json"
-        ],
+        "summary": "Updates actual person's and health status",
+        "description": "",
         "produces": [
           "application/json"
         ],
         "parameters": [
           {
-            "name": "codebookName",
+            "name": "personUid",
             "in": "path",
-            "description": "codebookName",
+            "description": "Unique Person's ID (person_uid.person)",
             "required": true,
             "type": "string",
-            "enum": [
-              "COMORBIDITY",
-              "CONSENT_TYPE",
-              "GENDER",
-              "NATIONALITY",
-              "ORGANIZATION",
-              "SYMPTOM_TYPE",
-              "TEST_RESULT",
-              "TEST_TYPE"
-            ]
+            "format": "uuid"
           },
           {
             "in": "body",
-            "name": "codebookValueDto",
-            "description": "codebookValueDto",
+            "name": "personDto",
+            "description": "Person's data",
             "required": true,
             "schema": {
-              "$ref": "#/definitions/CodebookValueDto"
+              "$ref": "#/definitions/PersonRequest"
             }
-          },
-          {
-            "name": "id",
-            "in": "path",
-            "description": "id",
-            "required": true,
-            "type": "integer",
-            "format": "int64"
           }
         ],
         "responses": {
           "200": {
-            "description": "OK",
+            "description": "Successful operation",
             "schema": {
-              "$ref": "#/definitions/CodebookValueDto"
+              "$ref": "#/definitions/PersonResponse"
             }
+          },
+          "401": {
+            "description": "Unauthorized"
+          },
+          "403": {
+            "description": "Forbidden"
+          },
+          "404": {
+            "description": "Not Found"
+          }
+        },
+        "security": [
+          {
+            "apiKey": []
+          }
+        ]
+      }
+    },
+    "/persons/{personUid}/health-check/symptoms": {
+      "put": {
+        "tags": [
+          "health-check-controller"
+        ],
+        "summary": "Fills actual health check form",
+        "description": "",
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "name": "personUid",
+            "in": "path",
+            "description": "Unique Person's ID (person_uid.person)",
+            "required": true,
+            "type": "string",
+            "format": "uuid"
+          },
+          {
+            "in": "body",
+            "name": "simptomsDto",
+            "description": "Health check's data - simptoms",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/SimtompsRequest"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful operation"
+          },
+          "401": {
+            "description": "Unauthorized"
+          },
+          "403": {
+            "description": "Forbidden"
+          },
+          "404": {
+            "description": "Not Found"
+          }
+        },
+        "security": [
+          {
+            "apiKey": []
+          }
+        ]
+      }
+    },
+    "/persons/{personUid}/health-check/exposure": {
+      "put": {
+        "tags": [
+          "health-check-controller"
+        ],
+        "summary": "Fills exposure form",
+        "description": "",
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "name": "personUid",
+            "in": "path",
+            "description": "Unique Person's ID (person_uid.person)",
+            "required": true,
+            "type": "string",
+            "format": "uuid"
+          },
+          {
+            "in": "body",
+            "name": "exposureDto",
+            "description": "Health check's data - exposure",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/ExposureRequest"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful operation"
+          },
+          "401": {
+            "description": "Unauthorized"
+          },
+          "403": {
+            "description": "Forbidden"
+          },
+          "404": {
+            "description": "Not Found"
+          }
+        },
+        "security": [
+          {
+            "apiKey": []
+          }
+        ]
+      }
+    },
+    "/persons/{personUid}/health-check/testing-place": {
+      "put": {
+        "tags": [
+          "health-check-controller"
+        ],
+        "summary": "Fills testing place form",
+        "description": "",
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "name": "personUid",
+            "in": "path",
+            "description": "Unique Person's ID (person_uid.person)",
+            "required": true,
+            "type": "string",
+            "format": "uuid"
+          },
+          {
+            "in": "body",
+            "name": "testingPlaceDto",
+            "description": "Health check's data - testing place",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/TestingPlaceRequest"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful operation"
+          },
+          "401": {
+            "description": "Unauthorized"
+          },
+          "403": {
+            "description": "Forbidden"
+          },
+          "404": {
+            "description": "Not Found"
+          }
+        },
+        "security": [
+          {
+            "apiKey": []
+          }
+        ]
+      }
+    },
+    "/persons/{personUid}/treatment": {
+      "put": {
+        "tags": [
+          "treatment-controller"
+        ],
+        "summary": "Fills actual data about treatment for covid19 positive patients",
+        "description": "",
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "name": "personUid",
+            "in": "path",
+            "description": "Unique Person's ID (person_uid.person)",
+            "required": true,
+            "type": "string",
+            "format": "uuid"
+          },
+          {
+            "in": "body",
+            "name": "TreatmentDto",
+            "description": "Treatment's data",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/TreatmentRequest"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful operation"
+          },
+          "401": {
+            "description": "Unauthorized"
+          },
+          "403": {
+            "description": "Forbidden"
+          },
+          "404": {
+            "description": "Not Found"
+          }
+        },
+        "security": [
+          {
+            "apiKey": []
+          }
+        ]
+      }
+    },
+    "/authorizations/send-code": {
+      "post": {
+        "tags": [
+          "authorization-controller"
+        ],
+        "summary": "Sent SMS with auth code",
+        "operationId": "sendCodeUsingPOST",
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "name": "personUid",
+            "in": "query",
+            "description": "Uid of person",
+            "required": false,
+            "type": "string",
+            "format": "uuid",
+            "allowEmptyValue": false
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
           },
           "201": {
             "description": "Created"
@@ -255,86 +420,328 @@
             "description": "Not Found"
           }
         },
-        "deprecated": false
-      },
-      "delete": {
-        "tags": [
-          "codebook-controller"
+        "security": [
+          {
+            "apiKey": []
+          }
         ],
-        "summary": "deleteCodebookValue",
-        "operationId": "deleteCodebookValueUsingDELETE",
+        "deprecated": false
+      }
+    },
+    "/authorizations/verify-code": {
+      "post": {
+        "tags": [
+          "authorization-controller"
+        ],
+        "summary": "Verify code from SMS",
+        "operationId": "verifyCodeUsingPOST",
         "produces": [
           "application/json"
         ],
         "parameters": [
           {
-            "name": "codebookName",
-            "in": "path",
-            "description": "codebookName",
-            "required": true,
+            "name": "personUid",
+            "in": "query",
+            "description": "Uid of person",
+            "required": false,
             "type": "string",
-            "enum": [
-              "COMORBIDITY",
-              "CONSENT_TYPE",
-              "GENDER",
-              "NATIONALITY",
-              "ORGANIZATION",
-              "SYMPTOM_TYPE",
-              "TEST_RESULT",
-              "TEST_TYPE"
-            ]
+            "format": "uuid",
+            "allowEmptyValue": false
           },
           {
-            "name": "id",
-            "in": "path",
-            "description": "id",
-            "required": true,
-            "type": "integer",
-            "format": "int64"
+            "name": "smsCode",
+            "in": "query",
+            "description": "Code received in SMS",
+            "required": false,
+            "type": "string",
+            "allowEmptyValue": false
           }
         ],
         "responses": {
           "200": {
-            "description": "OK"
+            "description": "SMS code is OK, return password for login",
+            "schema": {
+              "$ref": "#/definitions/VerifyCodeResponseDto"
+            }
           },
-          "204": {
-            "description": "No Content"
+          "201": {
+            "description": "Created"
           },
-          "401": {
-            "description": "Unauthorized"
+          "400": {
+            "description": "Some problem with SMS code, see description",
+            "schema": {
+              "$ref": "#/definitions/ErrorMessageDto"
+            }
           },
           "403": {
             "description": "Forbidden"
+          },
+          "404": {
+            "description": "Not Found"
           }
         },
+        "security": [
+          {
+            "apiKey": []
+          }
+        ],
         "deprecated": false
       }
     }
   },
   "definitions": {
-    "CodebookValueDto": {
+    "PersonResponse": {
+      "type": "object",
+      "properties": {
+        "person_uid": {
+          "type": "string",
+          "format": "uuid"
+        },
+        "return_hash": {
+          "type": "string"
+        },
+        "phone_number": {
+          "type": "string"
+        },
+        "firstname": {
+          "type": "string"
+        },
+        "surname": {
+          "type": "string"
+        },
+        "address_home": {
+          "$ref": "#/definitions/Address"
+        },
+        "email": {
+          "type": "string"
+        },
+        "health_status": {
+          "$ref": "#/definitions/CodebookItemDto"
+        },
+        "health_status_last_change": {
+          "type": "string"
+        }
+      }
+    },
+    "PersonRequest": {
+      "type": "object",
+      "properties": {
+        "firstname": {
+          "type": "string"
+        },
+        "surname": {
+          "type": "string"
+        },
+        "address_home": {
+          "$ref": "#/definitions/Address"
+        },
+        "email": {
+          "type": "string"
+        }
+      }
+    },
+    "SimtompsRequest": {
+      "type": "object",
+      "properties": {
+        "symtomps_since": {
+          "type": "string",
+          "format": "date"
+        },
+        "high_temperature_duration": {
+          "type": "integer"
+        },
+        "dry_cough_duration": {
+          "type": "integer"
+        },
+        "headache": {
+          "type": "boolean"
+        }
+      }
+    },
+    "ExposureRequest": {
+      "type": "object",
+      "properties": {
+        "infected_in_contact": {
+          "type": "string",
+          "enum": [
+            "Y",
+            "N",
+            "?"
+          ]
+        },
+        "infected_in_contact_date": {
+          "type": "string",
+          "format": "date"
+        },
+        "infected_phone_numbers": {
+          "type": "string"
+        },
+        "visited_risk_area": {
+          "$ref": "#/definitions/CodebookItemDto"
+        }
+      }
+    },
+    "TestingPlaceRequest": {
+      "type": "object",
+      "properties": {
+        "preferred_health_check_location": {
+          "$ref": "#/definitions/CodebookItemDto"
+        },
+        "able_to_drive": {
+          "type": "boolean"
+        }
+      }
+    },
+    "HealthCheckRequest": {
+      "type": "object",
+      "properties": {
+        "symtomps_since": {
+          "type": "string",
+          "format": "date"
+        },
+        "high_temperature_duration": {
+          "type": "integer"
+        },
+        "dry_cough_duration": {
+          "type": "integer"
+        },
+        "headache": {
+          "type": "boolean"
+        },
+        "infected_in_contact": {
+          "type": "string",
+          "enum": [
+            "Y",
+            "N",
+            "?"
+          ]
+        },
+        "infected_in_contact_date": {
+          "type": "string",
+          "format": "date"
+        },
+        "infected_phone_numbers": {
+          "type": "string"
+        },
+        "visited_risk_area": {
+          "$ref": "#/definitions/CodebookItemDto"
+        },
+        "preferred_health_check_location": {
+          "$ref": "#/definitions/CodebookItemDto"
+        },
+        "able_to_drive": {
+          "type": "boolean"
+        }
+      }
+    },
+    "HealthCheckResponse": {
+      "type": "object",
+      "properties": {
+        "time_slot": {
+          "type": "string"
+        },
+        "address": {
+          "type": "string"
+        },
+        "health_check_code": {
+          "type": "string"
+        }
+      }
+    },
+    "TreatmentRequest": {
+      "type": "object",
+      "properties": {
+        "place": {
+          "$ref": "#/definitions/CodebookItemDto"
+        },
+        "address": {
+          "$ref": "#/definitions/Address"
+        },
+        "health_check_date": {
+          "type": "string",
+          "format": "date"
+        },
+        "health_check_location": {
+          "$ref": "#/definitions/CodebookItemDto"
+        },
+        "expected_infection_date": {
+          "type": "string",
+          "format": "date"
+        },
+        "in_contact_phone_numbers": {
+          "type": "string"
+        }
+      }
+    },
+    "Address": {
+      "type": "object",
+      "properties": {
+        "street": {
+          "type": "string"
+        },
+        "street_number_descriptive": {
+          "type": "string"
+        },
+        "street_number_evidence": {
+          "type": "string"
+        },
+        "city": {
+          "type": "string"
+        },
+        "zip_code": {
+          "type": "string"
+        }
+      }
+    },
+    "CodebookItemDto": {
       "type": "object",
       "properties": {
         "code": {
           "type": "string"
         },
-        "createdAt": {
-          "type": "string",
-          "format": "date-time"
+        "default": {
+          "type": "boolean"
         },
-        "id": {
+        "order": {
           "type": "integer",
-          "format": "int64"
+          "format": "int32"
         },
-        "modifiedAt": {
-          "type": "string",
-          "format": "date-time"
-        },
-        "name": {
+        "text": {
           "type": "string"
         }
       },
-      "title": "CodebookValueDto"
+      "title": "CodebookItemDto"
+    },
+    "VerifyCodeResponseDto": {
+      "type": "object",
+      "properties": {
+        "password": {
+          "type": "string",
+          "description": "New password"
+        }
+      },
+      "title": "VerifyCodeResponseDto",
+      "description": "Sms code verification response"
+    },
+    "ErrorMessageDto": {
+      "type": "object",
+      "properties": {
+        "additionalMessages": {
+          "type": "object"
+        },
+        "errorCode": {
+          "type": "string",
+          "enum": [
+            "SMS_CODE_GEN_ERROR",
+            "UNAUTHORIZED",
+            "UNKNOWN"
+          ]
+        },
+        "message": {
+          "type": "string"
+        }
+      },
+      "title": "ErrorMessageDto"
     }
   }
 }

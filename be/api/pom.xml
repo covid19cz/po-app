@@ -22,8 +22,10 @@
     </properties>
 
     <modules>
-        <module>po-app</module>
         <module>po-api-generated</module>
+        <module>po-app</module>
+        <module>po-bl</module>
+        <module>po-domain</module>
         <module>po-integration</module>
     </modules>
     <dependencies>

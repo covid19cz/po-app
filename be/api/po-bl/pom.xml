@@ -12,29 +12,12 @@
 
     <version>${project.version}</version>
     <groupId>cz.covid.po.api</groupId>
-    <artifactId>app</artifactId>
-    <name>po-app</name>
-
-    <build>
-        <finalName>${project.artifactId}</finalName>
-        <plugins>
-            <plugin>
-                <groupId>org.springframework.boot</groupId>
-                <artifactId>spring-boot-maven-plugin</artifactId>
-            </plugin>
-        </plugins>
-    </build>
-
-
+    <artifactId>po-bl</artifactId>
+    <name>po-bl</name>
     <dependencies>
         <dependency>
             <groupId>${project.groupId}</groupId>
-            <artifactId>po-api-generated</artifactId>
-            <version>${project.version}</version>
-        </dependency>
-        <dependency>
-            <groupId>${project.groupId}</groupId>
-            <artifactId>po-bl</artifactId>
+            <artifactId>po-domain</artifactId>
             <version>${project.version}</version>
         </dependency>
         <dependency>
@@ -43,4 +26,6 @@
             <version>${project.version}</version>
         </dependency>
     </dependencies>
+
+
 </project>
