@@ -34,8 +34,8 @@
                     <pricingTier>P1V2</pricingTier>
                     <runtime>
                         <os>linux</os>
-                        <javaVersion>jre11</javaVersion>
-                        <webContainer>jre11</webContainer>
+                        <javaVersion>jre8</javaVersion>
+                        <webContainer>jre8</webContainer>
                     </runtime>
                     <!-- Begin of App Settings  -->
                     <appSettings>
