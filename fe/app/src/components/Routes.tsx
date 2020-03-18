@@ -3,10 +3,11 @@ import React from "react";
 import { ContactDetails } from "../layout/ContactDetails";
 import { Dashboard } from "../layout/Dashboard";
 import { GetPhoneNumber } from "../layout/GetPhoneNumber";
+import { HealthCheckInstructions } from "../layout/HealthCheckInstructions";
 import { LoginSmsVerification } from "../layout/LoginSmsVerification";
 import { PossibleContact } from "../layout/PossibleContactCheck";
 import { SymptomsCheck } from "../layout/SymptomsCheck";
-import {TestPlacePicker} from "../layout/TestPlacePicker";
+import { TestPlacePicker } from "../layout/TestPlacePicker";
 import { PageProps } from "./Page";
 import { History } from "history";
 import { generatePath } from "react-router";
@@ -18,7 +19,8 @@ export enum PageNames {
   ContactDetails = "ContactDetails",
   SymptomsCheck = "SymptomsCheck",
   PossibleContact = "PossibleContact",
-  TestPlacePicker = "TestPlacePicker"
+  TestPlacePicker = "TestPlacePicker",
+  HealthCheckInstructions = "HealthCheckInstructions"
 }
 
 export type PathParameterNames = "patientId";
@@ -68,6 +70,12 @@ export const Routes: Record<PageNames, PageProps> = {
     link: "/app/:patientId/test-place-picker",
     exact: true,
     children: <TestPlacePicker />,
+    title: "Žádost o otestování"
+  },
+  HealthCheckInstructions: {
+    link: "/app/:patientId/health-check-instructions",
+    exact: true,
+    children: <HealthCheckInstructions />,
     title: "Žádost o otestování"
   }
 };
