@@ -1,5 +1,5 @@
+import { PathParameterNames } from "@/components/Routes";
 import { useParams } from "react-router-dom";
-import { PathParameterNames } from "../components/Routes";
 
 interface PathParams extends Partial<Record<PathParameterNames, any>> {
   patientId?: string;

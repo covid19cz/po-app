@@ -1,4 +1,4 @@
-const API_BASE_PATH = "/api/v2/cl";
+const API_BASE_PATH = "/api/v1";
 const API_PORT = "8080";
 const API_PREFIX = "api.";
 const APP_PREFIX = "app.";

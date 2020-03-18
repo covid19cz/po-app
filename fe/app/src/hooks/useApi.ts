@@ -1,8 +1,8 @@
+import { useApiDispatch } from "@/api/ApiContext";
+import { endLoading, startLoading } from "@/api/ApiContextActions";
+import { apiCallHandler } from "@/api/defaults";
+import { HostnameResolver } from "@/service/HostnameResolver";
 import { BaseAPI } from "@swaggerBase";
-import { HostnameResolver } from "../service/HostnameResolver";
-import { useApiDispatch } from "../api/ApiContext";
-import { endLoading, startLoading } from "../api/ApiContextActions";
-import { apiCallHandler } from "../api/defaults";
 
 export function useApi<T extends BaseAPI>(api: new (...args: any[]) => T) {
   const dispatch = useApiDispatch();
@@ -16,5 +16,5 @@ export function useApi<T extends BaseAPI>(api: new (...args: any[]) => T) {
     }
   }
 
-  return new api(handleApiCall, HostnameResolver.getApiUrl());
+  return new api(handleApiCall, HostnameResolver.getApiUrlWithBasePath());
 }
