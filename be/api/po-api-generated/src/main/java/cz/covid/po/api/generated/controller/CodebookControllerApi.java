@@ -5,7 +5,7 @@
  */
 package cz.covid.po.api.generated.controller;
 
-import cz.covid.po.api.generated.dto.CodebookValueDto;
+import cz.covid.po.api.generated.dto.CodebookItemDto;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import io.swagger.annotations.*;
 import org.slf4j.Logger;
@@ -46,144 +46,25 @@ public interface CodebookControllerApi {
         return getRequest().map(r -> r.getHeader("Accept"));
     }
 
-    @ApiOperation(value = "createCodebookValue", nickname = "createCodebookValueUsingPOST", notes = "", response = CodebookValueDto.class, tags={ "codebook-controller", })
+    @ApiOperation(value = "getCodebookItems", nickname = "getCodebookItemsUsingGET", notes = "", response = CodebookItemDto.class, responseContainer = "List", tags={ "codebook-controller", })
     @ApiResponses(value = { 
-        @ApiResponse(code = 201, message = "Created", response = CodebookValueDto.class),
+        @ApiResponse(code = 200, message = "OK", response = CodebookItemDto.class, responseContainer = "List"),
         @ApiResponse(code = 401, message = "Unauthorized"),
         @ApiResponse(code = 403, message = "Forbidden"),
         @ApiResponse(code = 404, message = "Not Found") })
-    @RequestMapping(value = "/api/codebook/{codebookName}",
-        produces = { "application/json" }, 
-        consumes = { "application/json" },
-        method = RequestMethod.POST)
-    default ResponseEntity<CodebookValueDto> _createCodebookValueUsingPOST(@ApiParam(value = "codebookName",required=true, allowableValues = "\"COMORBIDITY\", \"CONSENT_TYPE\", \"GENDER\", \"NATIONALITY\", \"ORGANIZATION\", \"SYMPTOM_TYPE\", \"TEST_RESULT\", \"TEST_TYPE\"") @PathVariable("codebookName") String codebookName,@ApiParam(value = "codebookValueDto" ,required=true )  @Valid @RequestBody CodebookValueDto codebookValueDto) {
-        return createCodebookValueUsingPOST(codebookName, codebookValueDto);
-    }
-
-    // Override this method
-    default ResponseEntity<CodebookValueDto> createCodebookValueUsingPOST(String codebookName,CodebookValueDto codebookValueDto) {
-        if(getObjectMapper().isPresent() && getAcceptHeader().isPresent()) {
-            if (getAcceptHeader().get().contains("application/json")) {
-                try {
-                    return new ResponseEntity<>(getObjectMapper().get().readValue("{  \"createdAt\" : \"2000-01-23T04:56:07.000+00:00\",  \"code\" : \"code\",  \"modifiedAt\" : \"2000-01-23T04:56:07.000+00:00\",  \"name\" : \"name\",  \"id\" : 0}", CodebookValueDto.class), HttpStatus.NOT_IMPLEMENTED);
-                } catch (IOException e) {
-                    log.error("Couldn't serialize response for content type application/json", e);
-                    return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
-                }
-            }
-        } else {
-            log.warn("ObjectMapper or HttpServletRequest not configured in default CodebookControllerApi interface so no example is generated");
-        }
-        return new ResponseEntity<>(HttpStatus.NOT_IMPLEMENTED);
-    }
-
-
-    @ApiOperation(value = "deleteCodebookValue", nickname = "deleteCodebookValueUsingDELETE", notes = "", tags={ "codebook-controller", })
-    @ApiResponses(value = { 
-        @ApiResponse(code = 200, message = "OK"),
-        @ApiResponse(code = 204, message = "No Content"),
-        @ApiResponse(code = 401, message = "Unauthorized"),
-        @ApiResponse(code = 403, message = "Forbidden") })
-    @RequestMapping(value = "/api/codebook/{codebookName}/{id}",
-        produces = { "application/json" }, 
-        method = RequestMethod.DELETE)
-    default ResponseEntity<Void> _deleteCodebookValueUsingDELETE(@ApiParam(value = "codebookName",required=true, allowableValues = "\"COMORBIDITY\", \"CONSENT_TYPE\", \"GENDER\", \"NATIONALITY\", \"ORGANIZATION\", \"SYMPTOM_TYPE\", \"TEST_RESULT\", \"TEST_TYPE\"") @PathVariable("codebookName") String codebookName,@ApiParam(value = "id",required=true) @PathVariable("id") Long id) {
-        return deleteCodebookValueUsingDELETE(codebookName, id);
-    }
-
-    // Override this method
-    default ResponseEntity<Void> deleteCodebookValueUsingDELETE(String codebookName,Long id) {
-        if(getObjectMapper().isPresent() && getAcceptHeader().isPresent()) {
-        } else {
-            log.warn("ObjectMapper or HttpServletRequest not configured in default CodebookControllerApi interface so no example is generated");
-        }
-        return new ResponseEntity<>(HttpStatus.NOT_IMPLEMENTED);
-    }
-
-
-    @ApiOperation(value = "findCodebookValues", nickname = "findCodebookValuesUsingGET", notes = "", response = CodebookValueDto.class, tags={ "codebook-controller", })
-    @ApiResponses(value = { 
-        @ApiResponse(code = 200, message = "OK", response = CodebookValueDto.class),
-        @ApiResponse(code = 401, message = "Unauthorized"),
-        @ApiResponse(code = 403, message = "Forbidden"),
-        @ApiResponse(code = 404, message = "Not Found") })
-    @RequestMapping(value = "/api/codebook/{codebookName}/{id}",
+    @RequestMapping(value = "/codebooks/{codebook}",
         produces = { "application/json" }, 
         method = RequestMethod.GET)
-    default ResponseEntity<CodebookValueDto> _findCodebookValuesUsingGET(@ApiParam(value = "codebookName",required=true, allowableValues = "\"COMORBIDITY\", \"CONSENT_TYPE\", \"GENDER\", \"NATIONALITY\", \"ORGANIZATION\", \"SYMPTOM_TYPE\", \"TEST_RESULT\", \"TEST_TYPE\"") @PathVariable("codebookName") String codebookName,@ApiParam(value = "id",required=true) @PathVariable("id") Long id) {
-        return findCodebookValuesUsingGET(codebookName, id);
+    default ResponseEntity<List<CodebookItemDto>> _getCodebookItemsUsingGET(@ApiParam(value = "Codebook code",required=true, allowableValues = "\"cbHealthCheckType\", \"cbHealthStatus\"") @PathVariable("codebook") String codebook) {
+        return getCodebookItemsUsingGET(codebook);
     }
 
     // Override this method
-    default ResponseEntity<CodebookValueDto> findCodebookValuesUsingGET(String codebookName,Long id) {
+    default ResponseEntity<List<CodebookItemDto>> getCodebookItemsUsingGET(String codebook) {
         if(getObjectMapper().isPresent() && getAcceptHeader().isPresent()) {
             if (getAcceptHeader().get().contains("application/json")) {
                 try {
-                    return new ResponseEntity<>(getObjectMapper().get().readValue("{  \"createdAt\" : \"2000-01-23T04:56:07.000+00:00\",  \"code\" : \"code\",  \"modifiedAt\" : \"2000-01-23T04:56:07.000+00:00\",  \"name\" : \"name\",  \"id\" : 0}", CodebookValueDto.class), HttpStatus.NOT_IMPLEMENTED);
-                } catch (IOException e) {
-                    log.error("Couldn't serialize response for content type application/json", e);
-                    return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
-                }
-            }
-        } else {
-            log.warn("ObjectMapper or HttpServletRequest not configured in default CodebookControllerApi interface so no example is generated");
-        }
-        return new ResponseEntity<>(HttpStatus.NOT_IMPLEMENTED);
-    }
-
-
-    @ApiOperation(value = "getCodebookValues", nickname = "getCodebookValuesUsingGET", notes = "", response = CodebookValueDto.class, responseContainer = "List", tags={ "codebook-controller", })
-    @ApiResponses(value = { 
-        @ApiResponse(code = 200, message = "OK", response = CodebookValueDto.class, responseContainer = "List"),
-        @ApiResponse(code = 401, message = "Unauthorized"),
-        @ApiResponse(code = 403, message = "Forbidden"),
-        @ApiResponse(code = 404, message = "Not Found") })
-    @RequestMapping(value = "/api/codebook/{codebookName}",
-        produces = { "application/json" }, 
-        method = RequestMethod.GET)
-    default ResponseEntity<List<CodebookValueDto>> _getCodebookValuesUsingGET(@ApiParam(value = "codebookName",required=true, allowableValues = "\"COMORBIDITY\", \"CONSENT_TYPE\", \"GENDER\", \"NATIONALITY\", \"ORGANIZATION\", \"SYMPTOM_TYPE\", \"TEST_RESULT\", \"TEST_TYPE\"") @PathVariable("codebookName") String codebookName) {
-        return getCodebookValuesUsingGET(codebookName);
-    }
-
-    // Override this method
-    default ResponseEntity<List<CodebookValueDto>> getCodebookValuesUsingGET(String codebookName) {
-        if(getObjectMapper().isPresent() && getAcceptHeader().isPresent()) {
-            if (getAcceptHeader().get().contains("application/json")) {
-                try {
-                    return new ResponseEntity<>(getObjectMapper().get().readValue("[ {  \"createdAt\" : \"2000-01-23T04:56:07.000+00:00\",  \"code\" : \"code\",  \"modifiedAt\" : \"2000-01-23T04:56:07.000+00:00\",  \"name\" : \"name\",  \"id\" : 0}, {  \"createdAt\" : \"2000-01-23T04:56:07.000+00:00\",  \"code\" : \"code\",  \"modifiedAt\" : \"2000-01-23T04:56:07.000+00:00\",  \"name\" : \"name\",  \"id\" : 0} ]", List.class), HttpStatus.NOT_IMPLEMENTED);
-                } catch (IOException e) {
-                    log.error("Couldn't serialize response for content type application/json", e);
-                    return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
-                }
-            }
-        } else {
-            log.warn("ObjectMapper or HttpServletRequest not configured in default CodebookControllerApi interface so no example is generated");
-        }
-        return new ResponseEntity<>(HttpStatus.NOT_IMPLEMENTED);
-    }
-
-
-    @ApiOperation(value = "updateCodebookValue", nickname = "updateCodebookValueUsingPUT", notes = "", response = CodebookValueDto.class, tags={ "codebook-controller", })
-    @ApiResponses(value = { 
-        @ApiResponse(code = 200, message = "OK", response = CodebookValueDto.class),
-        @ApiResponse(code = 201, message = "Created"),
-        @ApiResponse(code = 401, message = "Unauthorized"),
-        @ApiResponse(code = 403, message = "Forbidden"),
-        @ApiResponse(code = 404, message = "Not Found") })
-    @RequestMapping(value = "/api/codebook/{codebookName}/{id}",
-        produces = { "application/json" }, 
-        consumes = { "application/json" },
-        method = RequestMethod.PUT)
-    default ResponseEntity<CodebookValueDto> _updateCodebookValueUsingPUT(@ApiParam(value = "codebookName",required=true, allowableValues = "\"COMORBIDITY\", \"CONSENT_TYPE\", \"GENDER\", \"NATIONALITY\", \"ORGANIZATION\", \"SYMPTOM_TYPE\", \"TEST_RESULT\", \"TEST_TYPE\"") @PathVariable("codebookName") String codebookName,@ApiParam(value = "codebookValueDto" ,required=true )  @Valid @RequestBody CodebookValueDto codebookValueDto,@ApiParam(value = "id",required=true) @PathVariable("id") Long id) {
-        return updateCodebookValueUsingPUT(codebookName, codebookValueDto, id);
-    }
-
-    // Override this method
-    default ResponseEntity<CodebookValueDto> updateCodebookValueUsingPUT(String codebookName,CodebookValueDto codebookValueDto,Long id) {
-        if(getObjectMapper().isPresent() && getAcceptHeader().isPresent()) {
-            if (getAcceptHeader().get().contains("application/json")) {
-                try {
-                    return new ResponseEntity<>(getObjectMapper().get().readValue("{  \"createdAt\" : \"2000-01-23T04:56:07.000+00:00\",  \"code\" : \"code\",  \"modifiedAt\" : \"2000-01-23T04:56:07.000+00:00\",  \"name\" : \"name\",  \"id\" : 0}", CodebookValueDto.class), HttpStatus.NOT_IMPLEMENTED);
+                    return new ResponseEntity<>(getObjectMapper().get().readValue("[ {  \"default\" : true,  \"code\" : \"code\",  \"text\" : \"text\",  \"order\" : 0}, {  \"default\" : true,  \"code\" : \"code\",  \"text\" : \"text\",  \"order\" : 0} ]", List.class), HttpStatus.NOT_IMPLEMENTED);
                 } catch (IOException e) {
                     log.error("Couldn't serialize response for content type application/json", e);
                     return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);

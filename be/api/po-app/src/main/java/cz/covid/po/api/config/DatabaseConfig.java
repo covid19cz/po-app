@@ -16,7 +16,7 @@ import javax.sql.DataSource;
 import java.util.Properties;
 
 @Configuration
-@EnableJpaRepositories(basePackages = {"cz.covid.po.api.repository"})
+@EnableJpaRepositories(basePackages = {"cz.covid.po.api.domain.repository"})
 @EnableTransactionManagement
 @Import({PostgresConfig.class, H2Config.class})
 public class DatabaseConfig {
@@ -33,7 +33,7 @@ public class DatabaseConfig {
         factory.setPersistenceUnitName("covid-web-api");
         factory.setJpaVendorAdapter(new HibernateJpaVendorAdapter());
         factory.setDataSource(dataSource);
-        factory.setPackagesToScan("cz.covid.po.api.model.jpa");
+        factory.setPackagesToScan("cz.covid.po.api.domain.model");
         factory.setJpaProperties(jpaProperties);
         factory.afterPropertiesSet();
         return factory.getObject();

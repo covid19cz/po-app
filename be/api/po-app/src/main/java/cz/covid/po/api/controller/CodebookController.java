@@ -1,57 +1,30 @@
 package cz.covid.po.api.controller;
 
+import cz.covid.po.api.bl.service.CodebookService;
 import cz.covid.po.api.converter.CodebookConvertor;
 import cz.covid.po.api.generated.controller.CodebookControllerApi;
-import cz.covid.po.api.model.en.CodebookName;
-import cz.covid.po.api.service.CodebookService;
+import cz.covid.po.api.generated.dto.CodebookItemDto;
 import java.util.List;
-import org.springframework.beans.factory.annotation.Autowired;
+import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
-public class CodebookController implements CodebookControllerApi {
+@RequiredArgsConstructor
+public class CodebookController extends ControllerBase implements CodebookControllerApi {
 
-    private CodebookService codebookService;
-    private CodebookConvertor codebookConvertor;
-
-    @Autowired
-    public CodebookController(CodebookService codebookService, CodebookConvertor codebookConvertor) {
-        this.codebookService = codebookService;
-        this.codebookConvertor = codebookConvertor;
-    }
+    private final CodebookService codebookService;
+    private final CodebookConvertor codebookConvertor;
 
     @Override
-    public ResponseEntity<cz.covid.po.api.generated.dto.CodebookValueDto> createCodebookValueUsingPOST(String codebookName, cz.covid.po.api.generated.dto.CodebookValueDto codebookValueDto) {
-        return ResponseEntity.ok(codebookConvertor.convert(codebookService.createCodebookValue(getCodebookName(codebookName), codebookConvertor.convertBack(codebookValueDto))));
+    public ResponseEntity<List<CodebookItemDto>> getCodebookItemsUsingGET(String codebook) {
+        return ResponseEntity.ok(codebookConvertor.convert(codebookService.getCodebookItems(getCodebookName(codebook))));
     }
 
-    @Override
-    public ResponseEntity<Void> deleteCodebookValueUsingDELETE(String codebookName, Long id) {
-        codebookService.deleteCodebookValue(getCodebookName(codebookName), id);
-        return ResponseEntity.noContent().build();
-    }
-
-    @Override
-    public ResponseEntity<cz.covid.po.api.generated.dto.CodebookValueDto> findCodebookValuesUsingGET(String codebookName, Long id) {
-        return ResponseEntity.ok(codebookConvertor.convert(codebookService.findCodebookValue(getCodebookName(codebookName), id)));
-    }
-
-    @Override
-    public ResponseEntity<List<cz.covid.po.api.generated.dto.CodebookValueDto>> getCodebookValuesUsingGET(String codebookName) {
-        return ResponseEntity.ok(codebookConvertor.convert(codebookService.getCodebookValues(getCodebookName(codebookName))));
-    }
-
-    @Override
-    public ResponseEntity<cz.covid.po.api.generated.dto.CodebookValueDto> updateCodebookValueUsingPUT(String codebookName, cz.covid.po.api.generated.dto.CodebookValueDto codebookValueDto, Long id) {
-        codebookValueDto.setId(id);
-        return ResponseEntity.ok(codebookConvertor.convert(codebookService.updateCodebookValue(getCodebookName(codebookName), codebookConvertor.convertBack(codebookValueDto))));
-    }
-
-    private CodebookName getCodebookName(String value) {
+    private String getCodebookName(String value) {
         if (value == null) {
             return null;
         }
-        return Enum.valueOf(CodebookName.class, value.replace("\"", ""));
+        return value.replace("\"", "");
     }
 }
