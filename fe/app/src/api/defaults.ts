@@ -1,10 +1,6 @@
-import {StorageKeys, storageService} from "@/service/ClientStorageService";
-import {isFunction} from "@/utils/objectUtils";
-import {
-  ErrorMessageDto,
-  ErrorMessageDtoErrorCodeEnum,
-  FetchArgs
-} from "@swaggerBase";
+import { StorageKeys, storageService } from "@/service/ClientStorageService";
+import { isFunction } from "@/utils/objectUtils";
+import { ErrorMessageDto, ErrorMessageDtoErrorCodeEnum } from "@swaggerBase";
 import { ReactElement } from "react";
 // @ts-ignore
 import * as isomorphicFetch from "isomorphic-fetch";
@@ -77,20 +73,24 @@ export function setOauthData(data: TokenDto): void {
 }
 
 export function tokenExists(): boolean {
-  return (
+  // TODO @jv change when validation implemented
+  return true;
+
+  /*return (
     storageService.getItem(ACCESS_TOKEN) !== null &&
     storageService.getItem(REFRESH_TOKEN) !== null
-  );
+  );*/
 }
 
 function getTokenForQuery(): string | null {
-  if (tokenExists()) {
+  /*  if (tokenExists()) {
     return `${storageService.getItem(TOKEN_TYPE)} ${storageService.getItem(
       ACCESS_TOKEN
     )}`;
-  }
+  }*/
 
-  return null;
+  // TODO @jv change when validation implemented
+  return "Basic dXNlcjpwYXNzd29yZA==";
 }
 
 function getRefreshToken(): string {
