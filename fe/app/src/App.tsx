@@ -10,8 +10,11 @@ import {
   ThemeProvider
 } from "@material-ui/core";
 import "./App.css";
+import { ApiProvider } from "./api/ApiContext";
+import { FetchingIndicator } from "./components/FetchingIndicator";
 import { Header } from "./components/Header";
 import { Page } from "./components/Page";
+import { PrivateRoute } from "./components/PrivateRoute";
 import { Routes } from "./components/Routes";
 import { NotFound } from "./layout/NotFound";
 import theme from "./theme/default";
@@ -27,23 +30,36 @@ const App = () => {
         <ThemeProvider theme={theme}>
           <StylesProvider injectFirst>
             <CssBaseline />
+            <ApiProvider>
+              <Box className="App">
+                <Container maxWidth="md">
+                  <FetchingIndicator />
+                  <header>
+                    <Header />
+                  </header>
+                  <Switch>
+                    {Object.values(Routes).map(path => {
+                      if (path.protected) {
+                        return (
+                          <PrivateRoute
+                            key={path.link}
+                            path={path.link}
+                            {...path}
+                          />
+                        );
+                      }
 
-            <Box className="App">
-              <Container maxWidth="md">
-                <header>
-                  <Header />
-                </header>
-
-                <Switch>
-                  {Object.values(Routes).map(path => (
-                    <Page key={path.link} path={path.link} {...path} />
-                  ))}
-                  <Route path="*" exact>
-                    <NotFound />
-                  </Route>
-                </Switch>
-              </Container>
-            </Box>
+                      return (
+                        <Page key={path.link} path={path.link} {...path} />
+                      );
+                    })}
+                    <Route path="*" exact>
+                      <NotFound />
+                    </Route>
+                  </Switch>
+                </Container>
+              </Box>
+            </ApiProvider>
           </StylesProvider>
         </ThemeProvider>
       </MuiPickersUtilsProvider>

@@ -4,6 +4,7 @@ import { Route, RouteProps } from "react-router";
 export type PageProps = RouteProps & {
   title: string;
   link: string;
+  protected?: boolean;
 };
 
 export const Page: React.FC<PageProps> = props => {

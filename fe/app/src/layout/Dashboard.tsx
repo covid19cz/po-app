@@ -1,7 +1,7 @@
 import { Button, Grid, Typography } from "@material-ui/core";
 import { format } from "date-fns";
 import React from "react";
-import { usePathParams } from "../api/usePathParams";
+import { usePathParams } from "../hooks/usePathParams";
 import { Layout } from "../components/Layout";
 import { goToPath, PageNames } from "../components/Routes";
 import { useHistory } from "react-router-dom";
