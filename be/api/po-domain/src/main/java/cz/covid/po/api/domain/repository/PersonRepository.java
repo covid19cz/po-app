@@ -1,5 +1,6 @@
 package cz.covid.po.api.domain.repository;
 
+import cz.covid.po.api.domain.model.Operator;
 import cz.covid.po.api.domain.model.Person;
 import java.util.Optional;
 import java.util.UUID;
@@ -10,4 +11,6 @@ public interface PersonRepository extends JpaRepository<Person, Long> {
     Optional<Person> getByPhoneNumber(String phoneNumber);
 
     Optional<Person> getByUid(UUID personUid);
+
+    Optional<Person> findByUserId(Long userId);
 }

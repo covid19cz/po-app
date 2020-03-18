@@ -5,6 +5,7 @@ import java.time.OffsetDateTime;
 import java.util.UUID;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
@@ -25,6 +26,10 @@ public class Person extends EntityBase {
     @Id
     @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "po_person_seq_gen")
     private Long id;
+
+    @JoinColumn(name = "user_id")
+    @ManyToOne(fetch = FetchType.LAZY)
+    private User user;
 
     @Column(name = "uid")
     private UUID uid;
