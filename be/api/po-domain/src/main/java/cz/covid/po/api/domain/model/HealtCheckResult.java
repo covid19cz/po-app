@@ -31,7 +31,7 @@ public class HealtCheckResult {
     private Boolean resultPositive;
 
     @Column(name = "result_date")
-    private OffsetDateTime result_date;
+    private OffsetDateTime resultDate;
 
     @Column(name = "result_sent_at")
     private OffsetDateTime resultSentAt;
