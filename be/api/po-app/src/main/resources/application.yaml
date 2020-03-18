@@ -1,0 +1,44 @@
+logging:
+  config: classpath:log4j2-spring${LOG_PROFILE:}.xml #config-map
+spring:
+  application:
+    name: covid-web-api
+  profiles:
+    active: ${PROFILES:postgres}
+  http.log-request-details: true
+  datasource:
+    url: ${DATABASE_URL:jdbc:postgresql://localhost:5432/covid_db}
+    username: ${DATABASE_USERNAME:covid_user}
+    password: ${DB_PASSWORD:karel89}  #config-secret
+    driver-class-name: org.postgresql.Driver
+    hikari:
+      maximum-pool-size: 50
+      minimum-idle: 10
+      pool-name: po_spring_boot_hikari
+      connection-timeout: 30000
+      leak-detection-threshold: 120000
+  jpa:
+    open-in-view: false
+    show-sql: false
+    hibernate:
+      ddl-auto: validate
+    properties:
+      # The SQL dialect makes Hibernate generate better SQL for the chosen database
+      hibernate.jdbc: org.hibernate.dialect.PostgreSQLDialect
+      # PostgreSQL CLOB feature is not (so far) implemented in JDBC driver
+      hibernate.jdbc.lob.non_contextual_creation: true
+  flyway:
+    locations:
+      - classpath:flyway
+api:
+  service:
+    username: ${API_SERVICE_USERNAME:user}
+    password: ${API_SERVICE_PW:password}
+app:
+  integration:
+    profi-sms:
+      enabled: ${PROFI_SMS_ENABLED:false}
+      base-url: ${PROFI_SMS_URL:https://api.profisms.cz/index.php}
+      login: ${PROFI_SMS_LOGIN:}
+      password: ${PROFI_SMS_PASSWORD:}
+      source: ${PROFI_SMS_SOURCE:}
