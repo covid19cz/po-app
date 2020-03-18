@@ -22,15 +22,15 @@ public class ProfiSmsSenderImpl implements ProfiSmsSender {
 
     private static final int PROFI_SMS_OK = 0;
 
-    @Value("${integration.profi-sms.base-url}")
+    @Value("${app.integration.profi-sms.base-url}")
     private String baseUrl;
-    @Value("${integration.profi-sms.login}")
+    @Value("${app.integration.profi-sms.login}")
     private String login;
-    @Value("${integration.profi-sms.password}")
+    @Value("${app.integration.profi-sms.password}")
     private String pass;
-    @Value("${integration.profi-sms.source}")
+    @Value("${app.integration.profi-sms.source}")
     private String source;
-    @Value("${integration.profi-sms.enabled}")
+    @Value("${app.integration.profi-sms.enabled}")
     private Boolean enabled;
 
     private WebClient webClient;
