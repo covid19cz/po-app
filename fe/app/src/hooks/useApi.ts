@@ -10,7 +10,8 @@ export function useApi<T extends BaseAPI>(api: new (...args: any[]) => T) {
   async function handleApiCall(...args: Parameters<typeof apiCallHandler>) {
     try {
       dispatch(startLoading());
-      return apiCallHandler(...args);
+
+      return await apiCallHandler(...args);
     } finally {
       dispatch(endLoading());
     }
