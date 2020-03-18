@@ -118,7 +118,8 @@ public class DateTimeUtil {
         if (date == null) {
             return null;
         }
-        return LocalDate.ofInstant(date.toInstant(), ZONE_PRAGUE);
+        return date.toInstant().atZone(ZoneId.systemDefault()).toLocalDate();
+        //LocalDate..ofInstant(date.toInstant(), ZONE_PRAGUE);
     }
 
     private ZoneOffset getLocalOffset(LocalDateTime time) {

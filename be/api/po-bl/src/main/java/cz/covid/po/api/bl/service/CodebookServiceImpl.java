@@ -10,7 +10,10 @@ import cz.covid.po.api.domain.repository.codebook.CbHealthCheckTypeRepository;
 import cz.covid.po.api.domain.repository.codebook.CbHealthStatusRepository;
 import cz.covid.po.api.domain.repository.codebook.CbRiskAreaRepository;
 import cz.covid.po.api.domain.repository.codebook.CodebookItemRepository;
+import java.util.stream.Stream;
+import java.util.stream.Collectors;
 import java.util.HashMap;
+import java.util.AbstractMap;
 import java.util.List;
 import java.util.Map;
 import javax.annotation.PostConstruct;
@@ -27,12 +30,21 @@ public class CodebookServiceImpl implements CodebookService {
 
     private final ApplicationContext applicationContext;
 
+    /*Java 8 version */
+    private Map<String, CodebookRegistration> registeredCodebooks = Stream.of(
+            new AbstractMap.SimpleEntry<>(CbHealthStatus.CODE, new CodebookRegistration(CbHealthStatus.class, CbHealthStatusRepository.class)),
+            new AbstractMap.SimpleEntry<>(CbHealthCheckType.CODE, new CodebookRegistration(CbHealthCheckType.class, CbHealthCheckTypeRepository.class)),
+            new AbstractMap.SimpleEntry<>(CbHealthCheckLocation.CODE, new CodebookRegistration(CbHealthCheckLocation.class, CbHealthCheckLocationRepository.class)),
+            new AbstractMap.SimpleEntry<>(CbRiskArea.CODE, new CodebookRegistration(CbRiskArea.class, CbRiskAreaRepository.class))
+    ).collect(Collectors.toMap(Map.Entry::getKey, Map.Entry::getValue));
+
+    /* JAVA 9 version
     private Map<String, CodebookRegistration> registeredCodebooks = Map.of(
             CbHealthStatus.CODE, new CodebookRegistration(CbHealthStatus.class, CbHealthStatusRepository.class),
             CbHealthCheckType.CODE, new CodebookRegistration(CbHealthCheckType.class, CbHealthCheckTypeRepository.class),
             CbHealthCheckLocation.CODE, new CodebookRegistration(CbHealthCheckLocation.class, CbHealthCheckLocationRepository.class),
             CbRiskArea.CODE, new CodebookRegistration(CbRiskArea.class, CbRiskAreaRepository.class)
-    );
+    );*/
 
     private Map<String, CodebookItemRepository> codebookRepositories = new HashMap<>();
 
@@ -50,9 +62,21 @@ public class CodebookServiceImpl implements CodebookService {
     }
 
     @Getter
-    @AllArgsConstructor
     private static class CodebookRegistration {
+
+        public CodebookRegistration(Class<? extends CodebookItemBase> codebookClass, Class<? extends CodebookItemRepository> repositoryClass){
+            this.codebookClass = codebookClass;
+            this.repositoryClass = repositoryClass;
+        }
         private Class<? extends CodebookItemBase> codebookClass;
         private Class<? extends CodebookItemRepository> repositoryClass;
+
+        public Class<? extends CodebookItemBase> getCodebookClass() {
+            return codebookClass;
+        }
+
+        public Class<? extends CodebookItemRepository> getRepositoryClass() {
+            return repositoryClass;
+        }
     }
 }
