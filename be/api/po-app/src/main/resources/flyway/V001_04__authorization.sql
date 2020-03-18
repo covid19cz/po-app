@@ -17,6 +17,9 @@ create table po_authorization
             references po_person (id)
 );
 
+CREATE INDEX fk_po_authorization_po_person_idx
+    ON po_authorization(person_id);
+
 create table po_user
 (
     id                     bigint not null
@@ -44,7 +47,13 @@ create table po_operator
             references po_user (id)
 );
 
+CREATE INDEX fk_po_operator_po_user_idx
+    ON po_operator(user_id);
+
 alter table po_person
     add user_id bigint
         constraint fk_po_person_po_user
             references po_user (id);
+
+CREATE INDEX fk_po_person_po_user_idx
+    ON po_person(user_id);
