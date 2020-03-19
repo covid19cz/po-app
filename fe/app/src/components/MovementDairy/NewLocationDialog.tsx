@@ -14,7 +14,6 @@ import { Yup } from "../../schema";
 import { Button } from "../button/Button";
 import { ButtonContinue } from "../button/ButtonContinue";
 import { LoadingBackdrop } from "../feedback/Backdrop";
-import { DebugFormik } from "../forms/DebugFormik";
 import { FieldPlaces } from "../forms/FieldPlaces";
 
 interface DialogProps {
@@ -145,7 +144,6 @@ export const NewLocationDialog = ({
                 </Grid>
               </Grid>
             </DialogActions>
-            <DebugFormik />
           </Form>
         )}
       </Formik>

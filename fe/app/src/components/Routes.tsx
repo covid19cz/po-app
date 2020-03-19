@@ -43,7 +43,7 @@ export const Routes: Record<PageNames, PageProps> = {
     title: "Přihlášení"
   },
   LoginSmsVerification: {
-    link: "/login-sms-verification",
+    link: "/login-sms-verification/:patientId",
     exact: true,
     children: <LoginSmsVerification />,
     title: "Přihlášení"
@@ -52,55 +52,64 @@ export const Routes: Record<PageNames, PageProps> = {
     link: "/app/:patientId/dashboard",
     exact: true,
     children: <Dashboard />,
-    title: "Přehled"
+    title: "Přehled",
+    protected: true
   },
   ContactDetails: {
     link: "/app/:patientId/contact-details",
     exact: true,
     children: <ContactDetails />,
-    title: "Žádost o otestování"
+    title: "Žádost o otestování",
+    protected: true
   },
   SymptomsCheck: {
     link: "/app/:patientId/symptoms-check",
     exact: true,
     children: <SymptomsCheck />,
-    title: "Žádost o otestování"
+    title: "Žádost o otestování",
+    protected: true
   },
   PossibleContact: {
     link: "/app/:patientId/possible-contact-check",
     exact: true,
     children: <PossibleContact />,
-    title: "Žádost o otestování"
+    title: "Žádost o otestování",
+    protected: true
   },
   TestPlacePicker: {
     link: "/app/:patientId/test-place-picker",
     exact: true,
     children: <TestPlacePicker />,
-    title: "Žádost o otestování"
+    title: "Žádost o otestování",
+    protected: true
   },
   HealthCheckInstructions: {
     link: "/app/:patientId/health-check-instructions",
     exact: true,
     children: <HealthCheckInstructions />,
-    title: "Žádost o otestování"
+    title: "Žádost o otestování",
+    protected: true
   },
   AlreadyInfectedGeneral: {
     link: "/app/:patientId/already-infected-general",
     exact: true,
     children: <AlreadyInfectedGeneral />,
-    title: "Dotazník pro infikované"
+    title: "Dotazník pro infikované",
+    protected: true
   },
   AlreadyInfectedDate: {
     link: "/app/:patientId/already-infected-date",
     exact: true,
     children: <AlreadyInfectedDate />,
-    title: "Dotazník pro infikované"
+    title: "Dotazník pro infikované",
+    protected: true
   },
   AlreadyInfectedMovementDairy: {
     link: "/app/:patientId/already-infected-movement-dairy",
     exact: true,
     children: <AlreadyInfectedMovementDairy />,
-    title: "Dotazník pro infikované"
+    title: "Dotazník pro infikované",
+    protected: true
   }
 };
 

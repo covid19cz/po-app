@@ -16,13 +16,13 @@ import javax.validation.constraints.*;
 @Validated
 
 public class SimtompsRequest   {
-  @JsonProperty("symtomps_since")
+  @JsonProperty("symtompsSince")
   private LocalDate symtompsSince = null;
 
-  @JsonProperty("high_temperature_duration")
+  @JsonProperty("highTemperatureDuration")
   private Integer highTemperatureDuration = null;
 
-  @JsonProperty("dry_cough_duration")
+  @JsonProperty("dryCoughDuration")
   private Integer dryCoughDuration = null;
 
   @JsonProperty("headache")

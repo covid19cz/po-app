@@ -18,13 +18,13 @@ import javax.validation.constraints.*;
 @Validated
 
 public class HealthCheckRequest   {
-  @JsonProperty("symtomps_since")
+  @JsonProperty("symtompsSince")
   private LocalDate symtompsSince = null;
 
-  @JsonProperty("high_temperature_duration")
+  @JsonProperty("highTemperatureDuration")
   private Integer highTemperatureDuration = null;
 
-  @JsonProperty("dry_cough_duration")
+  @JsonProperty("dryCoughDuration")
   private Integer dryCoughDuration = null;
 
   @JsonProperty("headache")
@@ -63,22 +63,22 @@ public class HealthCheckRequest   {
     }
   }
 
-  @JsonProperty("infected_in_contact")
+  @JsonProperty("infectedInContact")
   private InfectedInContactEnum infectedInContact = null;
 
-  @JsonProperty("infected_in_contact_date")
+  @JsonProperty("infectedInContactDate")
   private LocalDate infectedInContactDate = null;
 
-  @JsonProperty("infected_phone_numbers")
+  @JsonProperty("infectedPhoneNumbers")
   private String infectedPhoneNumbers = null;
 
-  @JsonProperty("visited_risk_area")
+  @JsonProperty("visitedRiskArea")
   private CodebookItemDto visitedRiskArea = null;
 
-  @JsonProperty("preferred_health_check_location")
+  @JsonProperty("preferredHealthCheckLocation")
   private CodebookItemDto preferredHealthCheckLocation = null;
 
-  @JsonProperty("able_to_drive")
+  @JsonProperty("ableToDrive")
   private Boolean ableToDrive = null;
 
   public HealthCheckRequest symtompsSince(LocalDate symtompsSince) {
