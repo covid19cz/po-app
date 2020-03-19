@@ -119,10 +119,12 @@ export interface SendCodeResponse {
     "personUid"?: string;
 }
 
-export interface SimtompsRequest {
-    "symtompsSince"?: Date;
-    "highTemperatureDuration"?: number;
-    "dryCoughDuration"?: number;
+export type SymptomEnum = "NONE" | "MORE" | "ONE_OR_TWO" | "THREE_OR_FOUR";
+
+export interface SymptomsRequest {
+    "symtomsSince"?: Date;
+    "highTemperatureDuration"?: SymptomEnum;
+    "dryCoughDuration"?: SymptomEnum;
     "headache"?: boolean;
 }
 
@@ -345,16 +347,16 @@ export const HealthcheckcontrollerApiFetchParamCreator = {
      * 
      * @summary Fills actual health check form
      * @param personUid Unique Person&#39;s ID (person_uid.person)
-     * @param simptomsDto Health check&#39;s data - simptoms
+     * @param symptomsDto Health check&#39;s data - simptoms
      */
-    personsPersonUidHealthCheckSymptomsPut(params: {  "personUid": string; "simptomsDto": SimtompsRequest; }, options?: any): FetchArgs {
+    personsPersonUidHealthCheckSymptomsPut(params: {  "personUid": string; "symptomsDto": SymptomsRequest; }, options?: any): FetchArgs {
         // verify required parameter "personUid" is set
         if (params["personUid"] == null) {
             throw new Error("Missing required parameter personUid when calling personsPersonUidHealthCheckSymptomsPut");
         }
-        // verify required parameter "simptomsDto" is set
-        if (params["simptomsDto"] == null) {
-            throw new Error("Missing required parameter simptomsDto when calling personsPersonUidHealthCheckSymptomsPut");
+        // verify required parameter "symptomsDto" is set
+        if (params["symptomsDto"] == null) {
+            throw new Error("Missing required parameter symptomsDto when calling personsPersonUidHealthCheckSymptomsPut");
         }
         const baseUrl = `/persons/{personUid}/health-check/symptoms`
             .replace(`{${"personUid"}}`, `${ params["personUid"] }`);
@@ -363,8 +365,8 @@ export const HealthcheckcontrollerApiFetchParamCreator = {
 
         let contentTypeHeader: Dictionary<string> = {};
         contentTypeHeader = { "Content-Type": "application/json" };
-        if (params["simptomsDto"]) {
-            fetchOptions.body = JSON.stringify(params["simptomsDto"] || {});
+        if (params["symptomsDto"]) {
+            fetchOptions.body = JSON.stringify(params["symptomsDto"] || {});
         }
         if (contentTypeHeader) {
             fetchOptions.headers = assign({}, contentTypeHeader, fetchOptions.headers);
@@ -435,9 +437,9 @@ export const HealthcheckcontrollerApiFp = {
      * 
      * @summary Fills actual health check form
      * @param personUid Unique Person&#39;s ID (person_uid.person)
-     * @param simptomsDto Health check&#39;s data - simptoms
+     * @param symptomsDto Health check&#39;s data - simptoms
      */
-    personsPersonUidHealthCheckSymptomsPut(params: { "personUid": string; "simptomsDto": SimtompsRequest;  }, options?: any): (fetch?: FetchAPI, basePath?: string) => Promise<any> {
+    personsPersonUidHealthCheckSymptomsPut(params: { "personUid": string; "symptomsDto": SymptomsRequest;  }, options?: any): (fetch?: FetchAPI, basePath?: string) => Promise<any> {
         const fetchArgs = HealthcheckcontrollerApiFetchParamCreator.personsPersonUidHealthCheckSymptomsPut(params, options);
         return (fetch: FetchAPI = isomorphicFetch, basePath: string = BASE_PATH) => {
             return fetch(basePath + fetchArgs.url, fetchArgs.options).then((response) => {
@@ -486,9 +488,9 @@ export class HealthcheckcontrollerApi extends BaseAPI {
      * 
      * @summary Fills actual health check form
      * @param personUid Unique Person&#39;s ID (person_uid.person)
-     * @param simptomsDto Health check&#39;s data - simptoms
+     * @param symptomsDto Health check&#39;s data - simptoms
      */
-    personsPersonUidHealthCheckSymptomsPut(params: {  "personUid": string; "simptomsDto": SimtompsRequest; }, options?: any) {
+    personsPersonUidHealthCheckSymptomsPut(params: {  "personUid": string; "symptomsDto": SymptomsRequest; }, options?: any) {
         return HealthcheckcontrollerApiFp.personsPersonUidHealthCheckSymptomsPut(params, options)(this.fetch, this.basePath);
     }
     /**
@@ -520,9 +522,9 @@ export const HealthcheckcontrollerApiFactory = function (fetch?: FetchAPI, baseP
          * 
          * @summary Fills actual health check form
          * @param personUid Unique Person&#39;s ID (person_uid.person)
-         * @param simptomsDto Health check&#39;s data - simptoms
+         * @param symptomsDto Health check&#39;s data - simptoms
          */
-        personsPersonUidHealthCheckSymptomsPut(params: {  "personUid": string; "simptomsDto": SimtompsRequest; }, options?: any) {
+        personsPersonUidHealthCheckSymptomsPut(params: {  "personUid": string; "symptomsDto": SymptomsRequest; }, options?: any) {
             return HealthcheckcontrollerApiFp.personsPersonUidHealthCheckSymptomsPut(params, options)(fetch, basePath);
         },
         /**
