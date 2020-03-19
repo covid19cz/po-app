@@ -72,7 +72,7 @@ export const LoginSmsVerification = () => {
 
             <Grid container direction="column" justify="flex-start" spacing={2}>
               <Grid item>
-                <Typography variant="h3">Portál občana</Typography>
+                <Typography variant="h3">Covid-19 Monitor</Typography>
               </Grid>
             </Grid>
             <Grid container justify="center" spacing={4}>
