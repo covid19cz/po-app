@@ -20,6 +20,7 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
+import javax.persistence.OrderBy;
 import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
 import lombok.Getter;
@@ -86,6 +87,7 @@ public class HealthCheck extends EntityBase {
     private CbHealthCheckLocation finalHealthCheckLocation;
 
     @OneToMany(mappedBy = "healthCheck", cascade = CascadeType.ALL, orphanRemoval = true)
+    @OrderBy("resultDate")
     private List<HealthCheckResult> healthCheckResults;
 
     @ManyToOne

@@ -1,5 +1,5 @@
 import { setOauthData } from "@/api/defaults";
-import { getOauthToken, getSecurityApi } from "@/api/securityApi";
+import { getOauthToken } from "@/api/securityApi";
 import { ButtonBack } from "@/components/button/ButtonBack";
 import { ButtonContinue } from "@/components/button/ButtonContinue";
 import { LoadingBackdrop } from "@/components/feedback/Backdrop";
@@ -9,7 +9,6 @@ import { useApi } from "@/hooks/useApi";
 import { usePathParams } from "@/hooks/usePathParams";
 import { Grid, Typography } from "@material-ui/core";
 import { AuthorizationcontrollerApi } from "@swaggerBase";
-import { DefaultApi } from "@swaggerSecurity";
 import { Field, Form, Formik } from "formik";
 import { TextField } from "formik-material-ui";
 import { FormikHelpers } from "formik/dist/types";

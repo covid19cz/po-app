@@ -6,6 +6,8 @@
 package cz.covid.po.api.generated.controller;
 
 import cz.covid.po.api.generated.dto.ExposureRequest;
+import cz.covid.po.api.generated.dto.HealthCheckDto;
+import cz.covid.po.api.generated.dto.HealthCheckResultDto;
 import cz.covid.po.api.generated.dto.SymptomsRequest;
 import cz.covid.po.api.generated.dto.TestingPlaceInstuctionsDto;
 import cz.covid.po.api.generated.dto.TestingPlaceRequest;
@@ -50,7 +52,40 @@ public interface HealthCheckControllerApi {
         return getRequest().map(r -> r.getHeader("Accept"));
     }
 
-    @ApiOperation(value = "Fills exposure form", nickname = "personsPersonUidHealthCheckExposurePut", notes = "", authorizations = {
+    @ApiOperation(value = "Add result of a health check test", nickname = "postHeathCheckTestResult", notes = "", response = HealthCheckDto.class, authorizations = {
+        @Authorization(value = "apiKey")
+    }, tags={ "health-check-controller", })
+    @ApiResponses(value = { 
+        @ApiResponse(code = 200, message = "Successful operation", response = HealthCheckDto.class),
+        @ApiResponse(code = 401, message = "Unauthorized"),
+        @ApiResponse(code = 403, message = "Forbidden"),
+        @ApiResponse(code = 404, message = "Not Found") })
+    @RequestMapping(value = "/bo/persons/{personUid}/health-check/{healthCheckId}/test-result",
+        produces = { "application/json" }, 
+        method = RequestMethod.POST)
+    default ResponseEntity<HealthCheckDto> _postHeathCheckTestResult(@ApiParam(value = "Unique Person's ID (person_uid.person)",required=true) @PathVariable("personUid") UUID personUid,@ApiParam(value = "ID of a health check",required=true) @PathVariable("healthCheckId") Long healthCheckId,@ApiParam(value = "Health check test result" ,required=true )  @Valid @RequestBody HealthCheckResultDto testResultDto) {
+        return postHeathCheckTestResult(personUid, healthCheckId, testResultDto);
+    }
+
+    // Override this method
+    default ResponseEntity<HealthCheckDto> postHeathCheckTestResult(UUID personUid,Long healthCheckId,HealthCheckResultDto testResultDto) {
+        if(getObjectMapper().isPresent() && getAcceptHeader().isPresent()) {
+            if (getAcceptHeader().get().contains("application/json")) {
+                try {
+                    return new ResponseEntity<>(getObjectMapper().get().readValue("{  \"dryCoughDuration\" : null,  \"healthCheckType\" : {    \"default\" : true,    \"code\" : \"code\",    \"text\" : \"text\",    \"order\" : 0  },  \"finalHealthCheckLocation\" : {    \"default\" : true,    \"code\" : \"code\",    \"text\" : \"text\",    \"order\" : 0  },  \"healthCheckCode\" : \"healthCheckCode\",  \"symtompsSince\" : \"2000-01-23\",  \"infectedInContactDate\" : \"2000-01-23\",  \"infectedPhoneNumbers\" : \"infectedPhoneNumbers\",  \"highTemperatureDuration\" : { },  \"ableToDrive\" : true,  \"infectedInContact\" : \"infectedInContact\",  \"headache\" : true,  \"healthCheckResults\" : [ {    \"resultSentAt\" : \"2000-01-23T04:56:07.000+00:00\",    \"positive\" : true,    \"testDate\" : \"2000-01-23\"  }, {    \"resultSentAt\" : \"2000-01-23T04:56:07.000+00:00\",    \"positive\" : true,    \"testDate\" : \"2000-01-23\"  } ],  \"preferredHealthCheckLocation\" : {    \"default\" : true,    \"code\" : \"code\",    \"text\" : \"text\",    \"order\" : 0  },  \"visitedRiskArea\" : {    \"default\" : true,    \"code\" : \"code\",    \"text\" : \"text\",    \"order\" : 0  }}", HealthCheckDto.class), HttpStatus.NOT_IMPLEMENTED);
+                } catch (IOException e) {
+                    log.error("Couldn't serialize response for content type application/json", e);
+                    return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
+                }
+            }
+        } else {
+            log.warn("ObjectMapper or HttpServletRequest not configured in default HealthCheckControllerApi interface so no example is generated");
+        }
+        return new ResponseEntity<>(HttpStatus.NOT_IMPLEMENTED);
+    }
+
+
+    @ApiOperation(value = "Fills exposure form", nickname = "putHealthCheckExposure", notes = "", authorizations = {
         @Authorization(value = "apiKey")
     }, tags={ "health-check-controller", })
     @ApiResponses(value = { 
@@ -58,15 +93,15 @@ public interface HealthCheckControllerApi {
         @ApiResponse(code = 401, message = "Unauthorized"),
         @ApiResponse(code = 403, message = "Forbidden"),
         @ApiResponse(code = 404, message = "Not Found") })
-    @RequestMapping(value = "/persons/{personUid}/health-check/exposure",
+    @RequestMapping(value = "/app/persons/{personUid}/health-check/exposure",
         produces = { "application/json" }, 
         method = RequestMethod.PUT)
-    default ResponseEntity<Void> _personsPersonUidHealthCheckExposurePut(@ApiParam(value = "Unique Person's ID (person_uid.person)",required=true) @PathVariable("personUid") UUID personUid,@ApiParam(value = "Health check's data - exposure" ,required=true )  @Valid @RequestBody ExposureRequest exposureDto) {
-        return personsPersonUidHealthCheckExposurePut(personUid, exposureDto);
+    default ResponseEntity<Void> _putHealthCheckExposure(@ApiParam(value = "Unique Person's ID (person_uid.person)",required=true) @PathVariable("personUid") UUID personUid,@ApiParam(value = "Health check's data - exposure" ,required=true )  @Valid @RequestBody ExposureRequest exposureDto) {
+        return putHealthCheckExposure(personUid, exposureDto);
     }
 
     // Override this method
-    default ResponseEntity<Void> personsPersonUidHealthCheckExposurePut(UUID personUid,ExposureRequest exposureDto) {
+    default ResponseEntity<Void> putHealthCheckExposure(UUID personUid,ExposureRequest exposureDto) {
         if(getObjectMapper().isPresent() && getAcceptHeader().isPresent()) {
         } else {
             log.warn("ObjectMapper or HttpServletRequest not configured in default HealthCheckControllerApi interface so no example is generated");
@@ -75,7 +110,7 @@ public interface HealthCheckControllerApi {
     }
 
 
-    @ApiOperation(value = "Fills actual health check form", nickname = "personsPersonUidHealthCheckSymptomsPut", notes = "", authorizations = {
+    @ApiOperation(value = "Fills actual health check form", nickname = "putHealthCheckSymptoms", notes = "", authorizations = {
         @Authorization(value = "apiKey")
     }, tags={ "health-check-controller", })
     @ApiResponses(value = { 
@@ -83,15 +118,15 @@ public interface HealthCheckControllerApi {
         @ApiResponse(code = 401, message = "Unauthorized"),
         @ApiResponse(code = 403, message = "Forbidden"),
         @ApiResponse(code = 404, message = "Not Found") })
-    @RequestMapping(value = "/persons/{personUid}/health-check/symptoms",
+    @RequestMapping(value = "/app/persons/{personUid}/health-check/symptoms",
         produces = { "application/json" }, 
         method = RequestMethod.PUT)
-    default ResponseEntity<Void> _personsPersonUidHealthCheckSymptomsPut(@ApiParam(value = "Unique Person's ID (person_uid.person)",required=true) @PathVariable("personUid") UUID personUid,@ApiParam(value = "Health check's data - simptoms" ,required=true )  @Valid @RequestBody SymptomsRequest symptomsDto) {
-        return personsPersonUidHealthCheckSymptomsPut(personUid, symptomsDto);
+    default ResponseEntity<Void> _putHealthCheckSymptoms(@ApiParam(value = "Unique Person's ID (person_uid.person)",required=true) @PathVariable("personUid") UUID personUid,@ApiParam(value = "Health check's data - simptoms" ,required=true )  @Valid @RequestBody SymptomsRequest symptomsDto) {
+        return putHealthCheckSymptoms(personUid, symptomsDto);
     }
 
     // Override this method
-    default ResponseEntity<Void> personsPersonUidHealthCheckSymptomsPut(UUID personUid,SymptomsRequest symptomsDto) {
+    default ResponseEntity<Void> putHealthCheckSymptoms(UUID personUid,SymptomsRequest symptomsDto) {
         if(getObjectMapper().isPresent() && getAcceptHeader().isPresent()) {
         } else {
             log.warn("ObjectMapper or HttpServletRequest not configured in default HealthCheckControllerApi interface so no example is generated");
@@ -100,7 +135,7 @@ public interface HealthCheckControllerApi {
     }
 
 
-    @ApiOperation(value = "Fills testing place form", nickname = "personsPersonUidHealthCheckTestingPlacePut", notes = "", response = TestingPlaceInstuctionsDto.class, authorizations = {
+    @ApiOperation(value = "Fills testing place form", nickname = "putHealthCheckTestingPlace", notes = "", response = TestingPlaceInstuctionsDto.class, authorizations = {
         @Authorization(value = "apiKey")
     }, tags={ "health-check-controller", })
     @ApiResponses(value = { 
@@ -108,15 +143,15 @@ public interface HealthCheckControllerApi {
         @ApiResponse(code = 401, message = "Unauthorized"),
         @ApiResponse(code = 403, message = "Forbidden"),
         @ApiResponse(code = 404, message = "Not Found") })
-    @RequestMapping(value = "/persons/{personUid}/health-check/testing-place",
+    @RequestMapping(value = "/app/persons/{personUid}/health-check/testing-place",
         produces = { "application/json" }, 
         method = RequestMethod.PUT)
-    default ResponseEntity<TestingPlaceInstuctionsDto> _personsPersonUidHealthCheckTestingPlacePut(@ApiParam(value = "Unique Person's ID (person_uid.person)",required=true) @PathVariable("personUid") UUID personUid,@ApiParam(value = "Health check's data - testing place" ,required=true )  @Valid @RequestBody TestingPlaceRequest testingPlaceDto) {
-        return personsPersonUidHealthCheckTestingPlacePut(personUid, testingPlaceDto);
+    default ResponseEntity<TestingPlaceInstuctionsDto> _putHealthCheckTestingPlace(@ApiParam(value = "Unique Person's ID (person_uid.person)",required=true) @PathVariable("personUid") UUID personUid,@ApiParam(value = "Health check's data - testing place" ,required=true )  @Valid @RequestBody TestingPlaceRequest testingPlaceDto) {
+        return putHealthCheckTestingPlace(personUid, testingPlaceDto);
     }
 
     // Override this method
-    default ResponseEntity<TestingPlaceInstuctionsDto> personsPersonUidHealthCheckTestingPlacePut(UUID personUid,TestingPlaceRequest testingPlaceDto) {
+    default ResponseEntity<TestingPlaceInstuctionsDto> putHealthCheckTestingPlace(UUID personUid,TestingPlaceRequest testingPlaceDto) {
         if(getObjectMapper().isPresent() && getAcceptHeader().isPresent()) {
             if (getAcceptHeader().get().contains("application/json")) {
                 try {

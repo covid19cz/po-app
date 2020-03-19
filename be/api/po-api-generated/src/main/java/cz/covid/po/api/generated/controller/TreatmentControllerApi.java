@@ -47,7 +47,7 @@ public interface TreatmentControllerApi {
         return getRequest().map(r -> r.getHeader("Accept"));
     }
 
-    @ApiOperation(value = "Fills actual data about treatment for covid19 positive patients", nickname = "personsPersonUidTreatmentPut", notes = "", authorizations = {
+    @ApiOperation(value = "Fills actual data about treatment for covid19 positive patients", nickname = "putTreatment", notes = "", authorizations = {
         @Authorization(value = "apiKey")
     }, tags={ "treatment-controller", })
     @ApiResponses(value = { 
@@ -55,15 +55,15 @@ public interface TreatmentControllerApi {
         @ApiResponse(code = 401, message = "Unauthorized"),
         @ApiResponse(code = 403, message = "Forbidden"),
         @ApiResponse(code = 404, message = "Not Found") })
-    @RequestMapping(value = "/persons/{personUid}/treatment",
+    @RequestMapping(value = "/app/persons/{personUid}/treatment",
         produces = { "application/json" }, 
         method = RequestMethod.PUT)
-    default ResponseEntity<Void> _personsPersonUidTreatmentPut(@ApiParam(value = "Unique Person's ID (person_uid.person)",required=true) @PathVariable("personUid") UUID personUid,@ApiParam(value = "Treatment's data" ,required=true )  @Valid @RequestBody TreatmentRequest treatmentDto) {
-        return personsPersonUidTreatmentPut(personUid, treatmentDto);
+    default ResponseEntity<Void> _putTreatment(@ApiParam(value = "Unique Person's ID (person_uid.person)",required=true) @PathVariable("personUid") UUID personUid,@ApiParam(value = "Treatment's data" ,required=true )  @Valid @RequestBody TreatmentRequest treatmentDto) {
+        return putTreatment(personUid, treatmentDto);
     }
 
     // Override this method
-    default ResponseEntity<Void> personsPersonUidTreatmentPut(UUID personUid,TreatmentRequest treatmentDto) {
+    default ResponseEntity<Void> putTreatment(UUID personUid,TreatmentRequest treatmentDto) {
         if(getObjectMapper().isPresent() && getAcceptHeader().isPresent()) {
         } else {
             log.warn("ObjectMapper or HttpServletRequest not configured in default TreatmentControllerApi interface so no example is generated");

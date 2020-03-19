@@ -1,5 +1,6 @@
 package cz.covid.po.api.domain.model;
 
+import java.time.LocalDate;
 import java.time.OffsetDateTime;
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -31,7 +32,7 @@ public class HealthCheckResult {
     private Boolean resultPositive;
 
     @Column(name = "result_date")
-    private OffsetDateTime resultDate;
+    private LocalDate resultDate;
 
     @Column(name = "result_sent_at")
     private OffsetDateTime resultSentAt;

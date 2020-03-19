@@ -48,7 +48,40 @@ public interface PersonControllerApi {
         return getRequest().map(r -> r.getHeader("Accept"));
     }
 
-    @ApiOperation(value = "GET actual person and health status", nickname = "personsPersonUidGet", notes = "", response = PersonResponse.class, authorizations = {
+    @ApiOperation(value = "GET all persons", nickname = "getAllPersons", notes = "", response = PersonResponse.class, responseContainer = "List", authorizations = {
+        @Authorization(value = "apiKey")
+    }, tags={ "person-controller", })
+    @ApiResponses(value = { 
+        @ApiResponse(code = 200, message = "Successful operation", response = PersonResponse.class, responseContainer = "List"),
+        @ApiResponse(code = 401, message = "Unauthorized"),
+        @ApiResponse(code = 403, message = "Forbidden"),
+        @ApiResponse(code = 404, message = "Not Found") })
+    @RequestMapping(value = "/bo/persons/",
+        produces = { "application/json" }, 
+        method = RequestMethod.GET)
+    default ResponseEntity<List<PersonResponse>> _getAllPersons() {
+        return getAllPersons();
+    }
+
+    // Override this method
+    default ResponseEntity<List<PersonResponse>> getAllPersons() {
+        if(getObjectMapper().isPresent() && getAcceptHeader().isPresent()) {
+            if (getAcceptHeader().get().contains("application/json")) {
+                try {
+                    return new ResponseEntity<>(getObjectMapper().get().readValue("[ {  \"returnHash\" : \"returnHash\",  \"personUid\" : \"046b6c7f-0b8a-43b9-b35d-6489e6daee91\",  \"addressHome\" : {    \"zipCode\" : \"zipCode\",    \"streetNumberEvidence\" : \"streetNumberEvidence\",    \"city\" : \"city\",    \"street\" : \"street\",    \"streetNumberDescriptive\" : \"streetNumberDescriptive\"  },  \"firstname\" : \"firstname\",  \"phoneNumber\" : \"phoneNumber\",  \"healthStatus\" : {    \"default\" : true,    \"code\" : \"code\",    \"text\" : \"text\",    \"order\" : 0  },  \"surname\" : \"surname\",  \"email\" : \"email\",  \"healthStatusLastChange\" : \"2000-01-23\"}, {  \"returnHash\" : \"returnHash\",  \"personUid\" : \"046b6c7f-0b8a-43b9-b35d-6489e6daee91\",  \"addressHome\" : {    \"zipCode\" : \"zipCode\",    \"streetNumberEvidence\" : \"streetNumberEvidence\",    \"city\" : \"city\",    \"street\" : \"street\",    \"streetNumberDescriptive\" : \"streetNumberDescriptive\"  },  \"firstname\" : \"firstname\",  \"phoneNumber\" : \"phoneNumber\",  \"healthStatus\" : {    \"default\" : true,    \"code\" : \"code\",    \"text\" : \"text\",    \"order\" : 0  },  \"surname\" : \"surname\",  \"email\" : \"email\",  \"healthStatusLastChange\" : \"2000-01-23\"} ]", List.class), HttpStatus.NOT_IMPLEMENTED);
+                } catch (IOException e) {
+                    log.error("Couldn't serialize response for content type application/json", e);
+                    return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
+                }
+            }
+        } else {
+            log.warn("ObjectMapper or HttpServletRequest not configured in default PersonControllerApi interface so no example is generated");
+        }
+        return new ResponseEntity<>(HttpStatus.NOT_IMPLEMENTED);
+    }
+
+
+    @ApiOperation(value = "GET actual person and health status", nickname = "getPerson", notes = "", response = PersonResponse.class, authorizations = {
         @Authorization(value = "apiKey")
     }, tags={ "person-controller", })
     @ApiResponses(value = { 
@@ -56,15 +89,15 @@ public interface PersonControllerApi {
         @ApiResponse(code = 401, message = "Unauthorized"),
         @ApiResponse(code = 403, message = "Forbidden"),
         @ApiResponse(code = 404, message = "Not Found") })
-    @RequestMapping(value = "/persons/{personUid}",
+    @RequestMapping(value = "/app/persons/{personUid}",
         produces = { "application/json" }, 
         method = RequestMethod.GET)
-    default ResponseEntity<PersonResponse> _personsPersonUidGet(@ApiParam(value = "Unique Person's ID (person_uid.person)",required=true) @PathVariable("personUid") UUID personUid) {
-        return personsPersonUidGet(personUid);
+    default ResponseEntity<PersonResponse> _getPerson(@ApiParam(value = "Unique Person's ID (person_uid.person)",required=true) @PathVariable("personUid") UUID personUid) {
+        return getPerson(personUid);
     }
 
     // Override this method
-    default ResponseEntity<PersonResponse> personsPersonUidGet(UUID personUid) {
+    default ResponseEntity<PersonResponse> getPerson(UUID personUid) {
         if(getObjectMapper().isPresent() && getAcceptHeader().isPresent()) {
             if (getAcceptHeader().get().contains("application/json")) {
                 try {
@@ -81,7 +114,7 @@ public interface PersonControllerApi {
     }
 
 
-    @ApiOperation(value = "Updates actual person's and health status", nickname = "personsPersonUidPut", notes = "", response = PersonResponse.class, authorizations = {
+    @ApiOperation(value = "Updates actual person's and health status", nickname = "putPerson", notes = "", response = PersonResponse.class, authorizations = {
         @Authorization(value = "apiKey")
     }, tags={ "person-controller", })
     @ApiResponses(value = { 
@@ -89,15 +122,15 @@ public interface PersonControllerApi {
         @ApiResponse(code = 401, message = "Unauthorized"),
         @ApiResponse(code = 403, message = "Forbidden"),
         @ApiResponse(code = 404, message = "Not Found") })
-    @RequestMapping(value = "/persons/{personUid}",
+    @RequestMapping(value = "/app/persons/{personUid}",
         produces = { "application/json" }, 
         method = RequestMethod.PUT)
-    default ResponseEntity<PersonResponse> _personsPersonUidPut(@ApiParam(value = "Unique Person's ID (person_uid.person)",required=true) @PathVariable("personUid") UUID personUid,@ApiParam(value = "Person's data" ,required=true )  @Valid @RequestBody PersonRequest personDto) {
-        return personsPersonUidPut(personUid, personDto);
+    default ResponseEntity<PersonResponse> _putPerson(@ApiParam(value = "Unique Person's ID (person_uid.person)",required=true) @PathVariable("personUid") UUID personUid,@ApiParam(value = "Person's data" ,required=true )  @Valid @RequestBody PersonRequest personDto) {
+        return putPerson(personUid, personDto);
     }
 
     // Override this method
-    default ResponseEntity<PersonResponse> personsPersonUidPut(UUID personUid,PersonRequest personDto) {
+    default ResponseEntity<PersonResponse> putPerson(UUID personUid,PersonRequest personDto) {
         if(getObjectMapper().isPresent() && getAcceptHeader().isPresent()) {
             if (getAcceptHeader().get().contains("application/json")) {
                 try {

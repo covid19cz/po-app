@@ -50,6 +50,22 @@
                                     <goal>generate</goal>
                                 </goals>
                             </execution>
+                            <execution>
+                                <id>generate-po-api-fe-bo</id>
+                                <configuration>
+                                    <language>typescript-fetch</language>
+                                    <inputSpec>${basedir}/../po-common/po-api.yml</inputSpec>
+                                    <output>${basedir}/../../fe/bo/_api/base</output>
+                                    <configOptions>
+                                        <generateModel>false</generateModel>
+                                        <generateApis>false</generateApis>
+                                        <generateTests>false</generateTests>
+                                    </configOptions>
+                                </configuration>
+                                <goals>
+                                    <goal>generate</goal>
+                                </goals>
+                            </execution>
                         </executions>
                     </plugin>
                     <plugin>
@@ -78,6 +94,25 @@
                                 </goals>
                                 <configuration>
                                     <workingDirectory>${basedir}/../../fe/app/_api/base</workingDirectory>
+                                </configuration>
+                            </execution>
+                            <execution>
+                                <id>install node and yarn bo</id>
+                                <goals>
+                                    <goal>install-node-and-yarn</goal>
+                                </goals>
+                                <phase>generate-resources</phase>
+                                <configuration>
+                                    <workingDirectory>${basedir}/../../fe/bo/_api/base</workingDirectory>
+                                </configuration>
+                            </execution>
+                            <execution>
+                                <id>yarn install bo</id>
+                                <goals>
+                                    <goal>yarn</goal>
+                                </goals>
+                                <configuration>
+                                    <workingDirectory>${basedir}/../../fe/bo/_api/base</workingDirectory>
                                 </configuration>
                             </execution>
                         </executions>

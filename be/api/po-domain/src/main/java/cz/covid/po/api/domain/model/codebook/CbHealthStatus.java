@@ -10,5 +10,10 @@ public class CbHealthStatus extends CodebookItemBase {
 
     public final class Items {
         public static final String UNKNOWN = "UNKNOWN";
+        public static final String POSITIVE = " COVID19-POSITIVE";
+        public static final String NEGATIVE = "COVID19-NEGATIVE";
+        public static final String QUARANTINE = "QUARANTINE";
+        public static final String NO_SYMPTOMS = "NO_SYMPTOMS";
+
     }
 }

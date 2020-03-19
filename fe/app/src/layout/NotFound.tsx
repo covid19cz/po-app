@@ -1,6 +1,6 @@
+import {Layout} from "@/components/Layout";
 import React from "react";
 import { useLocation } from "react-router";
-import { Layout } from "../components/Layout";
 
 export const NotFound = () => {
   const location = useLocation();

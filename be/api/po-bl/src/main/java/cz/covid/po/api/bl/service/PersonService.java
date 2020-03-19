@@ -1,6 +1,7 @@
 package cz.covid.po.api.bl.service;
 
 import cz.covid.po.api.domain.model.Person;
+import java.util.List;
 import java.util.UUID;
 
 public interface PersonService {
@@ -9,4 +10,6 @@ public interface PersonService {
     Person getByUid(UUID personUid);
 
     Person update(UUID updatedPersonUid, Person source);
+
+    List<Person> findAll();
 }

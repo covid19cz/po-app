@@ -62,7 +62,7 @@ export const ContactDetails = () => {
     { setSubmitting }: FormikHelpers<ContactDetailsFormData>
   ) {
     try {
-      await api.personsPersonUidPut({
+      await api.putPerson({
         personUid: patientId,
         personDto: { ...formData, addressHome: { city: formData.address } }
       });
