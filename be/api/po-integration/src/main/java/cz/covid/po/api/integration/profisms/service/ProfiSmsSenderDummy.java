@@ -1,3 +1,5 @@
+package cz.covid.po.api.integration.profisms.service;
+
 import cz.covid.po.api.integration.common.enumeration.IntegrationSystem;
 import cz.covid.po.api.integration.common.exception.IntegrationException;
 import cz.covid.po.api.integration.common.util.EncryptionUtil;
