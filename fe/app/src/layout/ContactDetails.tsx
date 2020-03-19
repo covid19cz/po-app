@@ -1,6 +1,7 @@
 import { ButtonBack } from "@/components/button/ButtonBack";
 import { ButtonContinue } from "@/components/button/ButtonContinue";
 import { LoadingBackdrop } from "@/components/feedback/Backdrop";
+import { FieldPlaces } from "@/components/forms/FieldPlaces";
 import { Layout } from "@/components/Layout";
 import { PageDescription } from "@/components/PageDescription";
 import { PageTitle } from "@/components/PageTitle";
@@ -113,13 +114,17 @@ export const ContactDetails = () => {
                   />
                 </Grid>
                 <Grid item xs={12}>
-                  <Field
+                  <FieldPlaces
+                    name={"address"}
+                    label={"Adresa trvalého pobytu"}
+                  />
+                  {/*<Field
                     component={TextField}
                     name="address"
                     type="text"
                     label="Adresa trvalého pobytu"
                     fullWidth
-                  />
+                  />*/}
                 </Grid>
                 <Grid item xs={12}>
                   <Field

@@ -9,7 +9,7 @@ export type PageProps = RouteProps & {
 
 export const Page: React.FC<PageProps> = props => {
   useEffect(() => {
-    document.title = "Portál občana | " + props.title;
+    document.title = "Covid-19 Monitor | " + props.title;
   });
   const { title, ...rest } = props;
   return <Route {...rest} />;
