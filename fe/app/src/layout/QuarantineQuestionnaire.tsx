@@ -1,7 +1,6 @@
 import { Grid } from "@material-ui/core";
 import { Field, Form, Formik } from "formik";
 import { TextField, Select } from "formik-material-ui";
-import { DatePicker } from "git";
 import React from "react";
 import { ButtonBack } from "../components/button/ButtonBack";
 import { ButtonContinue } from "../components/button/ButtonContinue";
@@ -9,6 +8,7 @@ import { LoadingBackdrop } from "../components/feedback/Backdrop";
 import { Layout } from "../components/Layout";
 import { PageTitle } from "../components/PageTitle";
 import { Yup } from "../schema";
+import { DatePicker } from "formik-material-ui-pickers";
 
 const QuarantineQuestionnaireSchema = Yup.object().shape<
   QuarantineQuestionnaireFormData
