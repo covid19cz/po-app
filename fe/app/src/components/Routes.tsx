@@ -43,7 +43,7 @@ export const Routes: Record<PageNames, PageProps> = {
     title: "Přihlášení"
   },
   LoginSmsVerification: {
-    link: "/login-sms-verification",
+    link: "/login-sms-verification/:patientId",
     exact: true,
     children: <LoginSmsVerification />,
     title: "Přihlášení"

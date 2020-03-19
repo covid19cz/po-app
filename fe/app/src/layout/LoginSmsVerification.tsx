@@ -1,13 +1,19 @@
+import {setOauthData} from "@/api/defaults";
+import { getOauthToken, getSecurityApi } from "@/api/securityApi";
+import { ButtonBack } from "@/components/button/ButtonBack";
+import { ButtonContinue } from "@/components/button/ButtonContinue";
+import { LoadingBackdrop } from "@/components/feedback/Backdrop";
+import { Layout } from "@/components/Layout";
+import { goToPath, PageNames } from "@/components/Routes";
+import { useApi } from "@/hooks/useApi";
+import { usePathParams } from "@/hooks/usePathParams";
 import { Grid, Typography } from "@material-ui/core";
+import { AuthorizationcontrollerApi } from "@swaggerBase";
+import { DefaultApi } from "@swaggerSecurity";
 import { Field, Form, Formik } from "formik";
 import { TextField } from "formik-material-ui";
 import { FormikHelpers } from "formik/dist/types";
 import React from "react";
-import { ButtonBack } from "../components/button/ButtonBack";
-import { ButtonContinue } from "../components/button/ButtonContinue";
-import { LoadingBackdrop } from "../components/feedback/Backdrop";
-import { Layout } from "../components/Layout";
-import { goToPath, PageNames } from "../components/Routes";
 import { useHistory } from "react-router-dom";
 import { Yup } from "../schema";
 
@@ -21,18 +27,33 @@ const initData = { verificationCode: "" };
 type LoginSmsVerificationFormData = typeof initData;
 
 export const LoginSmsVerification = () => {
+  const { patientId } = usePathParams();
   const history = useHistory();
-  const handleSubmit = (
+
+  const authorizationApi = useApi(AuthorizationcontrollerApi);
+  async function handleSubmit(
     formData: LoginSmsVerificationFormData,
     { setSubmitting }: FormikHelpers<LoginSmsVerificationFormData>
-  ) => {
-    // TODO verify code
-    console.log("your code is  ", formData.verificationCode);
+  ) {
+    try {
+      const response = await authorizationApi.verifyCodeUsingPOST({
+        personUid: patientId,
+        smsCode: formData.verificationCode
+      });
 
-    setSubmitting(false);
+      const token = await getOauthToken({
+        username: patientId,
+        password: response.password
+      });
 
-    goToPath(history, PageNames.Dashboard, { patientId: 123 });
-  };
+      setOauthData(token)
+
+      setSubmitting(false);
+      goToPath(history, PageNames.Dashboard, {
+        patientId
+      });
+    } catch (e) {}
+  }
 
   return (
     <Layout>
