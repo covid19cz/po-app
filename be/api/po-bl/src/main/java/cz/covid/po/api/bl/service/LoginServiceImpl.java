@@ -1,5 +1,6 @@
 package cz.covid.po.api.bl.service;
 
+import cz.covid.po.api.bl.component.MessageProvider;
 import cz.covid.po.api.bl.constant.OauthConstants;
 import cz.covid.po.api.bl.exception.AuthorizationCodeException;
 import cz.covid.po.api.bl.exception.BusinessException;
@@ -36,9 +37,9 @@ public class LoginServiceImpl implements LoginService {
     private final AuthorizationRepository authorizationRepository;
     private final PersonRepository personRepository;
     private final UserRepository userRepository;
+    private final MessageProvider messageProvider;
     private final PasswordEncoder passwordEncoder;
     private final ProfiSmsSender profiSmsSender;
-
     @Value("${app.login.sms-code.length}")
     private int codeLength;
     @Value("${app.login.sms-code.validity}")
@@ -70,7 +71,7 @@ public class LoginServiceImpl implements LoginService {
 
         createAuthorization(person, code);
 
-        profiSmsSender.sendSms(person.getPhoneNumber(), "Login heslo je: " + code);
+        profiSmsSender.sendSms(person.getPhoneNumber(), messageProvider.getMessage("app.sms.authorizationCode", code));
     }
 
     @Override
