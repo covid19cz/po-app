@@ -75,6 +75,7 @@ public class PersonServiceImpl implements PersonService {
 
     @Override
     public List<Person> findAll() {
+        // TODO @jv add Pagination
         return personRepository.findAll();
     }
 }

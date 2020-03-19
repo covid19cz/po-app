@@ -46,7 +46,7 @@ export const PersonsList = () => {
                   `${person.firstname} ${person.surname}`}
               </TableCell>
               <TableCell>{person.phoneNumber}</TableCell>
-              <TableCell>{person.healthStatus?.code}</TableCell>
+              <TableCell>{person.healthStatus?.text}</TableCell>
               <TableCell>{person.healthStatusLastChange && format(new Date(person.healthStatusLastChange), "dd.MM.yyyy")}</TableCell>
             </TableRow>
           ))}
