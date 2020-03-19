@@ -16,6 +16,10 @@ export const Dashboard = () => {
     goToPath(history, PageNames.ContactDetails, { patientId });
   }
 
+  function handleIsInfected() {
+    goToPath(history, PageNames.AlreadyInfectedGeneral, { patientId });
+  }
+
   return (
     <Layout>
       <Grid container wrap="wrap" spacing={2}>
@@ -46,15 +50,15 @@ export const Dashboard = () => {
           </Button>
         </Grid>
         <Grid item xs={12}>
-          <Button variant="contained" fullWidth>
+          <Button variant="contained" fullWidth onClick={handleIsInfected}>
             Mám Covid19 potvrzen
           </Button>
         </Grid>
-        <Grid item xs={12}>
+       {/* <Grid item xs={12}>
           <Button variant="contained" fullWidth>
             Jsem v karanténě *)
           </Button>
-        </Grid>
+        </Grid>*/}
       </Grid>
 
       <Grid container wrap="nowrap" spacing={2}>
