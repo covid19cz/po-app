@@ -1,11 +1,14 @@
 package cz.covid.po.api.controller;
 
+import cz.covid.po.api.bl.dto.ValidationErrorResponse;
+import cz.covid.po.api.bl.exception.MultiValidationException;
 import org.springframework.context.support.DefaultMessageSourceResolvable;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ControllerAdvice;
+import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.context.request.WebRequest;
 import org.springframework.web.servlet.mvc.method.annotation.ResponseEntityExceptionHandler;
 
@@ -39,6 +42,12 @@ public class GlobalExceptionAdvice extends ResponseEntityExceptionHandler {
 
         return new ResponseEntity<>(body, headers, status);
 
+    }
+
+    @ExceptionHandler(MultiValidationException.class)
+    public final ResponseEntity<ValidationErrorResponse> handleMultiValidationException(MultiValidationException ex,
+                                                                                        WebRequest request) {
+        return ResponseEntity.badRequest().body(new ValidationErrorResponse(ex.getMessage(), ex.getValidationErrors()));
     }
 
 

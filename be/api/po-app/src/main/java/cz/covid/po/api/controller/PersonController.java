@@ -8,6 +8,8 @@ import cz.covid.po.api.generated.controller.PersonControllerApi;
 import cz.covid.po.api.generated.dto.PersonRequest;
 import cz.covid.po.api.generated.dto.PersonResponse;
 import java.util.UUID;
+
+import cz.covid.po.api.validator.PersonValidator;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.RestController;
@@ -19,6 +21,7 @@ public class PersonController extends ControllerBase implements PersonController
     private final PersonService personService;
     private final PersonRequestConverter personRequestConverter;
     private final PersonResponseConverter personResponseConverter;
+    private final PersonValidator personValidator;
 
     @Override
     public ResponseEntity<PersonResponse> personsPersonUidGet(UUID personUid) {
@@ -27,6 +30,7 @@ public class PersonController extends ControllerBase implements PersonController
 
     @Override
     public ResponseEntity<PersonResponse> personsPersonUidPut(UUID personUid, PersonRequest personDto) {
+        personValidator.validatePerson(personDto);
         Person source = personRequestConverter.convert(personDto);
         return ResponseEntity.ok(personResponseConverter.convert(personService.update(personUid, source)));
     }

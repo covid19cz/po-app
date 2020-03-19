@@ -7,10 +7,13 @@ import cz.covid.po.api.generated.controller.AuthorizationControllerApi;
 import cz.covid.po.api.generated.dto.SendCodeRequest;
 import cz.covid.po.api.generated.dto.SendCodeResponse;
 import cz.covid.po.api.generated.dto.VerifyCodeResponseDto;
-import java.util.UUID;
+import cz.covid.po.api.helper.PhoneNormalizerHelper;
+import cz.covid.po.api.validator.PhoneValidator;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.RestController;
+
+import java.util.UUID;
 
 @RestController
 @RequiredArgsConstructor
@@ -18,10 +21,14 @@ public class AuthorizationController extends ControllerBase implements Authoriza
 
     private final PersonService personService;
     private final LoginService loginService;
+    private final PhoneValidator phoneValidator;
+    private final PhoneNormalizerHelper phoneNormalizer;
 
     @Override
     public ResponseEntity<SendCodeResponse> sendCodeUsingPOST(SendCodeRequest sendCodeRequest) {
-        Person person = personService.getOrCreate(sendCodeRequest.getPhoneNumber());
+        final String normalizedPhone = phoneNormalizer.normalizePhone(sendCodeRequest.getPhoneNumber());
+        phoneValidator.validatePhone(normalizedPhone);
+        Person person = personService.getOrCreate(normalizedPhone);
         loginService.sendAuthSms(person.getUid());
 
         return ResponseEntity.ok(new SendCodeResponse().personUid(person.getUid()));
