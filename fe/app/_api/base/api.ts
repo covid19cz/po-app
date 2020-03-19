@@ -57,7 +57,7 @@ export interface ErrorMessageDto {
     "message"?: string;
 }
 
-export type ErrorMessageDtoErrorCodeEnum = "SMS_CODE_GEN_ERROR" | "UNAUTHORIZED" | "UNKNOWN" | "ERROR_LOGIN_REQUIRED";
+export type ErrorMessageDtoErrorCodeEnum = "SMS_CODE_GEN_ERROR" | "UNAUTHORIZED" | "UNKNOWN" | "ERROR_LOGIN_REQUIRED" | "VALIDATION_FAILED";
 export interface ExposureRequest {
     "infectedInContact"?: ExposureRequestInfectedInContactEnum;
     "infectedInContactDate"?: Date;
@@ -301,6 +301,90 @@ export const AuthorizationcontrollerApiFactory = function (fetch?: FetchAPI, bas
          */
         verifyCodeUsingPOST(params: {  "personUid"?: string; "smsCode"?: string; }, options?: any) {
             return AuthorizationcontrollerApiFp.verifyCodeUsingPOST(params, options)(fetch, basePath);
+        },
+    };
+};
+
+
+/**
+ * CodebookcontrollerApi - fetch parameter creator
+ */
+export const CodebookcontrollerApiFetchParamCreator = {
+    /**
+     * 
+     * @summary getCodebookItems
+     * @param codebook Codebook code
+     */
+    getCodebookItemsUsingGET(params: {  "codebook": string; }, options?: any): FetchArgs {
+        // verify required parameter "codebook" is set
+        if (params["codebook"] == null) {
+            throw new Error("Missing required parameter codebook when calling getCodebookItemsUsingGET");
+        }
+        const baseUrl = `/codebooks/{codebook}`
+            .replace(`{${"codebook"}}`, `${ params["codebook"] }`);
+        let urlObj = url.parse(baseUrl, true);
+        let fetchOptions: RequestInit = assign({}, { method: "GET" }, options);
+
+        let contentTypeHeader: Dictionary<string> = {};
+        if (contentTypeHeader) {
+            fetchOptions.headers = assign({}, contentTypeHeader, fetchOptions.headers);
+        }
+        return {
+            url: url.format(urlObj),
+            options: fetchOptions,
+        };
+    },
+};
+
+/**
+ * CodebookcontrollerApi - functional programming interface
+ */
+export const CodebookcontrollerApiFp = {
+    /**
+     * 
+     * @summary getCodebookItems
+     * @param codebook Codebook code
+     */
+    getCodebookItemsUsingGET(params: { "codebook": string;  }, options?: any): (fetch?: FetchAPI, basePath?: string) => Promise<Array<CodebookItemDto>> {
+        const fetchArgs = CodebookcontrollerApiFetchParamCreator.getCodebookItemsUsingGET(params, options);
+        return (fetch: FetchAPI = isomorphicFetch, basePath: string = BASE_PATH) => {
+            return fetch(basePath + fetchArgs.url, fetchArgs.options).then((response) => {
+                if (response.status >= 200 && response.status < 300) {
+                    return response.json();
+                } else {
+                    throw response;
+                }
+            });
+        };
+    },
+};
+
+/**
+ * CodebookcontrollerApi - object-oriented interface
+ */
+export class CodebookcontrollerApi extends BaseAPI {
+    /**
+     * 
+     * @summary getCodebookItems
+     * @param codebook Codebook code
+     */
+    getCodebookItemsUsingGET(params: {  "codebook": string; }, options?: any) {
+        return CodebookcontrollerApiFp.getCodebookItemsUsingGET(params, options)(this.fetch, this.basePath);
+    }
+};
+
+/**
+ * CodebookcontrollerApi - factory interface
+ */
+export const CodebookcontrollerApiFactory = function (fetch?: FetchAPI, basePath?: string) {
+    return {
+        /**
+         * 
+         * @summary getCodebookItems
+         * @param codebook Codebook code
+         */
+        getCodebookItemsUsingGET(params: {  "codebook": string; }, options?: any) {
+            return CodebookcontrollerApiFp.getCodebookItemsUsingGET(params, options)(fetch, basePath);
         },
     };
 };

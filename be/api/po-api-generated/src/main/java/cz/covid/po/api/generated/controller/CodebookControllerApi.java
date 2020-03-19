@@ -55,7 +55,7 @@ public interface CodebookControllerApi {
     @RequestMapping(value = "/codebooks/{codebook}",
         produces = { "application/json" }, 
         method = RequestMethod.GET)
-    default ResponseEntity<List<CodebookItemDto>> _getCodebookItemsUsingGET(@ApiParam(value = "Codebook code",required=true, allowableValues = "\"cbHealthCheckType\", \"cbHealthStatus\"") @PathVariable("codebook") String codebook) {
+    default ResponseEntity<List<CodebookItemDto>> _getCodebookItemsUsingGET(@ApiParam(value = "Codebook code",required=true, allowableValues = "\"cbHealthStatus\", \"cbHealthCheckType\"") @PathVariable("codebook") String codebook) {
         return getCodebookItemsUsingGET(codebook);
     }
 

@@ -28,7 +28,7 @@ export interface ErrorMessageDto {
     "errorCode"?: ErrorMessageDtoErrorCodeEnum;
     "message"?: string;
 }
-export declare type ErrorMessageDtoErrorCodeEnum = "SMS_CODE_GEN_ERROR" | "UNAUTHORIZED" | "UNKNOWN" | "ERROR_LOGIN_REQUIRED";
+export declare type ErrorMessageDtoErrorCodeEnum = "SMS_CODE_GEN_ERROR" | "UNAUTHORIZED" | "UNKNOWN" | "ERROR_LOGIN_REQUIRED" | "VALIDATION_FAILED";
 export interface ExposureRequest {
     "infectedInContact"?: ExposureRequestInfectedInContactEnum;
     "infectedInContactDate"?: Date;
@@ -173,6 +173,43 @@ export declare const AuthorizationcontrollerApiFactory: (fetch?: FetchAPI, baseP
         "personUid"?: string;
         "smsCode"?: string;
     }, options?: any): Promise<VerifyCodeResponseDto>;
+};
+/**
+ * CodebookcontrollerApi - fetch parameter creator
+ */
+export declare const CodebookcontrollerApiFetchParamCreator: {
+    getCodebookItemsUsingGET(params: {
+        "codebook": string;
+    }, options?: any): FetchArgs;
+};
+/**
+ * CodebookcontrollerApi - functional programming interface
+ */
+export declare const CodebookcontrollerApiFp: {
+    getCodebookItemsUsingGET(params: {
+        "codebook": string;
+    }, options?: any): (fetch?: FetchAPI, basePath?: string) => Promise<CodebookItemDto[]>;
+};
+/**
+ * CodebookcontrollerApi - object-oriented interface
+ */
+export declare class CodebookcontrollerApi extends BaseAPI {
+    /**
+     *
+     * @summary getCodebookItems
+     * @param codebook Codebook code
+     */
+    getCodebookItemsUsingGET(params: {
+        "codebook": string;
+    }, options?: any): Promise<CodebookItemDto[]>;
+}
+/**
+ * CodebookcontrollerApi - factory interface
+ */
+export declare const CodebookcontrollerApiFactory: (fetch?: FetchAPI, basePath?: string) => {
+    getCodebookItemsUsingGET(params: {
+        "codebook": string;
+    }, options?: any): Promise<CodebookItemDto[]>;
 };
 /**
  * HealthcheckcontrollerApi - fetch parameter creator

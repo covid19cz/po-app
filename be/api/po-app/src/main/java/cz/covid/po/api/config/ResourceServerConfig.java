@@ -44,6 +44,8 @@ public class ResourceServerConfig extends ResourceServerConfigurerAdapter {
                 .antMatchers(HttpMethod.OPTIONS, "/**").permitAll()
                 .antMatchers("/api/*/authorizations/*").permitAll()
                 .antMatchers("/api/*/**").hasAnyAuthority(AuthRole.ADMIN.toString(), AuthRole.CLIENT.toString())
+                .antMatchers("/actuator/**").permitAll()
+                .antMatchers("/robots.txt", "/version*", "/changelog*", "/v2/api-docs", "/configuration/ui", "/swagger-resources", "/swagger-resources/**", "/configuration/security", "/swagger-ui.html", "/webjars/springfox-swagger-ui/**").permitAll()
                 .anyRequest().authenticated()
                 .and()
                 .addFilterAfter(authFilter, FilterSecurityInterceptor.class);
