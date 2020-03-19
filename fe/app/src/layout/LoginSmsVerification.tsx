@@ -1,4 +1,4 @@
-import {setOauthData} from "@/api/defaults";
+import { setOauthData } from "@/api/defaults";
 import { getOauthToken, getSecurityApi } from "@/api/securityApi";
 import { ButtonBack } from "@/components/button/ButtonBack";
 import { ButtonContinue } from "@/components/button/ButtonContinue";
@@ -13,7 +13,7 @@ import { DefaultApi } from "@swaggerSecurity";
 import { Field, Form, Formik } from "formik";
 import { TextField } from "formik-material-ui";
 import { FormikHelpers } from "formik/dist/types";
-import React from "react";
+import React, { useEffect } from "react";
 import { useHistory } from "react-router-dom";
 import { Yup } from "../schema";
 
@@ -29,6 +29,10 @@ type LoginSmsVerificationFormData = typeof initData;
 export const LoginSmsVerification = () => {
   const { patientId } = usePathParams();
   const history = useHistory();
+
+  useEffect(() => {
+    sessionStorage.clear();
+  }, []);
 
   const authorizationApi = useApi(AuthorizationcontrollerApi);
   async function handleSubmit(
@@ -46,7 +50,7 @@ export const LoginSmsVerification = () => {
         password: response.password
       });
 
-      setOauthData(token)
+      setOauthData(token);
 
       setSubmitting(false);
       goToPath(history, PageNames.Dashboard, {

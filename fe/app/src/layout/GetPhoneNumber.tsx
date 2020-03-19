@@ -8,7 +8,7 @@ import { AuthorizationcontrollerApi } from "@swaggerBase";
 import { Field, Form, Formik } from "formik";
 import { TextField } from "formik-material-ui";
 import { FormikHelpers } from "formik/dist/types";
-import React from "react";
+import React, { useEffect } from "react";
 import { phoneNumberSchema, Yup } from "../schema";
 import { useHistory } from "react-router-dom";
 
@@ -22,6 +22,11 @@ type GetPhoneNumberFormData = typeof initData;
 export const GetPhoneNumber = () => {
   const history = useHistory();
   const api = useApi(AuthorizationcontrollerApi);
+
+  useEffect(() => {
+    sessionStorage.clear();
+  }, []);
+
   async function handleSubmit(
     formData: GetPhoneNumberFormData,
     { setSubmitting }: FormikHelpers<GetPhoneNumberFormData>
