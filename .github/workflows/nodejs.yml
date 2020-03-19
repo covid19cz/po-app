@@ -39,7 +39,11 @@ jobs:
         with:
           node-version: ${{ matrix.node-version }}
       - name: yarn install
-        run: yarn install
+        run: |
+          export REACT_APP_GOOGLE_API_KEY=${{ secrets.REACT_APP_GOOGLE_API_KEY }}
+          export REACT_APP_OAUTH_SERVER_TOKEN=${{ secrets.REACT_APP_OAUTH_SERVER_TOKEN }}
+          export REACT_APP_API_URL=https://covid-po-api.azurewebsites.net
+          yarn build
         working-directory: ./fe/app
       - name: yarn build
         run: yarn build
