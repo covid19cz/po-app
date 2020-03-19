@@ -1,0 +1,38 @@
+name: Backoffice
+on:
+  push:
+    branches: [ master ]
+    paths:
+    - 'bo/app/**'
+# A workflow run is made up of one or more jobs that can run sequentially or in parallel
+jobs:
+  # Build and deploy backend
+  build-deploy:
+    # The type of runner that the job will run on
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        node-version: [10.x] # Only run the 10.x build
+    steps:
+      - uses: actions/checkout@v2
+      - name: Use Node.js ${{ matrix.node-version }}
+        uses: actions/setup-node@v1
+        with:
+          node-version: ${{ matrix.node-version }}
+      - name: yarn install
+        run: yarn install
+        working-directory: ./bo/app
+      - name: yarn build
+        run: |
+          export REACT_APP_GOOGLE_API_KEY=${{ secrets.REACT_APP_GOOGLE_API_KEY }}
+          export REACT_APP_OAUTH_SERVER_TOKEN=${{ secrets.REACT_APP_OAUTH_SERVER_TOKEN }}
+          export REACT_APP_API_URL=https://covid-po-api.azurewebsites.net
+          yarn build
+        working-directory: ./bo/app
+      - name: Azure upload
+        uses: azure/CLI@v1
+        with:
+          azcliversion: 2.0.72
+          inlineScript: |
+            az storage blob delete-batch -s "\$web" --connection-string "${{ secrets.AZURE_BACKOFFICE_STORAGE_CONNECTION_STRING }}"
+            az storage blob upload-batch -d "\$web" -s ./bo/app/build --connection-string "${{ secrets.AZURE_BACKOFFICE_STORAGE_CONNECTION_STRING }}"
