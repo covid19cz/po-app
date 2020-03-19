@@ -1,31 +1,15 @@
 import { StorageKeys, storageService } from "@/service/ClientStorageService";
 import { isFunction } from "@/utils/objectUtils";
 import { ErrorMessageDto, ErrorMessageDtoErrorCodeEnum } from "@swaggerBase";
+import { TokenDto } from "@swaggerSecurity";
 import { ReactElement } from "react";
 // @ts-ignore
 import * as isomorphicFetch from "isomorphic-fetch";
-import { getSecurityApi } from "./GetSecurityApi";
-
-export enum OauthGrantType {
-  password = "password",
-  refresh_token = "refresh_token"
-}
-
-export interface IOauthTokenRequest {
-  username?: string; // clientGuid
-  password?: string; // sms Password
-  refreshToken?: string;
-  grantType?: OauthGrantType;
-}
-
-export const DEFAULT_GRANT_TYPE = OauthGrantType.password;
-
-export interface TokenDto {
-  accessToken?: string;
-  expiresIn?: number;
-  refreshToken?: string;
-  tokenType?: string;
-}
+import {
+  getOauthToken,
+  IOauthTokenRequest,
+  OauthGrantType
+} from "./securityApi";
 
 const ACCESS_TOKEN: StorageKeys = "access_token";
 const REFRESH_TOKEN: StorageKeys = "refresh_token";
@@ -73,24 +57,20 @@ export function setOauthData(data: TokenDto): void {
 }
 
 export function tokenExists(): boolean {
-  // TODO @jv change when validation implemented
-  return true;
-
-  /*return (
+  return (
     storageService.getItem(ACCESS_TOKEN) !== null &&
     storageService.getItem(REFRESH_TOKEN) !== null
-  );*/
+  );
 }
 
 function getTokenForQuery(): string | null {
-  /*  if (tokenExists()) {
+  if (tokenExists()) {
     return `${storageService.getItem(TOKEN_TYPE)} ${storageService.getItem(
       ACCESS_TOKEN
     )}`;
-  }*/
+  }
 
-  // TODO @jv change when validation implemented
-  return "Basic dXNlcjpwYXNzd29yZA==";
+  return "";
 }
 
 function getRefreshToken(): string {
@@ -120,20 +100,6 @@ async function handleUnauthorisedRequest(url: string, config: any) {
     return redirectToDefault();
   }
 }
-
-export const oauthTokenDefaultOptions = {
-  Authorization: `Basic ${process.env.REACT_APP_OAUTH_SERVER_TOKEN}`
-};
-
-export const getOauthToken = (
-  data: IOauthTokenRequest,
-  repeated?: boolean
-): Promise<TokenDto> => {
-  return getSecurityApi().nullUsingPOST(
-    { grantType: DEFAULT_GRANT_TYPE, ...data },
-    { headers: oauthTokenDefaultOptions, repeated }
-  );
-};
 
 function refreshOauthToken(data: IOauthTokenRequest): Promise<TokenDto> {
   return getOauthToken(data);
