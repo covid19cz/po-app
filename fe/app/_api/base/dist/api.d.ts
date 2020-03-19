@@ -83,10 +83,11 @@ export interface SendCodeResponse {
      */
     "personUid"?: string;
 }
-export interface SimtompsRequest {
-    "symtompsSince"?: Date;
-    "highTemperatureDuration"?: number;
-    "dryCoughDuration"?: number;
+export declare type SymptomEnum = "NONE" | "MORE" | "ONE_OR_TWO" | "THREE_OR_FOUR";
+export interface SymptomsRequest {
+    "symtomsSince"?: Date;
+    "highTemperatureDuration"?: SymptomEnum;
+    "dryCoughDuration"?: SymptomEnum;
     "headache"?: boolean;
 }
 export interface TestingPlaceInstuctionsDto {
@@ -183,7 +184,7 @@ export declare const HealthcheckcontrollerApiFetchParamCreator: {
     }, options?: any): FetchArgs;
     personsPersonUidHealthCheckSymptomsPut(params: {
         "personUid": string;
-        "simptomsDto": SimtompsRequest;
+        "symptomsDto": SymptomsRequest;
     }, options?: any): FetchArgs;
     personsPersonUidHealthCheckTestingPlacePut(params: {
         "personUid": string;
@@ -200,7 +201,7 @@ export declare const HealthcheckcontrollerApiFp: {
     }, options?: any): (fetch?: FetchAPI, basePath?: string) => Promise<any>;
     personsPersonUidHealthCheckSymptomsPut(params: {
         "personUid": string;
-        "simptomsDto": SimtompsRequest;
+        "symptomsDto": SymptomsRequest;
     }, options?: any): (fetch?: FetchAPI, basePath?: string) => Promise<any>;
     personsPersonUidHealthCheckTestingPlacePut(params: {
         "personUid": string;
@@ -225,11 +226,11 @@ export declare class HealthcheckcontrollerApi extends BaseAPI {
      *
      * @summary Fills actual health check form
      * @param personUid Unique Person&#39;s ID (person_uid.person)
-     * @param simptomsDto Health check&#39;s data - simptoms
+     * @param symptomsDto Health check&#39;s data - simptoms
      */
     personsPersonUidHealthCheckSymptomsPut(params: {
         "personUid": string;
-        "simptomsDto": SimtompsRequest;
+        "symptomsDto": SymptomsRequest;
     }, options?: any): Promise<any>;
     /**
      *
@@ -252,7 +253,7 @@ export declare const HealthcheckcontrollerApiFactory: (fetch?: FetchAPI, basePat
     }, options?: any): Promise<any>;
     personsPersonUidHealthCheckSymptomsPut(params: {
         "personUid": string;
-        "simptomsDto": SimtompsRequest;
+        "symptomsDto": SymptomsRequest;
     }, options?: any): Promise<any>;
     personsPersonUidHealthCheckTestingPlacePut(params: {
         "personUid": string;

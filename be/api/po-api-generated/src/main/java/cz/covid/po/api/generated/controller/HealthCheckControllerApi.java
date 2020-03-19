@@ -6,7 +6,7 @@
 package cz.covid.po.api.generated.controller;
 
 import cz.covid.po.api.generated.dto.ExposureRequest;
-import cz.covid.po.api.generated.dto.SimtompsRequest;
+import cz.covid.po.api.generated.dto.SymptomsRequest;
 import cz.covid.po.api.generated.dto.TestingPlaceInstuctionsDto;
 import cz.covid.po.api.generated.dto.TestingPlaceRequest;
 import java.util.UUID;
@@ -86,12 +86,12 @@ public interface HealthCheckControllerApi {
     @RequestMapping(value = "/persons/{personUid}/health-check/symptoms",
         produces = { "application/json" }, 
         method = RequestMethod.PUT)
-    default ResponseEntity<Void> _personsPersonUidHealthCheckSymptomsPut(@ApiParam(value = "Unique Person's ID (person_uid.person)",required=true) @PathVariable("personUid") UUID personUid,@ApiParam(value = "Health check's data - simptoms" ,required=true )  @Valid @RequestBody SimtompsRequest simptomsDto) {
-        return personsPersonUidHealthCheckSymptomsPut(personUid, simptomsDto);
+    default ResponseEntity<Void> _personsPersonUidHealthCheckSymptomsPut(@ApiParam(value = "Unique Person's ID (person_uid.person)",required=true) @PathVariable("personUid") UUID personUid,@ApiParam(value = "Health check's data - simptoms" ,required=true )  @Valid @RequestBody SymptomsRequest symptomsDto) {
+        return personsPersonUidHealthCheckSymptomsPut(personUid, symptomsDto);
     }
 
     // Override this method
-    default ResponseEntity<Void> personsPersonUidHealthCheckSymptomsPut(UUID personUid,SimtompsRequest simptomsDto) {
+    default ResponseEntity<Void> personsPersonUidHealthCheckSymptomsPut(UUID personUid,SymptomsRequest symptomsDto) {
         if(getObjectMapper().isPresent() && getAcceptHeader().isPresent()) {
         } else {
             log.warn("ObjectMapper or HttpServletRequest not configured in default HealthCheckControllerApi interface so no example is generated");

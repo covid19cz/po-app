@@ -87,7 +87,7 @@ paths:
   '/persons/{personUid}/health-check/symptoms':
     put:
       tags:
-        - health-check-controller
+        -   health-check-controller
       summary: Fills actual health check form
       description: ''
       produces:
@@ -100,11 +100,11 @@ paths:
           type: string
           format: uuid
         - in: body
-          name: simptomsDto
+          name: symptomsDto
           description: Health check's data - simptoms
           required: true
           schema:
-            $ref: '#/definitions/SimtompsRequest'
+            $ref: '#/definitions/SymptomsRequest'
       responses:
         '200':
           description: Successful operation
@@ -320,16 +320,16 @@ definitions:
         $ref: '#/definitions/Address'
       email:
         type: string
-  SimtompsRequest:
+  SymptomsRequest:
     type: object
     properties:
-      symtompsSince:
+      symtomsSince:
         type: string
         format: date
       highTemperatureDuration:
-        type: integer
+        $ref: '#/definitions/SymptomEnum'
       dryCoughDuration:
-        type: integer
+        $ref: '#/definitions/SymptomEnum'
       headache:
         type: boolean
   ExposureRequest:
@@ -482,3 +482,7 @@ definitions:
         type: string
         format: uuid
         description: 'Unique Person''s ID (person_uid.person)'
+
+  SymptomEnum:
+    type: string
+    enum: [NONE, MORE, ONE_OR_TWO, THREE_OR_FOUR]
