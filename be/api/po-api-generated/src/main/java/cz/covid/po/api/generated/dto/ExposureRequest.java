@@ -51,16 +51,16 @@ public class ExposureRequest   {
     }
   }
 
-  @JsonProperty("infected_in_contact")
+  @JsonProperty("infectedInContact")
   private InfectedInContactEnum infectedInContact = null;
 
-  @JsonProperty("infected_in_contact_date")
+  @JsonProperty("infectedInContactDate")
   private LocalDate infectedInContactDate = null;
 
-  @JsonProperty("infected_phone_numbers")
+  @JsonProperty("infectedPhoneNumbers")
   private String infectedPhoneNumbers = null;
 
-  @JsonProperty("visited_risk_area")
+  @JsonProperty("visitedRiskArea")
   private CodebookItemDto visitedRiskArea = null;
 
   public ExposureRequest infectedInContact(InfectedInContactEnum infectedInContact) {

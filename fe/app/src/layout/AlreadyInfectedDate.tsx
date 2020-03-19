@@ -1,13 +1,16 @@
+import { ButtonBack } from "@/components/button/ButtonBack";
+import { ButtonContinue } from "@/components/button/ButtonContinue";
+import { LoadingBackdrop } from "@/components/feedback/Backdrop";
+import { Layout } from "@/components/Layout";
+import { PageTitle } from "@/components/PageTitle";
+import { goToPath, PageNames } from "@/components/Routes";
+import { usePathParams } from "@/hooks/usePathParams";
 import { FormControl, FormLabel, Grid, Typography } from "@material-ui/core";
 import { Field, Form, Formik } from "formik";
 import { TextField } from "formik-material-ui";
 import { DatePicker } from "formik-material-ui-pickers";
 import React from "react";
-import { ButtonBack } from "../components/button/ButtonBack";
-import { ButtonContinue } from "../components/button/ButtonContinue";
-import { LoadingBackdrop } from "../components/feedback/Backdrop";
-import { Layout } from "../components/Layout";
-import { PageTitle } from "../components/PageTitle";
+import { useHistory } from "react-router-dom";
 import { Yup } from "../schema";
 
 const AlreadyInfectedDateSchema = Yup.object().shape<
@@ -25,7 +28,12 @@ const initData = {
 type AlreadyInfectedDateFormData = typeof initData;
 
 export const AlreadyInfectedDate = () => {
-  function handleSubmit(formData: AlreadyInfectedDateFormData) {}
+  const { patientId } = usePathParams();
+  const history = useHistory();
+
+  function handleSubmit(formData: AlreadyInfectedDateFormData) {
+    goToPath(history, PageNames.AlreadyInfectedMovementDairy, { patientId });
+  }
 
   return (
     <Layout>

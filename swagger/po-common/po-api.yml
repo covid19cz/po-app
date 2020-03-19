@@ -17,12 +17,45 @@ tags:
     description: Controller for treatment
   - name: authorization-controller
     description: Controller for Authorization
+  - name: codebook-controller
+    description: Codebook Controller
 securityDefinitions:
   apiKey:
     type: apiKey
     name: Authorization
     in: header
 paths:
+  '/codebooks/{codebook}':
+    get:
+      tags:
+        - codebook-controller
+      summary: getCodebookItems
+      operationId: getCodebookItemsUsingGET
+      produces:
+        - application/json
+      parameters:
+        - name: codebook
+          in: path
+          description: Codebook code
+          required: true
+          type: string
+          enum:
+            - cbHealthStatus
+            - cbHealthCheckType
+      responses:
+        '200':
+          description: OK
+          schema:
+            type: array
+            items:
+              $ref: '#/definitions/CodebookItemDto'
+        '401':
+          description: Unauthorized
+        '403':
+          description: Forbidden
+        '404':
+          description: Not Found
+      deprecated: false
   '/persons/{personUid}':
     get:
       tags:
@@ -87,7 +120,7 @@ paths:
   '/persons/{personUid}/health-check/symptoms':
     put:
       tags:
-        - health-check-controller
+        -   health-check-controller
       summary: Fills actual health check form
       description: ''
       produces:
@@ -100,11 +133,11 @@ paths:
           type: string
           format: uuid
         - in: body
-          name: simptomsDto
+          name: symptomsDto
           description: Health check's data - simptoms
           required: true
           schema:
-            $ref: '#/definitions/SimtompsRequest'
+            $ref: '#/definitions/SymptomsRequest'
       responses:
         '200':
           description: Successful operation
@@ -289,25 +322,26 @@ definitions:
   PersonResponse:
     type: object
     properties:
-      person_uid:
+      personUid:
         type: string
         format: uuid
-      return_hash:
+      returnHash:
         type: string
-      phone_number:
+      phoneNumber:
         type: string
       firstname:
         type: string
       surname:
         type: string
-      address_home:
+      addressHome:
         $ref: '#/definitions/Address'
       email:
         type: string
-      health_status:
+      healthStatus:
         $ref: '#/definitions/CodebookItemDto'
-      health_status_last_change:
+      healthStatusLastChange:
         type: string
+        format: date
   PersonRequest:
     type: object
     properties:
@@ -315,82 +349,82 @@ definitions:
         type: string
       surname:
         type: string
-      address_home:
+      addressHome:
         $ref: '#/definitions/Address'
       email:
         type: string
-  SimtompsRequest:
+  SymptomsRequest:
     type: object
     properties:
-      symtomps_since:
+      symtomsSince:
         type: string
         format: date
-      high_temperature_duration:
-        type: integer
-      dry_cough_duration:
-        type: integer
+      highTemperatureDuration:
+        $ref: '#/definitions/SymptomEnum'
+      dryCoughDuration:
+        $ref: '#/definitions/SymptomEnum'
       headache:
         type: boolean
   ExposureRequest:
     type: object
     properties:
-      infected_in_contact:
+      infectedInContact:
         type: string
         enum:
           - 'Y'
           - 'N'
           - '?'
-      infected_in_contact_date:
+      infectedInContactDate:
         type: string
         format: date
-      infected_phone_numbers:
+      infectedPhoneNumbers:
         type: string
-      visited_risk_area:
+      visitedRiskArea:
         $ref: '#/definitions/CodebookItemDto'
   TestingPlaceRequest:
     type: object
     properties:
-      preferred_health_check_location:
+      preferredHealthCheckLocation:
         $ref: '#/definitions/CodebookItemDto'
-      able_to_drive:
+      ableToDrive:
         type: boolean
   HealthCheckRequest:
     type: object
     properties:
-      symtomps_since:
+      symtompsSince:
         type: string
         format: date
-      high_temperature_duration:
+      highTemperatureDuration:
         type: integer
-      dry_cough_duration:
+      dryCoughDuration:
         type: integer
       headache:
         type: boolean
-      infected_in_contact:
+      infectedInContact:
         type: string
         enum:
           - 'Y'
           - 'N'
           - '?'
-      infected_in_contact_date:
+      infectedInContactDate:
         type: string
         format: date
-      infected_phone_numbers:
+      infectedPhoneNumbers:
         type: string
-      visited_risk_area:
+      visitedRiskArea:
         $ref: '#/definitions/CodebookItemDto'
-      preferred_health_check_location:
+      preferredHealthCheckLocation:
         $ref: '#/definitions/CodebookItemDto'
-      able_to_drive:
+      ableToDrive:
         type: boolean
   HealthCheckResponse:
     type: object
     properties:
-      time_slot:
+      timeSlot:
         type: string
       address:
         type: string
-      health_check_code:
+      healthCheckCode:
         type: string
   TreatmentRequest:
     type: object
@@ -399,28 +433,28 @@ definitions:
         $ref: '#/definitions/CodebookItemDto'
       address:
         $ref: '#/definitions/Address'
-      health_check_date:
+      healthCheckDate:
         type: string
         format: date
-      health_check_location:
+      healthCheckLocation:
         $ref: '#/definitions/CodebookItemDto'
-      expected_infection_date:
+      expectedInfectionDate:
         type: string
         format: date
-      in_contact_phone_numbers:
+      inContactPhoneNumbers:
         type: string
   Address:
     type: object
     properties:
       street:
         type: string
-      street_number_descriptive:
+      streetNumberDescriptive:
         type: string
-      street_number_evidence:
+      streetNumberEvidence:
         type: string
       city:
         type: string
-      zip_code:
+      zipCode:
         type: string
   CodebookItemDto:
     type: object
@@ -454,6 +488,8 @@ definitions:
           - SMS_CODE_GEN_ERROR
           - UNAUTHORIZED
           - UNKNOWN
+          - ERROR_LOGIN_REQUIRED
+          - VALIDATION_FAILED
       message:
         type: string
     title: ErrorMessageDto
@@ -480,3 +516,7 @@ definitions:
         type: string
         format: uuid
         description: 'Unique Person''s ID (person_uid.person)'
+
+  SymptomEnum:
+    type: string
+    enum: [NONE, MORE, ONE_OR_TWO, THREE_OR_FOUR]

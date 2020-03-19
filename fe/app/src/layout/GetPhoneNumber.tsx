@@ -1,12 +1,14 @@
+import { ButtonContinue } from "@/components/button/ButtonContinue";
+import { LoadingBackdrop } from "@/components/feedback/Backdrop";
+import { Layout } from "@/components/Layout";
+import { goToPath, PageNames } from "@/components/Routes";
+import { useApi } from "@/hooks/useApi";
 import { Grid, Typography } from "@material-ui/core";
+import { AuthorizationcontrollerApi } from "@swaggerBase";
 import { Field, Form, Formik } from "formik";
 import { TextField } from "formik-material-ui";
 import { FormikHelpers } from "formik/dist/types";
-import React from "react";
-import { ButtonContinue } from "../components/button/ButtonContinue";
-import { LoadingBackdrop } from "../components/feedback/Backdrop";
-import { Layout } from "../components/Layout";
-import { goToPath, PageNames } from "../components/Routes";
+import React, { useEffect } from "react";
 import { phoneNumberSchema, Yup } from "../schema";
 import { useHistory } from "react-router-dom";
 
@@ -19,17 +21,27 @@ type GetPhoneNumberFormData = typeof initData;
 
 export const GetPhoneNumber = () => {
   const history = useHistory();
-  const handleSubmit = (
+  const api = useApi(AuthorizationcontrollerApi);
+
+  useEffect(() => {
+    sessionStorage.clear();
+  }, []);
+
+  async function handleSubmit(
     formData: GetPhoneNumberFormData,
     { setSubmitting }: FormikHelpers<GetPhoneNumberFormData>
-  ) => {
-    // TODO SAVE phone number
-    console.log("going to send SMS to ", formData.phoneNumber);
+  ) {
+    try {
+      const response = await api.sendCodeUsingPOST({
+        sendCodeRequest: { phoneNumber: formData.phoneNumber }
+      });
 
-    setSubmitting(false);
-
-    goToPath(history, PageNames.LoginSmsVerification);
-  };
+      setSubmitting(false);
+      goToPath(history, PageNames.LoginSmsVerification, {
+        patientId: response.personUid
+      });
+    } catch (e) {}
+  }
 
   return (
     <Layout>

@@ -4,12 +4,15 @@ import cz.covid.po.api.domain.converter.LocalDateAttributeConverter;
 import cz.covid.po.api.domain.model.codebook.CbHealthCheckLocation;
 import cz.covid.po.api.domain.model.codebook.CbHealthCheckType;
 import cz.covid.po.api.domain.model.codebook.CbRiskArea;
+import cz.covid.po.api.domain.model.enumeration.SymptomsEnum;
 import java.time.LocalDate;
 import java.util.List;
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Convert;
 import javax.persistence.Entity;
+import javax.persistence.EnumType;
+import javax.persistence.Enumerated;
 import javax.persistence.ForeignKey;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
@@ -42,10 +45,12 @@ public class HealthCheck extends EntityBase {
     private LocalDate symtompsSince;
 
     @Column(name = "high_temperature_duration")
-    private Integer highTemperatureDuration;
+    @Enumerated(EnumType.STRING)
+    private SymptomsEnum highTemperatureDuration;
 
     @Column(name = "dry_cough_duration")
-    private Integer dryCoughDuration;
+    @Enumerated(EnumType.STRING)
+    private SymptomsEnum dryCoughDuration;
 
     @Column(name = "headache")
     @Type(type = "yes_no")

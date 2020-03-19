@@ -1,16 +1,23 @@
+import { usePersonalDetails } from "@/hooks/usePersonalDetails";
+import React from "react";
+import { Layout } from "@/components/Layout";
+import { goToPath, PageNames } from "@/components/Routes";
+import { usePathParams } from "@/hooks/usePathParams";
 import { Button, Grid, Typography } from "@material-ui/core";
 import { format } from "date-fns";
-import React from "react";
-import { usePathParams } from "../api/usePathParams";
-import { Layout } from "../components/Layout";
-import { goToPath, PageNames } from "../components/Routes";
 import { useHistory } from "react-router-dom";
 
 export const Dashboard = () => {
-  const history = useHistory();
   const { patientId } = usePathParams();
+  const history = useHistory();
+  const person = usePersonalDetails(patientId || "");
+
   function handleNeedTest() {
     goToPath(history, PageNames.ContactDetails, { patientId });
+  }
+
+  function handleIsInfected() {
+    goToPath(history, PageNames.AlreadyInfectedGeneral, { patientId });
   }
 
   return (
@@ -20,7 +27,7 @@ export const Dashboard = () => {
           <Typography>Váš aktuální stav:</Typography>
         </Grid>
         <Grid item>
-          <Typography>Bez záznamu</Typography>
+          <Typography>{person?.healthStatus?.text}</Typography>
         </Grid>
       </Grid>
 
@@ -29,7 +36,10 @@ export const Dashboard = () => {
           <Typography>Poslední změna:</Typography>
         </Grid>
         <Grid item>
-          <Typography>{format(new Date(), "dd.MM.yyyy")}</Typography>
+          <Typography>
+            {person?.healthStatusLastChange &&
+              format(new Date(person?.healthStatusLastChange), "dd.MM.yyyy")}
+          </Typography>
         </Grid>
       </Grid>
 
@@ -40,15 +50,15 @@ export const Dashboard = () => {
           </Button>
         </Grid>
         <Grid item xs={12}>
-          <Button variant="contained" fullWidth>
+          <Button variant="contained" fullWidth onClick={handleIsInfected}>
             Mám Covid19 potvrzen
           </Button>
         </Grid>
-        <Grid item xs={12}>
+       {/* <Grid item xs={12}>
           <Button variant="contained" fullWidth>
             Jsem v karanténě *)
           </Button>
-        </Grid>
+        </Grid>*/}
       </Grid>
 
       <Grid container wrap="nowrap" spacing={2}>

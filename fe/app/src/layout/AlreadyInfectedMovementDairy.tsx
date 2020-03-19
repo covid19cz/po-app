@@ -1,14 +1,17 @@
-import { format } from "date-fns";
-import React, { useState } from "react";
-import { Button } from "../components/button/Button";
-import { Layout } from "../components/Layout";
+import { Button } from "@/components/button/Button";
+import { ButtonBack } from "@/components/button/ButtonBack";
+import { ButtonContinue } from "@/components/button/ButtonContinue";
+import { Layout } from "@/components/Layout";
 import {
   NewLocationDialog,
   NewLocationDialogFormData
-} from "../components/MovementDairy/NewLocationDialog";
-import { PageDescription } from "../components/PageDescription";
-import { PageTitle } from "../components/PageTitle";
-import { useToggler } from "../hooks/useToggler";
+} from "@/components/MovementDairy/NewLocationDialog";
+import { PageDescription } from "@/components/PageDescription";
+import { PageTitle } from "@/components/PageTitle";
+import { useToggler } from "@/hooks/useToggler";
+import { format } from "date-fns";
+import { Form } from "formik";
+import React, { useState } from "react";
 import { Box, Grid, List, ListItemText, Typography } from "@material-ui/core";
 
 interface Place {
@@ -74,6 +77,21 @@ export const AlreadyInfectedMovementDairy = () => {
         onClose={closeAddLocation}
         onSubmit={handleAddNewLocation}
       />
+
+      <Grid container spacing={4}>
+        <Grid item xs={6}>
+          <ButtonBack />
+        </Grid>
+        <Grid item xs={6}>
+          <ButtonContinue
+            type="button"
+            fullWidth
+            onClick={() => alert("call api to save data")}
+          >
+            Pokračovat
+          </ButtonContinue>
+        </Grid>
+      </Grid>
     </Layout>
   );
 };

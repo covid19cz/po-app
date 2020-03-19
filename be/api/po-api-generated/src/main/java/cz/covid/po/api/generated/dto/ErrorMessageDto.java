@@ -27,7 +27,11 @@ public class ErrorMessageDto   {
     
     UNAUTHORIZED("UNAUTHORIZED"),
     
-    UNKNOWN("UNKNOWN");
+    UNKNOWN("UNKNOWN"),
+    
+    ERROR_LOGIN_REQUIRED("ERROR_LOGIN_REQUIRED"),
+    
+    VALIDATION_FAILED("VALIDATION_FAILED");
 
     private String value;
 

@@ -15,13 +15,13 @@ import javax.validation.constraints.*;
 @Validated
 
 public class HealthCheckResponse   {
-  @JsonProperty("time_slot")
+  @JsonProperty("timeSlot")
   private String timeSlot = null;
 
   @JsonProperty("address")
   private String address = null;
 
-  @JsonProperty("health_check_code")
+  @JsonProperty("healthCheckCode")
   private String healthCheckCode = null;
 
   public HealthCheckResponse timeSlot(String timeSlot) {

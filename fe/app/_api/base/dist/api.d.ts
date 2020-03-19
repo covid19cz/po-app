@@ -28,7 +28,7 @@ export interface ErrorMessageDto {
     "errorCode"?: ErrorMessageDtoErrorCodeEnum;
     "message"?: string;
 }
-export declare type ErrorMessageDtoErrorCodeEnum = "SMS_CODE_GEN_ERROR" | "UNAUTHORIZED" | "UNKNOWN";
+export declare type ErrorMessageDtoErrorCodeEnum = "SMS_CODE_GEN_ERROR" | "UNAUTHORIZED" | "UNKNOWN" | "ERROR_LOGIN_REQUIRED" | "VALIDATION_FAILED";
 export interface ExposureRequest {
     "infectedInContact"?: ExposureRequestInfectedInContactEnum;
     "infectedInContactDate"?: Date;
@@ -69,7 +69,7 @@ export interface PersonResponse {
     "addressHome"?: Address;
     "email"?: string;
     "healthStatus"?: CodebookItemDto;
-    "healthStatusLastChange"?: string;
+    "healthStatusLastChange"?: Date;
 }
 export interface SendCodeRequest {
     /**
@@ -83,10 +83,11 @@ export interface SendCodeResponse {
      */
     "personUid"?: string;
 }
-export interface SimtompsRequest {
-    "symtompsSince"?: Date;
-    "highTemperatureDuration"?: number;
-    "dryCoughDuration"?: number;
+export declare type SymptomEnum = "NONE" | "MORE" | "ONE_OR_TWO" | "THREE_OR_FOUR";
+export interface SymptomsRequest {
+    "symtomsSince"?: Date;
+    "highTemperatureDuration"?: SymptomEnum;
+    "dryCoughDuration"?: SymptomEnum;
     "headache"?: boolean;
 }
 export interface TestingPlaceInstuctionsDto {
@@ -174,6 +175,43 @@ export declare const AuthorizationcontrollerApiFactory: (fetch?: FetchAPI, baseP
     }, options?: any): Promise<VerifyCodeResponseDto>;
 };
 /**
+ * CodebookcontrollerApi - fetch parameter creator
+ */
+export declare const CodebookcontrollerApiFetchParamCreator: {
+    getCodebookItemsUsingGET(params: {
+        "codebook": string;
+    }, options?: any): FetchArgs;
+};
+/**
+ * CodebookcontrollerApi - functional programming interface
+ */
+export declare const CodebookcontrollerApiFp: {
+    getCodebookItemsUsingGET(params: {
+        "codebook": string;
+    }, options?: any): (fetch?: FetchAPI, basePath?: string) => Promise<CodebookItemDto[]>;
+};
+/**
+ * CodebookcontrollerApi - object-oriented interface
+ */
+export declare class CodebookcontrollerApi extends BaseAPI {
+    /**
+     *
+     * @summary getCodebookItems
+     * @param codebook Codebook code
+     */
+    getCodebookItemsUsingGET(params: {
+        "codebook": string;
+    }, options?: any): Promise<CodebookItemDto[]>;
+}
+/**
+ * CodebookcontrollerApi - factory interface
+ */
+export declare const CodebookcontrollerApiFactory: (fetch?: FetchAPI, basePath?: string) => {
+    getCodebookItemsUsingGET(params: {
+        "codebook": string;
+    }, options?: any): Promise<CodebookItemDto[]>;
+};
+/**
  * HealthcheckcontrollerApi - fetch parameter creator
  */
 export declare const HealthcheckcontrollerApiFetchParamCreator: {
@@ -183,7 +221,7 @@ export declare const HealthcheckcontrollerApiFetchParamCreator: {
     }, options?: any): FetchArgs;
     personsPersonUidHealthCheckSymptomsPut(params: {
         "personUid": string;
-        "simptomsDto": SimtompsRequest;
+        "symptomsDto": SymptomsRequest;
     }, options?: any): FetchArgs;
     personsPersonUidHealthCheckTestingPlacePut(params: {
         "personUid": string;
@@ -200,7 +238,7 @@ export declare const HealthcheckcontrollerApiFp: {
     }, options?: any): (fetch?: FetchAPI, basePath?: string) => Promise<any>;
     personsPersonUidHealthCheckSymptomsPut(params: {
         "personUid": string;
-        "simptomsDto": SimtompsRequest;
+        "symptomsDto": SymptomsRequest;
     }, options?: any): (fetch?: FetchAPI, basePath?: string) => Promise<any>;
     personsPersonUidHealthCheckTestingPlacePut(params: {
         "personUid": string;
@@ -225,11 +263,11 @@ export declare class HealthcheckcontrollerApi extends BaseAPI {
      *
      * @summary Fills actual health check form
      * @param personUid Unique Person&#39;s ID (person_uid.person)
-     * @param simptomsDto Health check&#39;s data - simptoms
+     * @param symptomsDto Health check&#39;s data - simptoms
      */
     personsPersonUidHealthCheckSymptomsPut(params: {
         "personUid": string;
-        "simptomsDto": SimtompsRequest;
+        "symptomsDto": SymptomsRequest;
     }, options?: any): Promise<any>;
     /**
      *
@@ -252,7 +290,7 @@ export declare const HealthcheckcontrollerApiFactory: (fetch?: FetchAPI, basePat
     }, options?: any): Promise<any>;
     personsPersonUidHealthCheckSymptomsPut(params: {
         "personUid": string;
-        "simptomsDto": SimtompsRequest;
+        "symptomsDto": SymptomsRequest;
     }, options?: any): Promise<any>;
     personsPersonUidHealthCheckTestingPlacePut(params: {
         "personUid": string;

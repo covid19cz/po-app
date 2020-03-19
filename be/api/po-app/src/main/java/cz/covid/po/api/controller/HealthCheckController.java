@@ -2,11 +2,11 @@ package cz.covid.po.api.controller;
 
 import cz.covid.po.api.bl.service.HealthCheckService;
 import cz.covid.po.api.converter.ExposureRequestConverter;
-import cz.covid.po.api.converter.SimtompsRequestConverter;
+import cz.covid.po.api.converter.SymptomsRequestConverter;
 import cz.covid.po.api.converter.TestingPlaceRequestConverter;
 import cz.covid.po.api.generated.controller.HealthCheckControllerApi;
 import cz.covid.po.api.generated.dto.ExposureRequest;
-import cz.covid.po.api.generated.dto.SimtompsRequest;
+import cz.covid.po.api.generated.dto.SymptomsRequest;
 import cz.covid.po.api.generated.dto.TestingPlaceInstuctionsDto;
 import cz.covid.po.api.generated.dto.TestingPlaceRequest;
 import java.util.UUID;
@@ -16,10 +16,10 @@ import org.springframework.web.bind.annotation.RestController;
 
 @RestController
 @RequiredArgsConstructor
-public class HealthCheckController implements HealthCheckControllerApi {
+public class HealthCheckController extends ControllerBase implements HealthCheckControllerApi {
     private final HealthCheckService healthCheckService;
     private final ExposureRequestConverter exposureRequestConverter;
-    private final SimtompsRequestConverter simtompsRequestConverter;
+    private final SymptomsRequestConverter symtomsRequestConverter;
     private final TestingPlaceRequestConverter testingPlaceRequestConverter;
 
     @Override
@@ -29,9 +29,9 @@ public class HealthCheckController implements HealthCheckControllerApi {
     }
 
     @Override
-    public ResponseEntity<Void> personsPersonUidHealthCheckSymptomsPut(UUID personUid, SimtompsRequest simptomsDto) {
+    public ResponseEntity<Void> personsPersonUidHealthCheckSymptomsPut(UUID personUid, SymptomsRequest symptomsRequest) {
 
-        healthCheckService.update(personUid, simtompsRequestConverter.convert(simptomsDto));
+        healthCheckService.update(personUid, symtomsRequestConverter.convert(symptomsRequest));
         return ResponseEntity.noContent().build();
     }
 

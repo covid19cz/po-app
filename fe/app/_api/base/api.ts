@@ -57,7 +57,7 @@ export interface ErrorMessageDto {
     "message"?: string;
 }
 
-export type ErrorMessageDtoErrorCodeEnum = "SMS_CODE_GEN_ERROR" | "UNAUTHORIZED" | "UNKNOWN";
+export type ErrorMessageDtoErrorCodeEnum = "SMS_CODE_GEN_ERROR" | "UNAUTHORIZED" | "UNKNOWN" | "ERROR_LOGIN_REQUIRED" | "VALIDATION_FAILED";
 export interface ExposureRequest {
     "infectedInContact"?: ExposureRequestInfectedInContactEnum;
     "infectedInContactDate"?: Date;
@@ -102,7 +102,7 @@ export interface PersonResponse {
     "addressHome"?: Address;
     "email"?: string;
     "healthStatus"?: CodebookItemDto;
-    "healthStatusLastChange"?: string;
+    "healthStatusLastChange"?: Date;
 }
 
 export interface SendCodeRequest {
@@ -119,10 +119,12 @@ export interface SendCodeResponse {
     "personUid"?: string;
 }
 
-export interface SimtompsRequest {
-    "symtompsSince"?: Date;
-    "highTemperatureDuration"?: number;
-    "dryCoughDuration"?: number;
+export type SymptomEnum = "NONE" | "MORE" | "ONE_OR_TWO" | "THREE_OR_FOUR";
+
+export interface SymptomsRequest {
+    "symtomsSince"?: Date;
+    "highTemperatureDuration"?: SymptomEnum;
+    "dryCoughDuration"?: SymptomEnum;
     "headache"?: boolean;
 }
 
@@ -305,6 +307,90 @@ export const AuthorizationcontrollerApiFactory = function (fetch?: FetchAPI, bas
 
 
 /**
+ * CodebookcontrollerApi - fetch parameter creator
+ */
+export const CodebookcontrollerApiFetchParamCreator = {
+    /**
+     * 
+     * @summary getCodebookItems
+     * @param codebook Codebook code
+     */
+    getCodebookItemsUsingGET(params: {  "codebook": string; }, options?: any): FetchArgs {
+        // verify required parameter "codebook" is set
+        if (params["codebook"] == null) {
+            throw new Error("Missing required parameter codebook when calling getCodebookItemsUsingGET");
+        }
+        const baseUrl = `/codebooks/{codebook}`
+            .replace(`{${"codebook"}}`, `${ params["codebook"] }`);
+        let urlObj = url.parse(baseUrl, true);
+        let fetchOptions: RequestInit = assign({}, { method: "GET" }, options);
+
+        let contentTypeHeader: Dictionary<string> = {};
+        if (contentTypeHeader) {
+            fetchOptions.headers = assign({}, contentTypeHeader, fetchOptions.headers);
+        }
+        return {
+            url: url.format(urlObj),
+            options: fetchOptions,
+        };
+    },
+};
+
+/**
+ * CodebookcontrollerApi - functional programming interface
+ */
+export const CodebookcontrollerApiFp = {
+    /**
+     * 
+     * @summary getCodebookItems
+     * @param codebook Codebook code
+     */
+    getCodebookItemsUsingGET(params: { "codebook": string;  }, options?: any): (fetch?: FetchAPI, basePath?: string) => Promise<Array<CodebookItemDto>> {
+        const fetchArgs = CodebookcontrollerApiFetchParamCreator.getCodebookItemsUsingGET(params, options);
+        return (fetch: FetchAPI = isomorphicFetch, basePath: string = BASE_PATH) => {
+            return fetch(basePath + fetchArgs.url, fetchArgs.options).then((response) => {
+                if (response.status >= 200 && response.status < 300) {
+                    return response.json();
+                } else {
+                    throw response;
+                }
+            });
+        };
+    },
+};
+
+/**
+ * CodebookcontrollerApi - object-oriented interface
+ */
+export class CodebookcontrollerApi extends BaseAPI {
+    /**
+     * 
+     * @summary getCodebookItems
+     * @param codebook Codebook code
+     */
+    getCodebookItemsUsingGET(params: {  "codebook": string; }, options?: any) {
+        return CodebookcontrollerApiFp.getCodebookItemsUsingGET(params, options)(this.fetch, this.basePath);
+    }
+};
+
+/**
+ * CodebookcontrollerApi - factory interface
+ */
+export const CodebookcontrollerApiFactory = function (fetch?: FetchAPI, basePath?: string) {
+    return {
+        /**
+         * 
+         * @summary getCodebookItems
+         * @param codebook Codebook code
+         */
+        getCodebookItemsUsingGET(params: {  "codebook": string; }, options?: any) {
+            return CodebookcontrollerApiFp.getCodebookItemsUsingGET(params, options)(fetch, basePath);
+        },
+    };
+};
+
+
+/**
  * HealthcheckcontrollerApi - fetch parameter creator
  */
 export const HealthcheckcontrollerApiFetchParamCreator = {
@@ -345,16 +431,16 @@ export const HealthcheckcontrollerApiFetchParamCreator = {
      * 
      * @summary Fills actual health check form
      * @param personUid Unique Person&#39;s ID (person_uid.person)
-     * @param simptomsDto Health check&#39;s data - simptoms
+     * @param symptomsDto Health check&#39;s data - simptoms
      */
-    personsPersonUidHealthCheckSymptomsPut(params: {  "personUid": string; "simptomsDto": SimtompsRequest; }, options?: any): FetchArgs {
+    personsPersonUidHealthCheckSymptomsPut(params: {  "personUid": string; "symptomsDto": SymptomsRequest; }, options?: any): FetchArgs {
         // verify required parameter "personUid" is set
         if (params["personUid"] == null) {
             throw new Error("Missing required parameter personUid when calling personsPersonUidHealthCheckSymptomsPut");
         }
-        // verify required parameter "simptomsDto" is set
-        if (params["simptomsDto"] == null) {
-            throw new Error("Missing required parameter simptomsDto when calling personsPersonUidHealthCheckSymptomsPut");
+        // verify required parameter "symptomsDto" is set
+        if (params["symptomsDto"] == null) {
+            throw new Error("Missing required parameter symptomsDto when calling personsPersonUidHealthCheckSymptomsPut");
         }
         const baseUrl = `/persons/{personUid}/health-check/symptoms`
             .replace(`{${"personUid"}}`, `${ params["personUid"] }`);
@@ -363,8 +449,8 @@ export const HealthcheckcontrollerApiFetchParamCreator = {
 
         let contentTypeHeader: Dictionary<string> = {};
         contentTypeHeader = { "Content-Type": "application/json" };
-        if (params["simptomsDto"]) {
-            fetchOptions.body = JSON.stringify(params["simptomsDto"] || {});
+        if (params["symptomsDto"]) {
+            fetchOptions.body = JSON.stringify(params["symptomsDto"] || {});
         }
         if (contentTypeHeader) {
             fetchOptions.headers = assign({}, contentTypeHeader, fetchOptions.headers);
@@ -435,9 +521,9 @@ export const HealthcheckcontrollerApiFp = {
      * 
      * @summary Fills actual health check form
      * @param personUid Unique Person&#39;s ID (person_uid.person)
-     * @param simptomsDto Health check&#39;s data - simptoms
+     * @param symptomsDto Health check&#39;s data - simptoms
      */
-    personsPersonUidHealthCheckSymptomsPut(params: { "personUid": string; "simptomsDto": SimtompsRequest;  }, options?: any): (fetch?: FetchAPI, basePath?: string) => Promise<any> {
+    personsPersonUidHealthCheckSymptomsPut(params: { "personUid": string; "symptomsDto": SymptomsRequest;  }, options?: any): (fetch?: FetchAPI, basePath?: string) => Promise<any> {
         const fetchArgs = HealthcheckcontrollerApiFetchParamCreator.personsPersonUidHealthCheckSymptomsPut(params, options);
         return (fetch: FetchAPI = isomorphicFetch, basePath: string = BASE_PATH) => {
             return fetch(basePath + fetchArgs.url, fetchArgs.options).then((response) => {
@@ -486,9 +572,9 @@ export class HealthcheckcontrollerApi extends BaseAPI {
      * 
      * @summary Fills actual health check form
      * @param personUid Unique Person&#39;s ID (person_uid.person)
-     * @param simptomsDto Health check&#39;s data - simptoms
+     * @param symptomsDto Health check&#39;s data - simptoms
      */
-    personsPersonUidHealthCheckSymptomsPut(params: {  "personUid": string; "simptomsDto": SimtompsRequest; }, options?: any) {
+    personsPersonUidHealthCheckSymptomsPut(params: {  "personUid": string; "symptomsDto": SymptomsRequest; }, options?: any) {
         return HealthcheckcontrollerApiFp.personsPersonUidHealthCheckSymptomsPut(params, options)(this.fetch, this.basePath);
     }
     /**
@@ -520,9 +606,9 @@ export const HealthcheckcontrollerApiFactory = function (fetch?: FetchAPI, baseP
          * 
          * @summary Fills actual health check form
          * @param personUid Unique Person&#39;s ID (person_uid.person)
-         * @param simptomsDto Health check&#39;s data - simptoms
+         * @param symptomsDto Health check&#39;s data - simptoms
          */
-        personsPersonUidHealthCheckSymptomsPut(params: {  "personUid": string; "simptomsDto": SimtompsRequest; }, options?: any) {
+        personsPersonUidHealthCheckSymptomsPut(params: {  "personUid": string; "symptomsDto": SymptomsRequest; }, options?: any) {
             return HealthcheckcontrollerApiFp.personsPersonUidHealthCheckSymptomsPut(params, options)(fetch, basePath);
         },
         /**

@@ -24,6 +24,10 @@ public class PersonResponseConverter extends OneWayConverterBase<Person, PersonR
         result.setPhoneNumber(person.getPhoneNumber());
         result.setPersonUid(person.getUid());
 
+        if(person.getHealthStatusLastChange() != null){
+            result.setHealthStatusLastChange(person.getHealthStatusLastChange().toLocalDate());
+        }
+
         return result;
     }
 

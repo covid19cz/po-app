@@ -18,16 +18,16 @@ public class Address   {
   @JsonProperty("street")
   private String street = null;
 
-  @JsonProperty("street_number_descriptive")
+  @JsonProperty("streetNumberDescriptive")
   private String streetNumberDescriptive = null;
 
-  @JsonProperty("street_number_evidence")
+  @JsonProperty("streetNumberEvidence")
   private String streetNumberEvidence = null;
 
   @JsonProperty("city")
   private String city = null;
 
-  @JsonProperty("zip_code")
+  @JsonProperty("zipCode")
   private String zipCode = null;
 
   public Address street(String street) {

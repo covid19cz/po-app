@@ -6,7 +6,7 @@
 package cz.covid.po.api.generated.controller;
 
 import cz.covid.po.api.generated.dto.ExposureRequest;
-import cz.covid.po.api.generated.dto.SimtompsRequest;
+import cz.covid.po.api.generated.dto.SymptomsRequest;
 import cz.covid.po.api.generated.dto.TestingPlaceInstuctionsDto;
 import cz.covid.po.api.generated.dto.TestingPlaceRequest;
 import java.util.UUID;
@@ -86,12 +86,12 @@ public interface HealthCheckControllerApi {
     @RequestMapping(value = "/persons/{personUid}/health-check/symptoms",
         produces = { "application/json" }, 
         method = RequestMethod.PUT)
-    default ResponseEntity<Void> _personsPersonUidHealthCheckSymptomsPut(@ApiParam(value = "Unique Person's ID (person_uid.person)",required=true) @PathVariable("personUid") UUID personUid,@ApiParam(value = "Health check's data - simptoms" ,required=true )  @Valid @RequestBody SimtompsRequest simptomsDto) {
-        return personsPersonUidHealthCheckSymptomsPut(personUid, simptomsDto);
+    default ResponseEntity<Void> _personsPersonUidHealthCheckSymptomsPut(@ApiParam(value = "Unique Person's ID (person_uid.person)",required=true) @PathVariable("personUid") UUID personUid,@ApiParam(value = "Health check's data - simptoms" ,required=true )  @Valid @RequestBody SymptomsRequest symptomsDto) {
+        return personsPersonUidHealthCheckSymptomsPut(personUid, symptomsDto);
     }
 
     // Override this method
-    default ResponseEntity<Void> personsPersonUidHealthCheckSymptomsPut(UUID personUid,SimtompsRequest simptomsDto) {
+    default ResponseEntity<Void> personsPersonUidHealthCheckSymptomsPut(UUID personUid,SymptomsRequest symptomsDto) {
         if(getObjectMapper().isPresent() && getAcceptHeader().isPresent()) {
         } else {
             log.warn("ObjectMapper or HttpServletRequest not configured in default HealthCheckControllerApi interface so no example is generated");
@@ -120,7 +120,7 @@ public interface HealthCheckControllerApi {
         if(getObjectMapper().isPresent() && getAcceptHeader().isPresent()) {
             if (getAcceptHeader().get().contains("application/json")) {
                 try {
-                    return new ResponseEntity<>(getObjectMapper().get().readValue("{  \"address\" : {    \"city\" : \"city\",    \"street\" : \"street\",    \"street_number_evidence\" : \"street_number_evidence\",    \"street_number_descriptive\" : \"street_number_descriptive\",    \"zip_code\" : \"zip_code\"  },  \"openingHours\" : \"openingHours\"}", TestingPlaceInstuctionsDto.class), HttpStatus.NOT_IMPLEMENTED);
+                    return new ResponseEntity<>(getObjectMapper().get().readValue("{  \"address\" : {    \"zipCode\" : \"zipCode\",    \"streetNumberEvidence\" : \"streetNumberEvidence\",    \"city\" : \"city\",    \"street\" : \"street\",    \"streetNumberDescriptive\" : \"streetNumberDescriptive\"  },  \"openingHours\" : \"openingHours\"}", TestingPlaceInstuctionsDto.class), HttpStatus.NOT_IMPLEMENTED);
                 } catch (IOException e) {
                     log.error("Couldn't serialize response for content type application/json", e);
                     return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);

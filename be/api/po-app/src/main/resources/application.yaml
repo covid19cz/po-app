@@ -45,3 +45,23 @@ app:
     captcha:
       secret: ${CAPTCHA_SECRET:6LeIxAcTAAAAAGG-vFI1TnRWxMZNFuojJ4WifJWe}
       url: ${CAPTCHA_URL:https://www.google.com/recaptcha/api/siteverify}
+  login:
+    sms-code:
+      enabled: ${SMS_CODE_SENDING:false}
+      default: 135791
+      length: 6
+      validity: ${SMS_CODE_VALIDITY:900} # 15 min
+      max-attempts: ${SMS_CODE_MAX_ATTEMPTS:3}
+      max-send: ${SMS_MAX_SEND:3}
+      block-time: ${SMS_BLOCK_TIME:1800} # 30 min
+    short-code:
+      length: ${SHORT_CODE_LENGTH:10}
+    auth-auto-delete:
+      max-old: 86400 # 1 day
+  auth-server:
+    client-id: ${APP_AUTH_SERVER_CLIENT_ID:covidpo} # config-secret
+    client-secret: ${APP_AUTH_SERVER_CLIENT_SECRET:b1acdM-?Df0jmla}  # config-secret
+    signing-key: ${APP_AUTH_SERVER_SIGNING_KEY:ayUJ5ZoORlvxsXl7bQaFWyjFAtmRJ8Av} # signing key (should be unique per environment)
+    token-validity: # in seconds
+      access-token: ${ACCESS_TOKEN_VALIDITY_SECOND:3600} # 1 hour
+      refresh-token: ${REFRESH_TOKEN_VALIDITY_SECOND:43200} # 12 hours

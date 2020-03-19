@@ -7,6 +7,7 @@ import cz.covid.po.api.generated.dto.Address;
 import cz.covid.po.api.generated.dto.CodebookItemDto;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
+import java.time.LocalDate;
 import java.util.UUID;
 import org.springframework.validation.annotation.Validated;
 import javax.validation.Valid;
@@ -18,13 +19,13 @@ import javax.validation.constraints.*;
 @Validated
 
 public class PersonResponse   {
-  @JsonProperty("person_uid")
+  @JsonProperty("personUid")
   private UUID personUid = null;
 
-  @JsonProperty("return_hash")
+  @JsonProperty("returnHash")
   private String returnHash = null;
 
-  @JsonProperty("phone_number")
+  @JsonProperty("phoneNumber")
   private String phoneNumber = null;
 
   @JsonProperty("firstname")
@@ -33,17 +34,17 @@ public class PersonResponse   {
   @JsonProperty("surname")
   private String surname = null;
 
-  @JsonProperty("address_home")
+  @JsonProperty("addressHome")
   private Address addressHome = null;
 
   @JsonProperty("email")
   private String email = null;
 
-  @JsonProperty("health_status")
+  @JsonProperty("healthStatus")
   private CodebookItemDto healthStatus = null;
 
-  @JsonProperty("health_status_last_change")
-  private String healthStatusLastChange = null;
+  @JsonProperty("healthStatusLastChange")
+  private LocalDate healthStatusLastChange = null;
 
   public PersonResponse personUid(UUID personUid) {
     this.personUid = personUid;
@@ -208,7 +209,7 @@ public class PersonResponse   {
     this.healthStatus = healthStatus;
   }
 
-  public PersonResponse healthStatusLastChange(String healthStatusLastChange) {
+  public PersonResponse healthStatusLastChange(LocalDate healthStatusLastChange) {
     this.healthStatusLastChange = healthStatusLastChange;
     return this;
   }
@@ -219,12 +220,13 @@ public class PersonResponse   {
   **/
   @ApiModelProperty(value = "")
 
+  @Valid
 
-  public String getHealthStatusLastChange() {
+  public LocalDate getHealthStatusLastChange() {
     return healthStatusLastChange;
   }
 
-  public void setHealthStatusLastChange(String healthStatusLastChange) {
+  public void setHealthStatusLastChange(LocalDate healthStatusLastChange) {
     this.healthStatusLastChange = healthStatusLastChange;
   }
 

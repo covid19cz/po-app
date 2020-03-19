@@ -22,7 +22,7 @@ public class PersonRequest   {
   @JsonProperty("surname")
   private String surname = null;
 
-  @JsonProperty("address_home")
+  @JsonProperty("addressHome")
   private Address addressHome = null;
 
   @JsonProperty("email")
