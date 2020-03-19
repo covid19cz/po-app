@@ -3,6 +3,7 @@ package cz.covid.po.api.domain.model;
 import cz.covid.po.api.domain.model.codebook.CbHealthStatus;
 import java.time.OffsetDateTime;
 import java.util.UUID;
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
@@ -49,7 +50,7 @@ public class Person extends EntityBase {
     @Column(name = "email")
     private String email;
 
-    @ManyToOne
+    @ManyToOne(cascade = CascadeType.PERSIST)
     @JoinColumn(name = "address_home_id")
     private Address address;
 
