@@ -42,6 +42,9 @@ app:
       login: ${PROFI_SMS_LOGIN:}
       password: ${PROFI_SMS_PASSWORD:}
       source: ${PROFI_SMS_SOURCE:}
+    captcha:
+      secret: ${CAPTCHA_SECRET:6LeIxAcTAAAAAGG-vFI1TnRWxMZNFuojJ4WifJWe}
+      url: ${CAPTCHA_URL:https://www.google.com/recaptcha/api/siteverify}
   login:
     sms-code:
       enabled: ${SMS_CODE_SENDING:false}
@@ -62,5 +65,3 @@ app:
     token-validity: # in seconds
       access-token: ${ACCESS_TOKEN_VALIDITY_SECOND:3600} # 1 hour
       refresh-token: ${REFRESH_TOKEN_VALIDITY_SECOND:43200} # 12 hours
-
-
