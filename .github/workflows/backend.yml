@@ -1,0 +1,30 @@
+name: Backend
+on:
+  push:
+    branches: [ master ]
+    paths:
+    - 'be/app/**'
+# A workflow run is made up of one or more jobs that can run sequentially or in parallel
+jobs:
+  # Build and deploy backend
+  build-deploy:
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@master
+
+    - name: Set up Java version
+      uses: actions/setup-java@v1
+      with:
+        java-version: '11'
+
+    - name: Build with Maven
+      run: mvn clean package -DskipTests
+      working-directory: ./be/api
+
+    - name: Deploy to Azure Web App
+      uses: azure/webapps-deploy@v1
+      with:
+        app-name: 'covid-po-api'
+        slot-name: 'production'
+        publish-profile: ${{ secrets.APP_SERVICE_PUBLISH_PROFILE }}
+        package: '${{ github.workspace }}/be/api/po-app/target/*.jar'
