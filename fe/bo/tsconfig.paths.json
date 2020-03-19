@@ -1,0 +1,10 @@
+{
+  "compilerOptions": {
+    "baseUrl": ".",
+    "paths": {
+      "@/*": ["src/*"],
+      "@swaggerBase": ["./_api/base/dist/api"],
+      "@swaggerSecurity": ["./_api/security/dist/api"]
+    }
+  }
+}

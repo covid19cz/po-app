@@ -8,6 +8,7 @@ import cz.covid.po.api.domain.model.Person;
 import cz.covid.po.api.domain.model.codebook.CbHealthStatus;
 import cz.covid.po.api.domain.repository.PersonRepository;
 import cz.covid.po.api.domain.repository.codebook.CbHealthStatusRepository;
+import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
 import lombok.RequiredArgsConstructor;
@@ -70,5 +71,11 @@ public class PersonServiceImpl implements PersonService {
         personRepository.save(person);
 
         return person;
+    }
+
+    @Override
+    public List<Person> findAll() {
+        // TODO @jv add Pagination
+        return personRepository.findAll();
     }
 }

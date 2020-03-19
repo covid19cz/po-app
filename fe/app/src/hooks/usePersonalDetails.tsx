@@ -11,7 +11,7 @@ export const usePersonalDetails = (personUid: string) => {
   useAsyncEffect(async () => {
     try {
       if (personUid) {
-        setPerson(await api.personsPersonUidGet({ personUid }));
+        setPerson(await api.getPerson({ personUid }));
       }
     } catch (e) {}
   }, []);

@@ -1,8 +1,13 @@
 package cz.covid.po.api.bl.service;
 
+import cz.covid.po.api.bl.exception.NotFoundException;
 import cz.covid.po.api.bl.util.PatchUtil;
 import cz.covid.po.api.domain.model.HealthCheck;
+import cz.covid.po.api.domain.model.HealthCheckResult;
+import cz.covid.po.api.domain.model.Person;
+import cz.covid.po.api.domain.model.codebook.CbHealthStatus;
 import cz.covid.po.api.domain.repository.HealthCheckRepository;
+import cz.covid.po.api.domain.repository.codebook.CbHealthStatusRepository;
 import java.util.Optional;
 import java.util.UUID;
 import lombok.RequiredArgsConstructor;
@@ -11,6 +16,7 @@ import org.springframework.stereotype.Service;
 @Service
 @RequiredArgsConstructor
 public class HealthCheckServiceImpl implements HealthCheckService {
+    private final CbHealthStatusRepository cbHealthStatusRepository;
     private final HealthCheckRepository healthCheckRepository;
     private final PersonService personService;
 
@@ -30,6 +36,23 @@ public class HealthCheckServiceImpl implements HealthCheckService {
         PatchUtil.callIfNotNull(source.getPreferredHealthCheckLocation(), target::setPreferredHealthCheckLocation);
 
         return healthCheckRepository.save(target);
+    }
+
+    @Override
+    public HealthCheck addHealthCheckTestResult(UUID personUid, Long healthCheckId, HealthCheckResult result) {
+        Person person = personService.getByUid(personUid);
+        HealthCheck healthCheck = healthCheckRepository.findById(healthCheckId).orElseThrow(() -> new NotFoundException(NotFoundException.createSystemMessage("id", healthCheckId, HealthCheck.class)));
+
+        if (result.getResultPositive() != null && result.getResultPositive()) {
+            person.setHealthStatus(cbHealthStatusRepository.getOne(CbHealthStatus.Items.POSITIVE));
+        } else {
+            person.setHealthStatus(cbHealthStatusRepository.getOne(CbHealthStatus.Items.NEGATIVE));
+        }
+
+        result.setHealthCheck(healthCheck);
+        healthCheck.getHealthCheckResults().add(result);
+
+        return healthCheck;
     }
 
     HealthCheck getOrCreate(UUID personUid) {

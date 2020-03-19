@@ -60,7 +60,7 @@ export const SymptomsCheck = () => {
     { setSubmitting }: FormikHelpers<SymptomsCheckFormData>
   ) {
     try {
-      await api.personsPersonUidHealthCheckSymptomsPut({
+      await api.putHealthCheckSymptoms({
         personUid: patientId,
         symptomsDto: {
           dryCoughDuration: formData.daysOfDryCough,

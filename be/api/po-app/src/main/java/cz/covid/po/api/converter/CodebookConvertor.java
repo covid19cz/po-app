@@ -7,6 +7,7 @@ import org.springframework.stereotype.Component;
 @Component
 public class CodebookConvertor extends OneWayConverterBase<CodebookItemBase, CodebookItemDto> {
 
+    @Override
     protected CodebookItemDto convertInternal(CodebookItemBase codebookValue) {
         CodebookItemDto result = new CodebookItemDto();
         result.setCode(codebookValue.getId());

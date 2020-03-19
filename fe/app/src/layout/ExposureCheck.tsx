@@ -82,7 +82,7 @@ export const ExposureCheck = () => {
     { setSubmitting }: FormikHelpers<ExposureCheckFormData>
   ) {
     try {
-      await api.personsPersonUidHealthCheckExposurePut({
+      await api.putHealthCheckExposure({
         personUid: patientId,
         exposureDto: {
           infectedInContact: formData.contactWithInfected,

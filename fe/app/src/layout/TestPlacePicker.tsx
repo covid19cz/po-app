@@ -17,7 +17,7 @@ import {
 } from "@material-ui/core";
 import { CodebookItemDto, HealthcheckcontrollerApi } from "@swaggerBase";
 import { ErrorMessage, Field, Form, Formik } from "formik";
-import { Select, TextField } from "formik-material-ui";
+import { Select } from "formik-material-ui";
 import { FormikHelpers } from "formik/dist/types";
 import React from "react";
 import { useHistory } from "react-router-dom";
@@ -67,7 +67,7 @@ export const TestPlacePicker = () => {
     { setSubmitting }: FormikHelpers<TestPlaceFormData>
   ) {
     try {
-      await api.personsPersonUidHealthCheckTestingPlacePut({
+      await api.putHealthCheckTestingPlace({
         personUid: patientId,
         testingPlaceDto: {
           ableToDrive: formData.carAvailable === "yes",
