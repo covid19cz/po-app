@@ -2104,6 +2104,18 @@ anymatch@~3.1.1:
     normalize-path "^3.0.0"
     picomatch "^2.0.4"
 
+"api-base@file:_api/base":
+  version "0.0.0"
+  dependencies:
+    core-js "^2.4.0"
+    isomorphic-fetch "^2.2.1"
+
+"api-security@file:_api/security":
+  version "0.0.0"
+  dependencies:
+    core-js "^2.4.0"
+    isomorphic-fetch "^2.2.1"
+
 aproba@^1.1.1:
   version "1.2.0"
   resolved "https://registry.yarnpkg.com/aproba/-/aproba-1.2.0.tgz#6802e6264efd18c790a1b0d517f0f2627bf2c94a"
