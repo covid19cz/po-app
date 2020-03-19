@@ -61,7 +61,7 @@ export const Dashboard = () => {
         </Grid>*/}
       </Grid>
 
-      <Grid container wrap="nowrap" spacing={2}>
+     {/* <Grid container wrap="nowrap" spacing={2}>
         <Grid item>*)</Grid>
         <Grid item xs>
           <Typography>
@@ -69,7 +69,7 @@ export const Dashboard = () => {
             jsem v karanténě z preventivních důvodů.
           </Typography>
         </Grid>
-      </Grid>
+      </Grid>*/}
     </Layout>
   );
 };
