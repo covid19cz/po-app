@@ -16,6 +16,8 @@
     "@types/node": "^12.0.0",
     "@types/react": "^16.9.0",
     "@types/react-dom": "^16.9.0",
+    "api-base": "file:_api/base",
+    "api-security": "file:_api/security",
     "date-fns": "^2.11.0",
     "formik": "^2.1.4",
     "formik-material-ui": "^2.0.0-beta.1",
