@@ -161,5 +161,9 @@ export const apiCallHandler = async (
     throw { status: response.status, error: responseBody };
   }
 
+  if (response.ok && response.status === 204) {
+    response.json = () => Promise.resolve(null);
+  }
+
   return Promise.resolve(response);
 };
