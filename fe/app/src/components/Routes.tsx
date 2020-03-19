@@ -8,7 +8,7 @@ import { Dashboard } from "../layout/Dashboard";
 import { GetPhoneNumber } from "../layout/GetPhoneNumber";
 import { HealthCheckInstructions } from "../layout/HealthCheckInstructions";
 import { LoginSmsVerification } from "../layout/LoginSmsVerification";
-import { PossibleContact } from "../layout/PossibleContactCheck";
+import { ExposureCheck } from "../layout/ExposureCheck";
 import { SymptomsCheck } from "../layout/SymptomsCheck";
 import { TestPlacePicker } from "../layout/TestPlacePicker";
 import { PageProps } from "./Page";
@@ -21,7 +21,7 @@ export enum PageNames {
   Dashboard = "Dashboard",
   ContactDetails = "ContactDetails",
   SymptomsCheck = "SymptomsCheck",
-  PossibleContact = "PossibleContact",
+  ExposureCheck = "ExposureCheck",
   TestPlacePicker = "TestPlacePicker",
   HealthCheckInstructions = "HealthCheckInstructions",
   AlreadyInfectedDate = "AlreadyInfectedDate",
@@ -69,10 +69,10 @@ export const Routes: Record<PageNames, PageProps> = {
     title: "Žádost o otestování",
     protected: true
   },
-  PossibleContact: {
-    link: "/app/:patientId/possible-contact-check",
+  ExposureCheck: {
+    link: "/app/:patientId/exposure-check",
     exact: true,
-    children: <PossibleContact />,
+    children: <ExposureCheck />,
     title: "Žádost o otestování",
     protected: true
   },

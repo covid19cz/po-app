@@ -1,3 +1,4 @@
+import { CodebookItemDto } from "@swaggerBase";
 import * as Yup from "yup";
 
 export { Yup };
@@ -8,3 +9,7 @@ export const phoneNumberSchema = Yup.string().matches(
   phoneRegExp,
   "Neplatné telefonní číslo"
 );
+
+export const CodeBookItemSchema = Yup.object().shape<CodebookItemDto>({
+  code: Yup.string().required("Povinné pole")
+});

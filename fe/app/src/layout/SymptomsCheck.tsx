@@ -70,7 +70,7 @@ export const SymptomsCheck = () => {
         }
       });
 
-      goToPath(history, PageNames.PossibleContact, { patientId });
+      goToPath(history, PageNames.ExposureCheck, { patientId });
     } catch (e) {
       setSubmitting(false);
     }
