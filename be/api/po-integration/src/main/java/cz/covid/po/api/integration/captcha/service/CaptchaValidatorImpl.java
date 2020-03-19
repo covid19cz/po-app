@@ -3,6 +3,7 @@ package cz.covid.po.api.integration.captcha.service;
 import cz.covid.po.api.integration.captcha.dto.CaptchaResponse;
 import cz.covid.po.api.integration.common.exception.IntegrationException;
 import cz.covid.po.api.integration.common.util.JsonMapperUtil;
+import org.apache.http.client.utils.URIBuilder;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 import org.springframework.web.reactive.function.client.ClientResponse;
@@ -10,6 +11,7 @@ import org.springframework.web.reactive.function.client.WebClient;
 
 import javax.annotation.PostConstruct;
 import java.io.IOException;
+import java.net.URISyntaxException;
 
 import static cz.covid.po.api.integration.common.enumeration.IntegrationSystem.GOOGLE_CAPTCHA;
 
@@ -33,22 +35,29 @@ public class CaptchaValidatorImpl implements CaptchaValidator {
 
     @Override
     public boolean verifyCaptcha(final String userToken, final String remoteIp) {
-        final String uri = baseUrl + "?secret=" + secret + "&response=" + userToken;
-
-        ClientResponse resp = webClient.post()
-                .uri(remoteIp != null ? uri + "&user_ip" + remoteIp : uri)
-                .exchange()
-                .block();
-
-        if (resp != null && resp.statusCode().is2xxSuccessful()) {
-            CaptchaResponse captchaResp = mapResponseToCaptchaResponse(resp);
-
-            if (captchaResp.getErrorCodes() == null || captchaResp.getErrorCodes().isEmpty()) {
-                return captchaResp.isSuccess();
+        try {
+            final URIBuilder uri = new URIBuilder(baseUrl).addParameter("secret", secret).addParameter("response", userToken);
+            if (remoteIp != null) {
+                uri.addParameter("user_ip", remoteIp);
             }
-            return false;
-        } else {
-            throw new IntegrationException("Captcha verification failed ", GOOGLE_CAPTCHA);
+
+            ClientResponse resp = webClient.post()
+                    .uri(uri.build())
+                    .exchange()
+                    .block();
+
+            if (resp != null && resp.statusCode().is2xxSuccessful()) {
+                CaptchaResponse captchaResp = mapResponseToCaptchaResponse(resp);
+
+                if (captchaResp.getErrorCodes() == null || captchaResp.getErrorCodes().isEmpty()) {
+                    return captchaResp.isSuccess();
+                }
+                return false;
+            } else {
+                throw new IntegrationException("Captcha verification failed ", GOOGLE_CAPTCHA);
+            }
+        } catch (URISyntaxException e) {
+            throw new IntegrationException("Error while building URI" + e.getMessage(), GOOGLE_CAPTCHA);
         }
     }
 
