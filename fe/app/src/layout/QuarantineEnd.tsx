@@ -29,7 +29,7 @@ export const QuarantineEnd = () => {
 
   return (
     <Layout>
-      <PageTitle paddingBottom={"15px"}>Ukonceni karanteny</PageTitle>
+      <PageTitle paddingBottom={"15px"}>Ukončení karantény</PageTitle>
 
       <Grid container>
         <Formik<QuarantineEndFormData>
@@ -45,7 +45,7 @@ export const QuarantineEnd = () => {
               <Grid container justify="center" spacing={4}>
                 <Grid item xs={12}>
                   <InputLabel id="quarantine-end-reason-label">
-                    Duvod ukonceni karanteny
+                    Důvod ukončení karantény
                   </InputLabel>
                   <Field
                     fullWidth
@@ -54,9 +54,9 @@ export const QuarantineEnd = () => {
                     name="reason"
                     labelId="quarantine-end-reason-label"
                   >
-                    <MenuItem value={1}>behem 14 dni bez priznaku</MenuItem>
-                    <MenuItem value={2}>neco</MenuItem>
-                    <MenuItem value={3}>neco2</MenuItem>
+                    <MenuItem value={1}>během 14 dní bez příznaků</MenuItem>
+                    <MenuItem value={2}>něco</MenuItem>
+                    <MenuItem value={3}>něco2</MenuItem>
                   </Field>                  
                 </Grid>
                 <Grid item xs={12}>
@@ -65,7 +65,7 @@ export const QuarantineEnd = () => {
                     name="toDate"
                     type="date"
                     variant="inline"
-                    label="Datum ukonceni karanteny"
+                    label="Datum ukončení karantény"
                     fullWidth
                     props={{ shrink: false }}
                   />
@@ -74,7 +74,7 @@ export const QuarantineEnd = () => {
                   <Field
                     fullWidth
                     component={TextField}
-                    label="Kolik vas bylo ve spolecne karantene"
+                    label="Kolik vás bylo ve společné karanténě"
                     name="healthCheckDate"
                   />
                 </Grid>
@@ -88,7 +88,7 @@ export const QuarantineEnd = () => {
                     type="submit"
                     fullWidth
                   >
-                    Ulozit
+                    Uložit
                   </Button>
                 </Grid>
               </Grid>

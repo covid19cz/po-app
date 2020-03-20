@@ -1,39 +1,52 @@
-import { Grid, InputLabel, MenuItem } from "@material-ui/core";
+import { Grid } from "@material-ui/core";
 import { Field, Form, Formik } from "formik";
-import { TextField, Select } from "formik-material-ui";
 import React from "react";
-import { ButtonBack } from "../components/button/ButtonBack";
-import { ButtonContinue } from "../components/button/ButtonContinue";
 import { LoadingBackdrop } from "../components/feedback/Backdrop";
 import { Layout } from "../components/Layout";
 import { PageTitle } from "../components/PageTitle";
 import { Yup } from "../schema";
 import { DatePicker } from "formik-material-ui-pickers";
 import { Button } from "@/components/button/Button";
-import { boolean } from "yup";
 import { RadioGroupRow } from "@/components/forms/RadioGroupRow";
 import { RadioGroupChip } from "@/components/forms/RadioGroupChip";
+import { SymptomEnum } from "@swaggerBase";
 
-const ActualHealthStatusSchema = Yup.object().shape<ActualHealthStatusFormData>(
-  {
-    firstIssuesDate: Yup.date().required("Povinné pole"),
-    headache: Yup.boolean().required("Povinné pole")
-  }
-);
-
-const initData = {
-  firstIssuesDate: new Date(),
-  headache: boolean
+const headacheValues = {
+  yes: "yes",
+  no: "no"
 };
-type ActualHealthStatusFormData = typeof initData;
 const symptomValues: Record<SymptomEnum, string> = {
   NONE: "NONE",
   ONE_OR_TWO: "ONE_OR_TWO",
   THREE_OR_FOUR: "THREE_OR_FOUR",
   MORE: "MORE"
 };
-const DayRow = (name:string, label:string) => (
-  <RadioGroupRow name={name} label={label}>
+
+const ActualHealthStatusSchema = Yup.object().shape<ActualHealthStatusFormData>(
+  {
+    firstIssuesDate: Yup.date().required("Povinné pole"),
+    fever_days: Yup.mixed()
+      .oneOf(Object.keys(symptomValues))
+      .required("Povinné pole"),
+    cough_days: Yup.mixed()
+      .oneOf(Object.keys(symptomValues))
+      .required("Povinné pole"),
+    headache: Yup.mixed()
+      .oneOf(Object.keys(headacheValues))
+      .required("Povinné pole")
+  }
+);
+
+const initData = {
+  firstIssuesDate: new Date(),
+  fever_days: "" as SymptomEnum,
+  cough_days: "" as SymptomEnum,
+  headache: ""
+};
+type ActualHealthStatusFormData = typeof initData;
+
+const DayRow = (props: { name: string; label: string }) => (
+  <RadioGroupRow name={props.name} label={props.label}>
     <RadioGroupChip value={symptomValues.NONE} label="nemám" />
     <RadioGroupChip value={symptomValues.ONE_OR_TWO} label="1-2" />
     <RadioGroupChip value={symptomValues.THREE_OR_FOUR} label="3-4" />
@@ -47,7 +60,7 @@ export const ActualHealthStatus = () => {
   return (
     <Layout>
       <PageTitle paddingBottom={"15px"}>
-        Nahlaseni aktualniho zdravotniho stavu
+        Nahlášení aktuálního zdravotního stavu
       </PageTitle>
 
       <Grid container>
@@ -68,14 +81,29 @@ export const ActualHealthStatus = () => {
                     name="firstIssuesDate"
                     type="date"
                     variant="inline"
-                    label="Odkdy mate prvni priznaky"
+                    label="Odkdy máte první příznaky"
                     fullWidth
                     props={{ shrink: false }}
                   />
                 </Grid>
-                <Grid item xs={12}></Grid>
-                <Grid item xs={12}></Grid>
-                <Grid item xs={12}></Grid>
+                <Grid item xs={12}>
+                  <DayRow
+                    name="fever_days"
+                    label="Kolik dnů máte teplotu nad 38°?"
+                  />
+                </Grid>
+                <Grid item xs={12}>
+                  <DayRow
+                    name="cough_days"
+                    label="Kolik dnů máte suchý kašel?"
+                  />
+                </Grid>
+                <Grid item xs={12}>
+                  <RadioGroupRow name="headache" label="Máte bolesti hlavy?">
+                    <RadioGroupChip value={headacheValues.yes} label="Ano" />
+                    <RadioGroupChip value={headacheValues.no} label="Ne" />
+                  </RadioGroupRow>
+                </Grid>
               </Grid>
 
               <Grid container spacing={4}>
@@ -86,7 +114,7 @@ export const ActualHealthStatus = () => {
                     type="submit"
                     fullWidth
                   >
-                    Ulozit
+                    Uložit
                   </Button>
                 </Grid>
               </Grid>

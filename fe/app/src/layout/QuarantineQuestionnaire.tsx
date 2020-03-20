@@ -47,7 +47,7 @@ export const QuarantineQuestionnaire = () => {
               <Grid container justify="center" spacing={4}>
                 <Grid item xs={12}>
                   <InputLabel id="quarantine-reason-label">
-                    Duvod karanteny
+                    Důvod karantény
                   </InputLabel>
                   <Field
                     fullWidth
@@ -56,9 +56,9 @@ export const QuarantineQuestionnaire = () => {
                     name="reason"
                     labelId="quarantine-reason-label"
                   >
-                      <MenuItem value={1}>preventivni opatreni (home-office)</MenuItem>
-                      <MenuItem value={2}>neco</MenuItem>
-                      <MenuItem value={3}>neco2</MenuItem>
+                      <MenuItem value={1}>preventivní opatření (home-office)</MenuItem>
+                      <MenuItem value={2}>něco</MenuItem>
+                      <MenuItem value={3}>něco2</MenuItem>
                   </Field>
                 </Grid>
                 <Grid item xs={12}>
@@ -67,7 +67,7 @@ export const QuarantineQuestionnaire = () => {
                     name="fromDate"
                     type="date"
                     format="dd.MM.yyyy"
-                    label="Od kdy jste v karantene"
+                    label="Od kdy jste v karanténě"
                     fullWidth
                     props={{ shrink: false }}
                   />
@@ -76,7 +76,7 @@ export const QuarantineQuestionnaire = () => {
                   <Field
                     fullWidth
                     component={TextField}
-                    label="Kolik je vas v karantene ve spolecne domacnosti"
+                    label="Kolik je vás v karanténě ve společné domácnosti"
                     name="healthCheckDate"
                   />
                 </Grid>
@@ -90,7 +90,7 @@ export const QuarantineQuestionnaire = () => {
                     type="submit"
                     fullWidth
                   >
-                    Ulozit
+                    Uložit
                   </Button>
                 </Grid>
               </Grid>
