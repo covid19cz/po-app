@@ -8,10 +8,12 @@ import cz.covid.po.api.domain.model.Person;
 import cz.covid.po.api.domain.model.codebook.CbHealthStatus;
 import cz.covid.po.api.domain.repository.HealthCheckRepository;
 import cz.covid.po.api.domain.repository.codebook.CbHealthStatusRepository;
+import java.util.LinkedList;
 import java.util.Optional;
 import java.util.UUID;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 @Service
 @RequiredArgsConstructor
@@ -39,9 +41,12 @@ public class HealthCheckServiceImpl implements HealthCheckService {
     }
 
     @Override
-    public HealthCheck addHealthCheckTestResult(UUID personUid, Long healthCheckId, HealthCheckResult result) {
+    @Transactional
+    public HealthCheck addHealthCheckTestResult(UUID personUid, HealthCheckResult result) {
         Person person = personService.getByUid(personUid);
-        HealthCheck healthCheck = healthCheckRepository.findById(healthCheckId).orElseThrow(() -> new NotFoundException(NotFoundException.createSystemMessage("id", healthCheckId, HealthCheck.class)));
+
+
+        HealthCheck healthCheck = healthCheckRepository.getByPersonUid(person.getUid()).orElseGet(HealthCheck::new);
 
         if (result.getResultPositive() != null && result.getResultPositive()) {
             person.setHealthStatus(cbHealthStatusRepository.getOne(CbHealthStatus.Items.POSITIVE));
@@ -52,7 +57,7 @@ public class HealthCheckServiceImpl implements HealthCheckService {
         result.setHealthCheck(healthCheck);
         healthCheck.getHealthCheckResults().add(result);
 
-        return healthCheck;
+        return healthCheckRepository.save(healthCheck);
     }
 
     HealthCheck getOrCreate(UUID personUid) {

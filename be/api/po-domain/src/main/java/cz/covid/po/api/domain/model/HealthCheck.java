@@ -6,6 +6,7 @@ import cz.covid.po.api.domain.model.codebook.CbHealthCheckType;
 import cz.covid.po.api.domain.model.codebook.CbRiskArea;
 import cz.covid.po.api.domain.model.enumeration.SymptomsEnum;
 import java.time.LocalDate;
+import java.util.LinkedList;
 import java.util.List;
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
@@ -88,7 +89,7 @@ public class HealthCheck extends EntityBase {
 
     @OneToMany(mappedBy = "healthCheck", cascade = CascadeType.ALL, orphanRemoval = true)
     @OrderBy("resultDate")
-    private List<HealthCheckResult> healthCheckResults;
+    private List<HealthCheckResult> healthCheckResults = new LinkedList<>();
 
     @ManyToOne
     @JoinColumn(name = "visited_risk_area_id", foreignKey = @ForeignKey(name = "fk_po_health_check_final_location_cb_health_check_location"))

@@ -1,4 +1,6 @@
-import {PrivateRoute} from "@/component/PrivateRoute";
+import DateFnsUtils from "@date-io/date-fns";
+import { PrivateRoute } from "@/component/PrivateRoute";
+import { MuiPickersUtilsProvider } from "@material-ui/pickers";
 import React from "react";
 import { BrowserRouter } from "react-router-dom";
 import { ApiProvider } from "@/api/ApiContext";
@@ -21,21 +23,23 @@ function getContextPath() {
 function App() {
   return (
     <BrowserRouter basename={getContextPath()}>
-      <ThemeProvider theme={theme}>
-        <StylesProvider injectFirst>
-          <CssBaseline />
-          <ApiProvider>
-            <Box className="App">
-              <Container maxWidth="md">
-                <FetchingIndicator />
-                <PrivateRoute path="*" exact>
-                  <PersonsList />
-                </PrivateRoute>
-              </Container>
-            </Box>
-          </ApiProvider>
-        </StylesProvider>
-      </ThemeProvider>
+      <MuiPickersUtilsProvider utils={DateFnsUtils}>
+        <ThemeProvider theme={theme}>
+          <StylesProvider injectFirst>
+            <CssBaseline />
+            <ApiProvider>
+              <Box className="App">
+                <Container maxWidth="md">
+                  <FetchingIndicator />
+                  <PrivateRoute path="*" exact>
+                    <PersonsList />
+                  </PrivateRoute>
+                </Container>
+              </Box>
+            </ApiProvider>
+          </StylesProvider>
+        </ThemeProvider>
+      </MuiPickersUtilsProvider>
     </BrowserRouter>
   );
 }

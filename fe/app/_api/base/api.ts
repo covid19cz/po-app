@@ -421,25 +421,19 @@ export const HealthcheckcontrollerApiFetchParamCreator = {
      * 
      * @summary Add result of a health check test
      * @param personUid Unique Person&#39;s ID (person_uid.person)
-     * @param healthCheckId ID of a health check
      * @param testResultDto Health check test result
      */
-    postHeathCheckTestResult(params: {  "personUid": string; "healthCheckId": number; "testResultDto": HealthCheckResultDto; }, options?: any): FetchArgs {
+    postHeathCheckTestResult(params: {  "personUid": string; "testResultDto": HealthCheckResultDto; }, options?: any): FetchArgs {
         // verify required parameter "personUid" is set
         if (params["personUid"] == null) {
             throw new Error("Missing required parameter personUid when calling postHeathCheckTestResult");
-        }
-        // verify required parameter "healthCheckId" is set
-        if (params["healthCheckId"] == null) {
-            throw new Error("Missing required parameter healthCheckId when calling postHeathCheckTestResult");
         }
         // verify required parameter "testResultDto" is set
         if (params["testResultDto"] == null) {
             throw new Error("Missing required parameter testResultDto when calling postHeathCheckTestResult");
         }
-        const baseUrl = `/bo/persons/{personUid}/health-check/{healthCheckId}/test-result`
-            .replace(`{${"personUid"}}`, `${ params["personUid"] }`)
-            .replace(`{${"healthCheckId"}}`, `${ params["healthCheckId"] }`);
+        const baseUrl = `/bo/persons/{personUid}/health-check/test-result`
+            .replace(`{${"personUid"}}`, `${ params["personUid"] }`);
         let urlObj = url.parse(baseUrl, true);
         let fetchOptions: RequestInit = assign({}, { method: "POST" }, options);
 
@@ -565,10 +559,9 @@ export const HealthcheckcontrollerApiFp = {
      * 
      * @summary Add result of a health check test
      * @param personUid Unique Person&#39;s ID (person_uid.person)
-     * @param healthCheckId ID of a health check
      * @param testResultDto Health check test result
      */
-    postHeathCheckTestResult(params: { "personUid": string; "healthCheckId": number; "testResultDto": HealthCheckResultDto;  }, options?: any): (fetch?: FetchAPI, basePath?: string) => Promise<HealthCheckDto> {
+    postHeathCheckTestResult(params: { "personUid": string; "testResultDto": HealthCheckResultDto;  }, options?: any): (fetch?: FetchAPI, basePath?: string) => Promise<HealthCheckDto> {
         const fetchArgs = HealthcheckcontrollerApiFetchParamCreator.postHeathCheckTestResult(params, options);
         return (fetch: FetchAPI = isomorphicFetch, basePath: string = BASE_PATH) => {
             return fetch(basePath + fetchArgs.url, fetchArgs.options).then((response) => {
@@ -644,10 +637,9 @@ export class HealthcheckcontrollerApi extends BaseAPI {
      * 
      * @summary Add result of a health check test
      * @param personUid Unique Person&#39;s ID (person_uid.person)
-     * @param healthCheckId ID of a health check
      * @param testResultDto Health check test result
      */
-    postHeathCheckTestResult(params: {  "personUid": string; "healthCheckId": number; "testResultDto": HealthCheckResultDto; }, options?: any) {
+    postHeathCheckTestResult(params: {  "personUid": string; "testResultDto": HealthCheckResultDto; }, options?: any) {
         return HealthcheckcontrollerApiFp.postHeathCheckTestResult(params, options)(this.fetch, this.basePath);
     }
     /**
@@ -688,10 +680,9 @@ export const HealthcheckcontrollerApiFactory = function (fetch?: FetchAPI, baseP
          * 
          * @summary Add result of a health check test
          * @param personUid Unique Person&#39;s ID (person_uid.person)
-         * @param healthCheckId ID of a health check
          * @param testResultDto Health check test result
          */
-        postHeathCheckTestResult(params: {  "personUid": string; "healthCheckId": number; "testResultDto": HealthCheckResultDto; }, options?: any) {
+        postHeathCheckTestResult(params: {  "personUid": string; "testResultDto": HealthCheckResultDto; }, options?: any) {
             return HealthcheckcontrollerApiFp.postHeathCheckTestResult(params, options)(fetch, basePath);
         },
         /**
