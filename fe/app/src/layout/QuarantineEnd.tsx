@@ -11,32 +11,30 @@ import { Yup } from "../schema";
 import { DatePicker } from "formik-material-ui-pickers";
 import { Button } from "@/components/button/Button";
 
-const QuarantineQuestionnaireSchema = Yup.object().shape<
-  QuarantineQuestionnaireFormData
->({
+const QuarantineEndSchema = Yup.object().shape<QuarantineEndFormData>({
   reason: Yup.string().required("Povinné pole"),
-  fromDate: Yup.date().required("Povinné pole"),
+  toDate: Yup.date().required("Povinné pole"),
   peopleCount: Yup.number().required("Povinné pole")
 });
 
 const initData = {
   reason: "",
-  fromDate: new Date(),
+  toDate: new Date(),
   peopleCount: 1
 };
-type QuarantineQuestionnaireFormData = typeof initData;
+type QuarantineEndFormData = typeof initData;
 
-export const QuarantineQuestionnaire = () => {
+export const QuarantineEnd = () => {
   function handleSubmit() {}
 
   return (
     <Layout>
-      <PageTitle paddingBottom={"15px"}>Dotazník pro karantenu</PageTitle>
+      <PageTitle paddingBottom={"15px"}>Ukonceni karanteny</PageTitle>
 
       <Grid container>
-        <Formik<QuarantineQuestionnaireFormData>
+        <Formik<QuarantineEndFormData>
           initialValues={initData}
-          validationSchema={QuarantineQuestionnaireSchema}
+          validationSchema={QuarantineEndSchema}
           validateOnMount
           onSubmit={handleSubmit}
         >
@@ -46,28 +44,28 @@ export const QuarantineQuestionnaire = () => {
 
               <Grid container justify="center" spacing={4}>
                 <Grid item xs={12}>
-                  <InputLabel id="quarantine-reason-label">
-                    Duvod karanteny
+                  <InputLabel id="quarantine-end-reason-label">
+                    Duvod ukonceni karanteny
                   </InputLabel>
                   <Field
                     fullWidth
                     component={Select}
-                    id="quarantine-reason"
+                    id="quarantine-end-reason"
                     name="reason"
-                    labelId="quarantine-reason-label"
+                    labelId="quarantine-end-reason-label"
                   >
-                      <MenuItem value={1}>preventivni opatreni (home-office)</MenuItem>
-                      <MenuItem value={2}>neco</MenuItem>
-                      <MenuItem value={3}>neco2</MenuItem>
-                  </Field>
+                    <MenuItem value={1}>behem 14 dni bez priznaku</MenuItem>
+                    <MenuItem value={2}>neco</MenuItem>
+                    <MenuItem value={3}>neco2</MenuItem>
+                  </Field>                  
                 </Grid>
                 <Grid item xs={12}>
                   <Field
                     component={DatePicker}
-                    name="fromDate"
+                    name="toDate"
                     type="date"
-                    format="dd.MM.yyyy"
-                    label="Od kdy jste v karantene"
+                    variant="inline"
+                    label="Datum ukonceni karanteny"
                     fullWidth
                     props={{ shrink: false }}
                   />
@@ -76,7 +74,7 @@ export const QuarantineQuestionnaire = () => {
                   <Field
                     fullWidth
                     component={TextField}
-                    label="Kolik je vas v karantene ve spolecne domacnosti"
+                    label="Kolik vas bylo ve spolecne karantene"
                     name="healthCheckDate"
                   />
                 </Grid>

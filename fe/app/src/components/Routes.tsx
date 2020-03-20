@@ -16,6 +16,7 @@ import { History } from "history";
 import { generatePath } from "react-router";
 import { DebugFormik } from "./forms/DebugFormik";
 import { QuarantineQuestionnaire } from "@/layout/QuarantineQuestionnaire";
+import { QuarantineEnd } from "@/layout/QuarantineEnd";
 
 export enum PageNames {
   GetPhoneNumber = "GetPhoneNumber",
@@ -29,7 +30,8 @@ export enum PageNames {
   AlreadyInfectedDate = "AlreadyInfectedDate",
   AlreadyInfectedGeneral = "AlreadyInfectedGeneral",
   AlreadyInfectedMovementDairy = "AlreadyInfectedMovementDairy",
-  QuarantineQuestionnaire = "QuarantineQuestionnaire"
+  QuarantineQuestionnaire = "QuarantineQuestionnaire",
+  QuarantineEnd="QuarantineEnd"
 }
 
 export type PathParameterNames = "patientId";
@@ -119,7 +121,14 @@ export const Routes: Record<PageNames, PageProps> = {
     exact: true,
     children: <QuarantineQuestionnaire />,
     title: "Dotazník pro karantenu",
-    protected: true
+    protected: false
+  },
+  QuarantineEnd: {
+    link: "/app/:patientId/quarantine-end",
+    exact: true,
+    children: <QuarantineEnd />,
+    title: "Ukonceni karanteny",
+    protected: false
   }
 };
 

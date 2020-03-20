@@ -10,33 +10,50 @@ import { PageTitle } from "../components/PageTitle";
 import { Yup } from "../schema";
 import { DatePicker } from "formik-material-ui-pickers";
 import { Button } from "@/components/button/Button";
+import { boolean } from "yup";
+import { RadioGroupRow } from "@/components/forms/RadioGroupRow";
+import { RadioGroupChip } from "@/components/forms/RadioGroupChip";
 
-const QuarantineQuestionnaireSchema = Yup.object().shape<
-  QuarantineQuestionnaireFormData
->({
-  reason: Yup.string().required("Povinné pole"),
-  fromDate: Yup.date().required("Povinné pole"),
-  peopleCount: Yup.number().required("Povinné pole")
-});
+const ActualHealthStatusSchema = Yup.object().shape<ActualHealthStatusFormData>(
+  {
+    firstIssuesDate: Yup.date().required("Povinné pole"),
+    headache: Yup.boolean().required("Povinné pole")
+  }
+);
 
 const initData = {
-  reason: "",
-  fromDate: new Date(),
-  peopleCount: 1
+  firstIssuesDate: new Date(),
+  headache: boolean
 };
-type QuarantineQuestionnaireFormData = typeof initData;
+type ActualHealthStatusFormData = typeof initData;
+const symptomValues: Record<SymptomEnum, string> = {
+  NONE: "NONE",
+  ONE_OR_TWO: "ONE_OR_TWO",
+  THREE_OR_FOUR: "THREE_OR_FOUR",
+  MORE: "MORE"
+};
+const DayRow = (name:string, label:string) => (
+  <RadioGroupRow name={name} label={label}>
+    <RadioGroupChip value={symptomValues.NONE} label="nemám" />
+    <RadioGroupChip value={symptomValues.ONE_OR_TWO} label="1-2" />
+    <RadioGroupChip value={symptomValues.THREE_OR_FOUR} label="3-4" />
+    <RadioGroupChip value={symptomValues.MORE} label="více" />
+  </RadioGroupRow>
+);
 
-export const QuarantineQuestionnaire = () => {
+export const ActualHealthStatus = () => {
   function handleSubmit() {}
 
   return (
     <Layout>
-      <PageTitle paddingBottom={"15px"}>Dotazník pro karantenu</PageTitle>
+      <PageTitle paddingBottom={"15px"}>
+        Nahlaseni aktualniho zdravotniho stavu
+      </PageTitle>
 
       <Grid container>
-        <Formik<QuarantineQuestionnaireFormData>
+        <Formik<ActualHealthStatusFormData>
           initialValues={initData}
-          validationSchema={QuarantineQuestionnaireSchema}
+          validationSchema={ActualHealthStatusSchema}
           validateOnMount
           onSubmit={handleSubmit}
         >
@@ -46,40 +63,19 @@ export const QuarantineQuestionnaire = () => {
 
               <Grid container justify="center" spacing={4}>
                 <Grid item xs={12}>
-                  <InputLabel id="quarantine-reason-label">
-                    Duvod karanteny
-                  </InputLabel>
-                  <Field
-                    fullWidth
-                    component={Select}
-                    id="quarantine-reason"
-                    name="reason"
-                    labelId="quarantine-reason-label"
-                  >
-                      <MenuItem value={1}>preventivni opatreni (home-office)</MenuItem>
-                      <MenuItem value={2}>neco</MenuItem>
-                      <MenuItem value={3}>neco2</MenuItem>
-                  </Field>
-                </Grid>
-                <Grid item xs={12}>
                   <Field
                     component={DatePicker}
-                    name="fromDate"
+                    name="firstIssuesDate"
                     type="date"
-                    format="dd.MM.yyyy"
-                    label="Od kdy jste v karantene"
+                    variant="inline"
+                    label="Odkdy mate prvni priznaky"
                     fullWidth
                     props={{ shrink: false }}
                   />
                 </Grid>
-                <Grid item xs={12}>
-                  <Field
-                    fullWidth
-                    component={TextField}
-                    label="Kolik je vas v karantene ve spolecne domacnosti"
-                    name="healthCheckDate"
-                  />
-                </Grid>
+                <Grid item xs={12}></Grid>
+                <Grid item xs={12}></Grid>
+                <Grid item xs={12}></Grid>
               </Grid>
 
               <Grid container spacing={4}>
