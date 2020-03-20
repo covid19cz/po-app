@@ -279,7 +279,6 @@ exports.HealthcheckcontrollerApiFetchParamCreator = {
      *
      * @summary Add result of a health check test
      * @param personUid Unique Person&#39;s ID (person_uid.person)
-     * @param healthCheckId ID of a health check
      * @param testResultDto Health check test result
      */
     postHeathCheckTestResult: function (params, options) {
@@ -287,17 +286,12 @@ exports.HealthcheckcontrollerApiFetchParamCreator = {
         if (params["personUid"] == null) {
             throw new Error("Missing required parameter personUid when calling postHeathCheckTestResult");
         }
-        // verify required parameter "healthCheckId" is set
-        if (params["healthCheckId"] == null) {
-            throw new Error("Missing required parameter healthCheckId when calling postHeathCheckTestResult");
-        }
         // verify required parameter "testResultDto" is set
         if (params["testResultDto"] == null) {
             throw new Error("Missing required parameter testResultDto when calling postHeathCheckTestResult");
         }
-        var baseUrl = "/bo/persons/{personUid}/health-check/{healthCheckId}/test-result"
-            .replace("{" + "personUid" + "}", "" + params["personUid"])
-            .replace("{" + "healthCheckId" + "}", "" + params["healthCheckId"]);
+        var baseUrl = "/bo/persons/{personUid}/health-check/test-result"
+            .replace("{" + "personUid" + "}", "" + params["personUid"]);
         var urlObj = url.parse(baseUrl, true);
         var fetchOptions = assign({}, { method: "POST" }, options);
         var contentTypeHeader = {};
@@ -418,7 +412,6 @@ exports.HealthcheckcontrollerApiFp = {
      *
      * @summary Add result of a health check test
      * @param personUid Unique Person&#39;s ID (person_uid.person)
-     * @param healthCheckId ID of a health check
      * @param testResultDto Health check test result
      */
     postHeathCheckTestResult: function (params, options) {
@@ -512,7 +505,6 @@ var HealthcheckcontrollerApi = (function (_super) {
      *
      * @summary Add result of a health check test
      * @param personUid Unique Person&#39;s ID (person_uid.person)
-     * @param healthCheckId ID of a health check
      * @param testResultDto Health check test result
      */
     HealthcheckcontrollerApi.prototype.postHeathCheckTestResult = function (params, options) {
@@ -558,7 +550,6 @@ exports.HealthcheckcontrollerApiFactory = function (fetch, basePath) {
          *
          * @summary Add result of a health check test
          * @param personUid Unique Person&#39;s ID (person_uid.person)
-         * @param healthCheckId ID of a health check
          * @param testResultDto Health check test result
          */
         postHeathCheckTestResult: function (params, options) {

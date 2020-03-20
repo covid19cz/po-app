@@ -60,15 +60,15 @@ public interface HealthCheckControllerApi {
         @ApiResponse(code = 401, message = "Unauthorized"),
         @ApiResponse(code = 403, message = "Forbidden"),
         @ApiResponse(code = 404, message = "Not Found") })
-    @RequestMapping(value = "/bo/persons/{personUid}/health-check/{healthCheckId}/test-result",
+    @RequestMapping(value = "/bo/persons/{personUid}/health-check/test-result",
         produces = { "application/json" }, 
         method = RequestMethod.POST)
-    default ResponseEntity<HealthCheckDto> _postHeathCheckTestResult(@ApiParam(value = "Unique Person's ID (person_uid.person)",required=true) @PathVariable("personUid") UUID personUid,@ApiParam(value = "ID of a health check",required=true) @PathVariable("healthCheckId") Long healthCheckId,@ApiParam(value = "Health check test result" ,required=true )  @Valid @RequestBody HealthCheckResultDto testResultDto) {
-        return postHeathCheckTestResult(personUid, healthCheckId, testResultDto);
+    default ResponseEntity<HealthCheckDto> _postHeathCheckTestResult(@ApiParam(value = "Unique Person's ID (person_uid.person)",required=true) @PathVariable("personUid") UUID personUid,@ApiParam(value = "Health check test result" ,required=true )  @Valid @RequestBody HealthCheckResultDto testResultDto) {
+        return postHeathCheckTestResult(personUid, testResultDto);
     }
 
     // Override this method
-    default ResponseEntity<HealthCheckDto> postHeathCheckTestResult(UUID personUid,Long healthCheckId,HealthCheckResultDto testResultDto) {
+    default ResponseEntity<HealthCheckDto> postHeathCheckTestResult(UUID personUid,HealthCheckResultDto testResultDto) {
         if(getObjectMapper().isPresent() && getAcceptHeader().isPresent()) {
             if (getAcceptHeader().get().contains("application/json")) {
                 try {

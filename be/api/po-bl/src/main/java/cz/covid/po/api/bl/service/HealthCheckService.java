@@ -7,5 +7,5 @@ import java.util.UUID;
 public interface HealthCheckService {
     HealthCheck update(UUID updatedPersonUid, HealthCheck source) ;
 
-    HealthCheck addHealthCheckTestResult(UUID personUid, Long healthCheckId,  HealthCheckResult result);
+    HealthCheck addHealthCheckTestResult(UUID personUid,  HealthCheckResult result);
 }

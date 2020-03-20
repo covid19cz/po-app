@@ -238,7 +238,6 @@ export declare const CodebookcontrollerApiFactory: (fetch?: FetchAPI, basePath?:
 export declare const HealthcheckcontrollerApiFetchParamCreator: {
     postHeathCheckTestResult(params: {
         "personUid": string;
-        "healthCheckId": number;
         "testResultDto": HealthCheckResultDto;
     }, options?: any): FetchArgs;
     putHealthCheckExposure(params: {
@@ -260,7 +259,6 @@ export declare const HealthcheckcontrollerApiFetchParamCreator: {
 export declare const HealthcheckcontrollerApiFp: {
     postHeathCheckTestResult(params: {
         "personUid": string;
-        "healthCheckId": number;
         "testResultDto": HealthCheckResultDto;
     }, options?: any): (fetch?: FetchAPI, basePath?: string) => Promise<HealthCheckDto>;
     putHealthCheckExposure(params: {
@@ -284,12 +282,10 @@ export declare class HealthcheckcontrollerApi extends BaseAPI {
      *
      * @summary Add result of a health check test
      * @param personUid Unique Person&#39;s ID (person_uid.person)
-     * @param healthCheckId ID of a health check
      * @param testResultDto Health check test result
      */
     postHeathCheckTestResult(params: {
         "personUid": string;
-        "healthCheckId": number;
         "testResultDto": HealthCheckResultDto;
     }, options?: any): Promise<HealthCheckDto>;
     /**
@@ -329,7 +325,6 @@ export declare class HealthcheckcontrollerApi extends BaseAPI {
 export declare const HealthcheckcontrollerApiFactory: (fetch?: FetchAPI, basePath?: string) => {
     postHeathCheckTestResult(params: {
         "personUid": string;
-        "healthCheckId": number;
         "testResultDto": HealthCheckResultDto;
     }, options?: any): Promise<HealthCheckDto>;
     putHealthCheckExposure(params: {

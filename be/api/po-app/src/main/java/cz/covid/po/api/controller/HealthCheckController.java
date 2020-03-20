@@ -49,9 +49,9 @@ public class HealthCheckController extends ControllerBase implements HealthCheck
     }
 
     @Override
-    public ResponseEntity<HealthCheckDto> postHeathCheckTestResult(UUID personUid, Long healthCheckId, HealthCheckResultDto testResultDto) {
+    public ResponseEntity<HealthCheckDto> postHeathCheckTestResult(UUID personUid, HealthCheckResultDto testResultDto) {
         HealthCheckResult result = healthCheckResultConverter.convertBack(testResultDto);
 
-        return ResponseEntity.ok(healthCheckConverter.convert(healthCheckService.addHealthCheckTestResult(personUid, healthCheckId, result)));
+        return ResponseEntity.ok(healthCheckConverter.convert(healthCheckService.addHealthCheckTestResult(personUid, result)));
     }
 }

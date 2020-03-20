@@ -81,7 +81,7 @@ paths:
           description: Not Found
       security:
         - apiKey: []
-  '/bo/persons/{personUid}/health-check/{healthCheckId}/test-result':
+  '/bo/persons/{personUid}/health-check/test-result':
     post:
       tags:
         -   health-check-controller
@@ -97,12 +97,6 @@ paths:
           required: true
           type: string
           format: uuid
-        - name: healthCheckId
-          in: path
-          description: ID of a health check
-          required: true
-          type: integer
-          format: int64
         - in: body
           name: testResultDto
           description: Health check test result
