@@ -34,6 +34,8 @@ api:
   service:
     username: ${API_SERVICE_USERNAME:user}
     password: ${API_SERVICE_PW:password}
+  scheduler:
+    cron: ${API_SCHEDULER_CRON:"*/10 * * * * *"}
 app:
   integration:
     profi-sms:

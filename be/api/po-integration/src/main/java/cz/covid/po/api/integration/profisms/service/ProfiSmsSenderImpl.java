@@ -17,7 +17,7 @@ import org.springframework.web.reactive.function.client.ClientResponse;
 import org.springframework.web.reactive.function.client.WebClient;
 
 @Service
-//@Profile("!test")
+@Profile("!test")
 public class ProfiSmsSenderImpl implements ProfiSmsSender {
 
     private static final int PROFI_SMS_OK = 0;
