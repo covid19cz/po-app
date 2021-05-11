@@ -19,7 +19,7 @@
     "formik-material-ui": "^2.0.0-beta.1",
     "formik-material-ui-pickers": "^0.0.8",
     "isomorphic-fetch": "^2.2.1",
-    "lodash": "^4.17.15",
+    "lodash": "^4.17.21",
     "query-string": "^6.11.1",
     "react": "^16.13.0",
     "react-dom": "^16.13.0",
